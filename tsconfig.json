@@ -2,8 +2,8 @@
   "compilerOptions": {
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
+    "allowJs": false, // 기본 true였음
+    "skipLibCheck": false, //기본 true였음
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -20,8 +20,11 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "baseUrl": "./",
+    "types": ["swiper"]
   },
+
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
