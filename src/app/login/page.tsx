@@ -1,8 +1,60 @@
+"use client";
+
 import Link from "next/link";
-import Head from "next/head";
 import SocialLogin from "@/component/SocialLogin";
+import { useForm } from "@/context/FormContext";
+import axios from "axios";
+import { useRef, MutableRefObject } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const { formData, handleChange } = useForm();
+  const router = useRouter();
+
+  type InputRefs = Record<string, MutableRefObject<HTMLInputElement | null>>;
+
+  const refs: InputRefs = {
+    emailRef: useRef(null),
+    userPassRef: useRef(null),
+  };
+
+  console.log("로그인폼", formData);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("/api/auth/login", {
+        email: formData.email,
+        password: formData.userPass,
+      });
+
+      if (response.data.message) {
+        const { login_token, decoded } = response.data; // 토큰과 디코딩된 정보 가져오기
+        const userInfo = {
+          email: decoded.email,
+          nickname: decoded.nickname,
+          token: login_token,
+        };
+
+        // 로컬스토리지에 userInfo 저장
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+        // 쿠키에 토큰 저장 (라이브러리 활용)
+        document.cookie = `x-auth-jwt=${login_token}; path=/; max-age=3600;`;
+
+        alert("로그인에 성공했습니다");
+
+        router.push("/");
+      } else {
+        alert("로그인에 실패했습니다");
+      }
+    } catch (error) {
+      console.error("로그인 확인 오류 :", error);
+      alert("로그인 확인 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <>
       <div className="w-[448px] h-[582px] px-[32px]  justify-center mt-[96px] mb-[600px] red">
@@ -14,22 +66,26 @@ export default function Login() {
           />
         </Link>
 
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <div>
             <input
               className="border border-[#D0D5DD] rounded-[8px] mb-2 mt-10 w-[384px] h-[48px] text-[16px] px-[14px] text-[#101828]"
               type="text"
-              name=""
-              id=""
+              name="email"
+              value={formData.email}
+              ref={refs.emailRef}
+              onChange={handleChange}
               placeholder="이메일을 입력하세요"
             />
           </div>
           <div>
             <input
               className="border border-[#D0D5DD] rounded-[8px] mb-2 w-[384px] h-[48px] text-[16px] px-[14px] text-[#101828]"
+              name="userPass"
+              value={formData.userPass}
+              onChange={handleChange}
+              ref={refs.userPassRef}
               type="password"
-              name=""
-              id=""
               placeholder="비밀번호(영문, 숫자, 특수문자 8~16자)"
             />
           </div>
