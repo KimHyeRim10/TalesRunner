@@ -15,7 +15,7 @@ export default async function handler(
    console.log("SUPABASE_ANON_KEY=>", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY); */
 
   const formData = req.body;
-  console.log("Received formData:", formData);
+
   try {
     // 비밀번호 해싱
     const hashedPassword = await bcrypt.hash(formData.userPass, 10);
