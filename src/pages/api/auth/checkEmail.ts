@@ -14,7 +14,7 @@ export default async function handler(
   console.log("email ->", email);
 
   if (!email) {
-    res.status(400).json({ error: "Nickname is required" });
+    res.status(400).json({ error: "Email is required" });
     return;
   }
 
