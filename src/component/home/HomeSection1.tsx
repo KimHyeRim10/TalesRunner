@@ -19,8 +19,6 @@ export default function HomeSection1() {
     setUser(userInfo);
   }, []);
 
-  console.log("userinfo==>", user);
-
   return (
     <>
       <section className="w-[1216px] h-[240px] flex justify-between items-center">
