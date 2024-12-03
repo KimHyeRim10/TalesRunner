@@ -11,7 +11,6 @@ export default async function handler(
   }
 
   const { email } = req.query;
-  console.log("email ->", email);
 
   if (!email) {
     res.status(400).json({ error: "Email is required" });
@@ -27,8 +26,6 @@ export default async function handler(
     res.status(500).json({ error: "Database error" });
     return;
   }
-
-  console.log("받은데타 =>", data);
 
   res.status(200).json({ isAvailable: data.length === 0 });
 }
