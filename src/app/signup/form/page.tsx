@@ -22,7 +22,6 @@ export default function SignupForm() {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isNickNameChecked, setIsNickNameChecked] = useState(false);
-  const [errorNickName, setErrorNickName] = useState("");
 
   useEffect(() => {
     return () => {
