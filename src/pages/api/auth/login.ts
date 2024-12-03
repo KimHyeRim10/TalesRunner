@@ -14,8 +14,6 @@ export default async function handler(
   }
 
   const { email, password } = req.body;
-  console.log("email ->", email);
-  console.log("password ->", password);
 
   if (!email || !password) {
     res.status(400).json({ error: "Email and Password are required" });
@@ -53,10 +51,8 @@ export default async function handler(
       expiresIn: "1h", // 토큰 만료 시간 (1시간)
     }
   );
-  console.log("토큰 =>", login_token);
 
   const decoded = jwt.verify(login_token, process.env.JWT_SECRET!);
-  console.log("디코딩된 토큰:", decoded);
 
   res.status(200).json({
     message: true,
