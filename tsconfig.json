@@ -22,9 +22,16 @@
       "@/*": ["./src/*"]
     },
     "baseUrl": "./",
-    "types": ["swiper"]
+    "types": [],
+    "typeRoots": ["./types", "./node_modules/@types"] // 사용자 정의 타입 경로
   },
 
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "types/**/*.d.ts"
+  ],
   "exclude": ["node_modules"]
 }
