@@ -143,8 +143,6 @@ export default function SignupForm() {
     }
   };
 
-  console.log("폼 =>", formData);
-
   return (
     <div>
       <div className="w-[448px] h-[582px] px-[32px] justify-center mt-[96px] mb-[600px]">
