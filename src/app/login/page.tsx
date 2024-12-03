@@ -18,8 +18,6 @@ export default function Login() {
     userPassRef: useRef(null),
   };
 
-  console.log("로그인폼", formData);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
