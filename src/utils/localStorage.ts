@@ -8,8 +8,7 @@ interface UserInfo {
 
 export const getUser = (): UserInfo | null => {
   if (typeof window === "undefined") {
-    // 서버에서는 실행되지 않음
-    return null;
+    return null; // 서버에서 실행될 때는 null 반환
   }
 
   const userInfo = localStorage.getItem("userInfo");
