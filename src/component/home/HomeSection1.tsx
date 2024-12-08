@@ -4,14 +4,9 @@ import UserProfile from "./UserProfile";
 import LoginActions from "./LoginActions";
 import { getUser } from "@/utils/localStorage";
 import { useState, useEffect } from "react";
+import { UserInfo } from "@/types/userInfo";
 
 export default function HomeSection1() {
-  interface UserInfo {
-    id: number;
-    nickname: string;
-    email: string;
-  }
-
   const [user, setUser] = useState<UserInfo | null>(null);
 
   useEffect(() => {
