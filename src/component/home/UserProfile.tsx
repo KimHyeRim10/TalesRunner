@@ -20,6 +20,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, setUser }) => {
   ); // 기본 이미지
 
   useEffect(() => {
+    console.log("useEffect profileURL ==>", profileURL);
+
     if (profileURL) {
       setProfileImage(profileURL);
     }
