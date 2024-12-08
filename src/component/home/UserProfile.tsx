@@ -46,7 +46,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, setUser }) => {
     reader.onload = async () => {
       try {
         const base64 = reader.result;
-
         const response = await axios.post("/api/uploads/profileImage", {
           file: base64,
           nickname: user.nickname,
