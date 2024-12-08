@@ -136,3 +136,47 @@ body {
   visibility: visible;
   opacity: 1;
 }
+
+/*writepage  */
+.fr-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.placeholder {
+  position: relative; /* 위치 기준을 부모 요소로 설정 */
+  min-height: 350px;
+  font-size: 16px;
+  outline: none; /* 포커스 outline 제거 */
+}
+
+.placeholder:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  position: absolute;
+  top: 10px; /* 부모 요소 안에서의 위치 */
+  left: 10px;
+  pointer-events: none; /* 클릭 불가 */
+}
+
+.placeholder-comment {
+  position: relative; /* 위치 기준을 부모 요소로 설정 */
+  min-height: 90px;
+  font-size: 16px;
+  outline: none; /* 포커스 outline 제거 */
+}
+
+.placeholder-comment:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  position: absolute;
+  top: 10px; /* 부모 요소 안에서의 위치 */
+  left: 10px;
+  pointer-events: none; /* 클릭 불가 */
+}
