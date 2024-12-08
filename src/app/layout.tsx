@@ -3,6 +3,7 @@ import "./globals.css";
 
 import ConditionalWrapper from "@/component/layout/ConditionalWrapper";
 import { FormProvider } from "@/context/FormContext";
+import { UserProvider } from "@/context/UserContext";
 
 export const metadata: Metadata = {
   title: "TaiesRunner",
@@ -15,10 +16,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body>
         <ConditionalWrapper>
-          <FormProvider>{children}</FormProvider>
+          <UserProvider>
+            <FormProvider>{children}</FormProvider>
+          </UserProvider>
         </ConditionalWrapper>
       </body>
     </html>
