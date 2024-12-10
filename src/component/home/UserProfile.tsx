@@ -20,8 +20,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, setUser }) => {
   ); // 기본 이미지
 
   useEffect(() => {
-    console.log("useEffect profileURL ==>", profileURL);
-
     if (profileURL) {
       setProfileImage(profileURL);
     }
@@ -104,7 +102,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, setUser }) => {
                 style={{ display: "none" }}
                 onChange={handleImageUpload}
               />
-              <button className="w-[48px] h-[22px] flex-center border border-[var(--border-color)] rounded-full text-xs font-medium text-gray-400 ">
+              <button className="w-[48px] h-[22px] flex-center border border-[var(--border-color)] rounded-full text-[10px] font-medium text-gray-400 ">
                 <img
                   className="w-[12px] h-[12px] pr-[px]"
                   src="/home/ico-home-12.svg"
