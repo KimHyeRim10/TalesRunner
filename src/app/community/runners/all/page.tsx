@@ -1,17 +1,87 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import Link from "next/link";
+
+import { getUser } from "@/utils/localStorage";
+import { formatCreatedAt } from "@/utils/formatCreatedAt";
+import BoardNotice from "@/component/community/BoardNotice";
 
 export default function Runners() {
+  const router = useRouter();
   const [isTitleDropdown, setIsTitleDropdown] = useState(false);
   const [isNicknameDropdown, setIsNicknameDropdown] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [boardList, setBoardList] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
+  const itemsPerPage = 15; // 페이지당 보여줄 항목 수
+  const maxPageButtons = 10; // 네비게이션 바에 표시할 최대 페이지 수
+  const pagesPerJump = 10; // 10페이지씩 건너뛸 때 사용
+
+  // 페이지네이션 처리
+  const startIndex = (currentPage - 1) * itemsPerPage; // 현재 페이지의 시작 인덱스
+  const endIndex = startIndex + itemsPerPage; // 현재 페이지의 끝 인덱스
+  const currentItems = boardList.slice(startIndex, endIndex); // 현재 페이지에 해당하는 데이터
+
+  const totalPages = Math.ceil(boardList.length / itemsPerPage); // 전체 페이지 수 계산
+
+  // 현재 페이지를 기준으로 네비게이션 바에 표시할 페이지 범위 계산
+  const startPage = Math.max(currentPage - Math.floor(maxPageButtons / 2), 1);
+  const endPage = Math.min(startPage + maxPageButtons - 1, totalPages);
+
+  const handlePageChange = (page: number) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  /* 검색바 드롭다운  */
   const isTitleDropdownOpen = () => {
     setIsTitleDropdown(!isTitleDropdown);
   };
 
+  /* 닉네임 드롭다운 */
   const isNicknameDropdownOpen = () => {
     setIsNicknameDropdown(!isNicknameDropdown);
   };
+
+  useEffect(() => {
+    // 로그인 여부 확인
+    const userInfo = getUser();
+    if (userInfo) {
+      setIsLoggedIn(true); // 로그인 상태 설정
+    } else {
+      setIsLoggedIn(false); // 로그아웃 상태 설정
+    }
+
+    const fetchBoardList = async () => {
+      try {
+        const response = await axios.get("/api/board/getBoardList");
+        if (response.data.success) {
+          setBoardList(response.data.boardList);
+        } else {
+          console.error("게시판 목록 가져오기 실패:", response.data.error);
+        }
+      } catch (error) {
+        console.error("API 호출 실패:", error);
+      }
+    };
+
+    fetchBoardList();
+  }, []);
+
+  const handleWriteClick = () => {
+    if (!isLoggedIn) {
+      alert("로그인 후 이용해 주세요");
+      router.push("/login");
+      return;
+    }
+    router.push("/community/runners/write");
+  };
+
   return (
     <>
       <div className="w-[1280px] h-[1496px] px-8 mb-[200px]">
@@ -130,67 +200,10 @@ export default function Runners() {
             <span className="text-gray-400">좋아요</span>
           </p>
         </div>
-        {/* 게시판 공지 테이블 */}
-        <div className="mb-8 text-base ">
-          <table className="table-fixed w-full border-collapse">
-            <colgroup>
-              <col className="w-[896px]" />
-              <col className="w-[200px]" />
-              <col className="w-[120px]" />
-            </colgroup>
-            <tbody>
-              <tr className="h-[72px] bg-[#F9FAFB] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#ABEFC6] bg-[#ECFDF3] text-green-700 px-2 rounded-full font-bold">
-                      공지
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      이관/이전 시 유의사항 안내
-                    </span>
-                  </div>
-                </td>
-                <td>
-                  <div className="flex items-center pl-[6px] gap-2 h-[72px]">
-                    <img
-                      className="w-[20px] h-[20px]"
-                      src="/community/lv_998 (2).png"
-                      alt="pierrot"
-                    />
-                    <span className="text-[16px] text-[#475467]">GM삐에로</span>
-                  </div>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  2024.09.12
-                </td>
-              </tr>
-              <tr className="h-[72px] bg-[#F9FAFB] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#ABEFC6] bg-[#ECFDF3] text-green-700 px-2 rounded-full font-bold">
-                      공지
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      이관/이전 관련 주요 문의사항 안내
-                    </span>
-                  </div>
-                </td>
-                <td>
-                  <div className="flex items-center pl-[6px] gap-2 h-[72px]">
-                    <img
-                      className="w-[20px] h-[20px]"
-                      src="/community/lv_998 (2).png"
-                      alt="pierrot"
-                    />
-                    <span className="text-[16px] text-[#475467]">GM삐에로</span>
-                  </div>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  2024.09.12
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        {/* 게시판 목록 */}
+        <div className="mb-8 text-base">
+          {/* 게시판 공지 테이블 */}
+          <BoardNotice />
           {/* 게시판 테이블  */}
           <table>
             <colgroup>
@@ -201,689 +214,74 @@ export default function Runners() {
               <col className="w-[120px]" />
             </colgroup>
             <tbody>
-              {/* 기본 map 돌릴 예시용 */}
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
+              {/* 게시판 제목 리스트 */}
+              {currentItems.map((board: any) => (
+                <tr
+                  key={board.id}
+                  className="h-[72px] border-b border-[var(--border-color)]"
+                >
+                  <td>
+                    <div className="flex items-center h-[72px]">
+                      <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
+                        자유
+                      </span>
+                      <Link href={`/community/runners/all/${board.id}`}>
+                        <span className="text-[16px] text-[#344054] truncate hover:underline cursor-pointer">
+                          {board.title}
+                        </span>
+                      </Link>
+                    </div>
+                  </td>
+                  <td className="pl-6 pr-0">
+                    <span className="flex gap-x-1 text-gray-400">
+                      <img
+                        className="w-[18px] h-[18px]"
+                        src="/community/ico-eye-18.svg"
+                        alt="ico-eye"
+                      />
+                      7
                     </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
+                  </td>
+                  <td className="pl-6 pr-0">
+                    <span className="flex gap-x-1 text-gray-400">
+                      <img
+                        className="w-[18px] h-[18px]"
+                        src="/community/ico-heart-18.svg"
+                        alt="ico-heart"
+                      />
+                      0
                     </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
+                  </td>
+                  <td className="flex items-center h-[72px] pl-[6px] pr-[6px] ">
                     <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
+                      className="mr-2"
+                      src="/community/lv_111.png"
+                      alt="pierrot"
                     />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px] ">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <div className="relative">
-                    <span
-                      onClick={isNicknameDropdownOpen}
-                      className="text-[16px] text-[#475467] cursor-pointer"
-                    >
-                      테런좋아요
-                    </span>
-                    {isNicknameDropdown && (
-                      <div className="absolute top-[25px] z-10 flex flex-col items-center justify-center text-center p-[6px] text-[12px] text-[#475467] font-bold w-[110px] h-[91px] rounded-[8px] bg-white border border-[var(--border-color)]">
-                        <div className="flex-1 flex items-center justify-center cursor-pointer">
-                          작성글 보기
+                    <div className="relative">
+                      <span
+                        onClick={isNicknameDropdownOpen}
+                        className="text-[16px] text-[#475467] cursor-pointer"
+                      >
+                        {board.user_nickname}
+                      </span>
+                      {isNicknameDropdown && (
+                        <div className="absolute top-[25px] z-10 flex flex-col items-center justify-center text-center p-[6px] text-[12px] text-[#475467] font-bold w-[110px] h-[91px] rounded-[8px] bg-white border border-[var(--border-color)]">
+                          <div className="flex-1 flex items-center justify-center cursor-pointer">
+                            작성글 보기
+                          </div>
+                          <div className="flex-1 flex items-center justify-center cursor-pointer">
+                            광장으로 가기
+                          </div>
                         </div>
-                        <div className="flex-1 flex items-center justify-center cursor-pointer">
-                          광장으로 가기
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-
-              {/* 14 tr */}
-              {/*    <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px]">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <span className="text-[16px] text-[#475467]">테런좋아요</span>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr>
-              <tr className="h-[72px] border-b border-[var(--border-color)]">
-                <td>
-                  <div className="flex items-center h-[72px]">
-                    <span className="ml-4 mr-3 w-[40px] h-[25px] text-[10px] border border-[#F9DBAF] bg-[#FEF6EE] text-[#B93815] px-2 rounded-full font-bold">
-                      자유
-                    </span>
-                    <span className="text-[16px] text-[#344054] truncate hover:underline">
-                      악마카인 얻고 싶은데요
-                    </span>
-                  </div>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-eye-18.svg"
-                      alt="ico-eye"
-                    />
-                    7
-                  </span>
-                </td>
-                <td className="pl-6 pr-0">
-                  <span className="flex gap-x-1 text-gray-400">
-                    <img
-                      className="w-[18px] h-[18px]"
-                      src="/community/ico-heart-18.svg"
-                      alt="ico-heart"
-                    />
-                    0
-                  </span>
-                </td>
-                <td className="flex items-center h-[72px] pl-[6px] pr-[6px] ">
-                  <img
-                    className="mr-2"
-                    src="/community/lv_111.png"
-                    alt="pierrot"
-                  />
-                  <div className="relative">
-                    <span
-                      onClick={isNicknameDropdownOpen}
-                      className="text-[16px] text-[#475467] cursor-pointer"
-                    >
-                      테런좋아요
-                    </span>
-                    {isNicknameDropdown && (
-                      <div className="absolute top-[25px] z-10 flex flex-col items-center justify-center text-center p-[6px] text-[12px] text-[#475467] font-bold w-[110px] h-[91px] rounded-[8px] bg-white border border-[var(--border-color)]">
-                        <div className="flex-1 flex items-center justify-center cursor-pointer">
-                          작성글 보기
-                        </div>
-                        <div className="flex-1 flex items-center justify-center cursor-pointer">
-                          광장으로 가기
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </td>
-                <td className="text-[16px] text-[#98A2B3] text-center">
-                  52분 전
-                </td>
-              </tr> */}
-              {/* 14 tr 끝----- */}
+                      )}
+                    </div>
+                  </td>
+                  <td className="text-[16px] text-[#98A2B3] text-center">
+                    {formatCreatedAt(board.created_at)}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -891,36 +289,84 @@ export default function Runners() {
         {/* 페이지 네비게이션 바 */}
         <div className="grid grid-cols-6 w-[1216px] h-[40px]">
           <div className="col-start-2 col-span-4 flex justify-center gap-x-[2px]">
-            <button className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed">
+            {/* "10페이지 이전" 버튼 */}
+            <button
+              onClick={() =>
+                handlePageChange(Math.max(currentPage - pagesPerJump, 1))
+              }
+              disabled={currentPage <= pagesPerJump}
+              className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed"
+            >
               <img
                 src="/community/ico-chevron-left-double-bold-24.svg"
                 alt="left-double"
               />
             </button>
-            <button className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed">
+
+            {/* "이전" 버튼 */}
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed"
+            >
               <img
                 src="/community/ico-chevron-left-bold-24.svg"
                 alt="left-bold"
               />
             </button>
-            <button className="bg-white w-[40px] h-[40px] p-2 rounded-lg cursor-pointer disabled:cursor-not-allowed text-gray-500 hover:text-green-600">
-              <span>1</span>
-            </button>
-            <button className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed">
+
+            {Array.from(
+              { length: endPage - startPage + 1 },
+              (_, index) => startPage + index
+            ).map((pageNumber) => (
+              <button
+                key={pageNumber}
+                onClick={() => handlePageChange(pageNumber)}
+                className={`bg-white w-[40px] h-[40px] p-2 rounded-lg cursor-pointer text-gray-500 hover:text-green-600 ${
+                  currentPage === pageNumber
+                    ? "text-green-600 underline decoration-2  underline-offset-4 decoration-green-600"
+                    : "hover:text-green-600"
+                }`}
+              >
+                {pageNumber}
+              </button>
+            ))}
+
+            {/* "다음" 버튼 */}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed"
+            >
               <img
                 src="/community/ico-chevron-right-bold-24.svg"
                 alt="right-bold"
               />
             </button>
-            <button className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed">
+
+            {/* "10페이지 이후" 버튼 */}
+            <button
+              onClick={() =>
+                handlePageChange(
+                  Math.min(currentPage + pagesPerJump, totalPages)
+                )
+              }
+              disabled={currentPage + pagesPerJump > totalPages}
+              className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed"
+            >
               <img
                 src="/community/ico-chevron-right-double-bold-24.svg"
                 alt="right-double"
               />
             </button>
           </div>
+
+          {/* 글쓰기 버튼 div */}
           <div className="col-span-1 flex justify-end">
-            <button className="flex-center w-[90px] h-[40px] font-bold text-[14px] px-[14px] bg-[#098212] text-white rounded-[8px]">
+            <button
+              onClick={handleWriteClick}
+              className="flex-center w-[90px] h-[40px] font-bold text-[14px] px-[14px] bg-[#098212] text-white rounded-[8px]"
+            >
               <img src="/community/ico-edit-20.svg" alt="ico-edit" />
               <span>글쓰기</span>
             </button>
