@@ -1,10 +1,18 @@
-import React from "react";
+"use client";
+
 import GameStartButton from "./GameStartButton";
 import { getUser } from "@/utils/localStorage";
 import { UserInfo } from "@/types/userInfo";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function CommunityMainImage() {
-  const userInfo: UserInfo | null = getUser();
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+  useEffect(() => {
+    const user = getUser(); // 클라이언트에서 로그인 상태 가져오기
+    setUserInfo(user);
+  }, []);
 
   return (
     <div className="relative flex flex-col items-center w-full max-w-[1981px] h-[240px] mx-auto">
@@ -41,12 +49,14 @@ export default function CommunityMainImage() {
               </div>
             </button>
           ) : (
-            <button
-              className="w-[150px] h-[37px] px-[13px] text-white bg-[#8544E2] text-[14px] rounded-[8px]"
-              type="submit"
-            >
-              로그인
-            </button>
+            <Link href="/login">
+              <button
+                className="w-[150px] h-[37px] px-[13px] text-white bg-[#8544E2] text-[14px] rounded-[8px]"
+                type="submit"
+              >
+                로그인
+              </button>
+            </Link>
           )}
           <GameStartButton />
         </div>
