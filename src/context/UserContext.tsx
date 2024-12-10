@@ -22,13 +22,14 @@ interface UserContextProps {
 const UserContext = createContext<UserContextProps | null>(null);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [profileURL, setProfileURL] = useState<string | null>(null);
+  const [profileURL, setProfileURL] = useState<string>(
+    "/home/no-character.png"
+  );
 
   useEffect(() => {
     const fetchProfileImage = async () => {
       /*   if (typeof window !== "undefined") { */
       const userInfo: UserInfo | null = getUser();
-      console.log("User info from localStorage:", userInfo);
 
       if (userInfo?.email) {
         const email = userInfo.email;
@@ -56,6 +57,6 @@ export const useUser = () => {
   if (!context) {
     throw new Error("useUser must be used within a UserProvider");
   }
-  console.log("useUser context:", context); // 상태 출력
+
   return context;
 };
