@@ -55,7 +55,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="w-[448px] h-[582px] px-[32px]  justify-center mt-[96px] mb-[600px] red">
+      <div className="w-[448px] h-[582px] px-[32px]  justify-center mt-[96px] mb-[600px]">
         <Link href={"/"}>
           <img
             className="w-[214px] h-[40px] mx-auto"
