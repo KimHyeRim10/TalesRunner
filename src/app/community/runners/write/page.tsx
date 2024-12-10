@@ -1,13 +1,84 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { getUser } from "@/utils/localStorage";
 import ToolbarButton from "@/component/community/ToolbarButton";
 
 export default function WritePage() {
+  const router = useRouter();
   const [isDropdown, setIsDropdown] = useState(false);
+  const [editBoardData, setEditBoardData] = useState<any>({});
+  const [btitle, setTitle] = useState(""); // 제목
+  const [bcontent, setContent] = useState(""); // 내용
+  const [bid, setId] = useState("");
+
+  // 수정인지 등록인지 구분
+  const isEdit = Boolean(editBoardData.id);
+
+  useEffect(() => {
+    // 클라이언트에서만 실행되도록 보장
+    const data = JSON.parse(localStorage.getItem("editBoardData") || "{}");
+    setEditBoardData(data);
+    // 제목과 내용을 상태에 반영
+    if (data.title) setTitle(data.title);
+    if (data.content) setContent(data.content);
+    if (data.id) setId(data.id);
+  }, []);
 
   const toggleDropdown = () => {
     setIsDropdown((prev) => !prev);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    if (name === "btitle") setTitle(value);
+    if (name === "bcontent") setContent(value);
+  };
+
+  const handleWriteSubmit = async () => {
+    const userInfo = getUser();
+    const nickname = userInfo?.nickname;
+
+    // 유효성 검사
+    if (!btitle.trim() || !bcontent.trim()) {
+      alert("제목과 내용을 모두 입력해 주세요.");
+      return;
+    }
+    try {
+      let response;
+
+      if (isEdit) {
+        // 수정 요청
+        response = await axios.put("/api/board/editBoard", {
+          id: bid,
+          title: btitle,
+          content: bcontent,
+        });
+      } else {
+        // 등록 요청
+        response = await axios.post("/api/board/newBoard", {
+          nickname,
+          title: btitle,
+          content: bcontent,
+        });
+      }
+
+      if (response.data.success) {
+        alert(
+          isEdit
+            ? "게시글이 성공적으로 수정되었습니다."
+            : "게시글 등록에 성공했습니다."
+        );
+        router.push("/community/runners/all");
+      }
+    } catch (error) {
+      console.error("API 호출 실패:", error);
+      alert("오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -45,6 +116,9 @@ export default function WritePage() {
         </div>
 
         <input
+          name="btitle"
+          value={btitle}
+          onChange={handleChange}
           className="w-[1103px]  h-[40px] border border-[var(--border-color)] rounded-[8px] px-[14px] outline-none"
           placeholder="제목"
         ></input>
@@ -54,20 +128,27 @@ export default function WritePage() {
         {/* 텍스트 에디터 툴바 */}
         <ToolbarButton />
         {/* 게시판 내용 작성 */}
-        <div
-          className="placeholder py-[12px]"
-          contentEditable="true"
-          data-placeholder="내용을 입력하세요."
-        >
-          게시판 작성중...
-        </div>
+        <textarea
+          name="bcontent"
+          value={bcontent}
+          onChange={handleChange}
+          placeholder="내용을 입력해 주세요."
+          className="outline-none w-[1190px] min-h-[400px] mt-[10px]"
+        ></textarea>
       </div>
 
       <div className="flex-center gap-[15px] mt-[20px]">
-        <button className="w-[80px] h-[40px] border borer-[var(--border-color)] rounded-[8px] px-[14px] text-[14px] text-[#344054] font-bold">
+        <button
+          type="button"
+          className="w-[80px] h-[40px] border borer-[var(--border-color)] rounded-[8px] px-[14px] text-[14px] text-[#344054] font-bold"
+        >
           취소
         </button>
-        <button className="w-[80px] h-[40px] border borer-[var(--border-color)] rounded-[8px] px-[14px] text-[14px] text-white bg-[#344054] font-bold">
+        <button
+          type="button"
+          onClick={handleWriteSubmit}
+          className="w-[80px] h-[40px] border borer-[var(--border-color)] rounded-[8px] px-[14px] text-[14px] text-white bg-[#344054] font-bold"
+        >
           등록
         </button>
       </div>

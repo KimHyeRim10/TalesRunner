@@ -1,20 +1,138 @@
+"use client";
+
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import React from "react";
+import Link from "next/link";
+import { format } from "date-fns";
+import { getUser } from "@/utils/localStorage";
+
 import CommnetInput from "@/component/community/comment/CommentInput";
 import CommentItem from "@/component/community/comment/CommentItem";
 import ReplyItem from "@/component/community/comment/ReplyItem";
 import ReplyInput from "@/component/community/comment/ReplyInput";
-import React from "react";
 
 export default function BoardDetailpage() {
+  const { id } = useParams() as { id: string }; // 반환 값을 { id: string }으로 단언
+  const router = useRouter();
+  const userInfo = getUser();
+  const [boardData, setBoardData] = useState<any>(null);
+  const [boardProfile, setBoardProfile] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); //글쓰기 페이지로 가기위한 로그인됨 체크
+
+  const formatDateTime = (dateString: string): string => {
+    return dateString ? format(new Date(dateString), "yyyy-MM-dd HH:mm") : "";
+  };
+  // 로컬 스토리지에서 데이터를 로드
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedData = localStorage.getItem("editBoardData");
+      if (savedData) {
+        const parsedData = JSON.parse(savedData);
+        setBoardData(parsedData);
+        localStorage.removeItem("editBoardData"); // 사용 후 데이터 삭제
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    // 로그인 상태 확인
+    if (userInfo) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+
+    // 로컬스토리지에서 데이터 로드
+    const savedData = localStorage.getItem("editBoardData");
+    if (savedData) {
+      setBoardData(JSON.parse(savedData));
+      localStorage.removeItem("editBoardData"); // 사용 후 삭제
+      setIsLoading(false); // 로딩 완료
+      return; // 로컬 데이터를 우선적으로 사용
+    }
+
+    // 서버에서 데이터 로드
+    const fetchBoardData = async () => {
+      try {
+        const boardResponse = await axios.get(`/api/board/${id}`);
+        const boardData = boardResponse.data;
+
+        setBoardData(boardData);
+        setIsLoading(false);
+
+        if (boardData[0]?.user_nickname) {
+          const nickname = boardData[0].user_nickname;
+          const profileResponse = await axios.get(
+            "/api/board/boardDataProfile",
+            { params: { nickname } }
+          );
+          setBoardProfile(profileResponse.data[0]?.profile);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setIsLoading(false); // 에러 발생 시 로딩 종료
+      }
+    };
+    fetchBoardData();
+  }, [id]);
+
+  const handleWriteClick = () => {
+    if (!isLoggedIn) {
+      alert("로그인 후 이용해 주세요");
+      router.push("/login");
+      return;
+    }
+    router.push("/community/runners/write");
+  };
+
+  const handleEditBoard = () => {
+    const boardDataToEdit = {
+      id: boardData[0]?.id,
+      title: boardData[0]?.title,
+      content: boardData[0]?.content,
+    };
+    localStorage.setItem("editBoardData", JSON.stringify(boardDataToEdit));
+    router.push("/community/runners/write");
+  };
+
+  /* 게시판 내용 삭제 핸들러 */
+  const handleDeleteBoard = async () => {
+    try {
+      const response = await axios.delete("/api/board/deleteBoard", {
+        params: { id },
+      });
+      if (response) {
+        alert("게시글이 삭제되었습니다.");
+        router.push("/community/runners/all");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <div className="w-[1280px] h-auto px-8 mb-[200px]">
       <div className="flex justify-between text-2xl font-[600] leading-9 text-gray-900">
         런너게시판
         <div className="flex gap-3">
-          <button className="flex-center w-[90px] h-[40px] font-bold text-[14px] px-[14px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
-            <img src="/community/ico-list-20.svg" alt="ico-list" />
-            <span>목록</span>
-          </button>
-          <button className="flex-center w-[90px] h-[40px] font-bold text-[14px] px-[14px] bg-[#098212] text-white rounded-[8px]">
+          <Link href={"/community/runners/all"}>
+            <button className="flex-center w-[90px] h-[40px] font-bold text-[14px] px-[14px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
+              <img src="/community/ico-list-20.svg" alt="ico-list" />
+              <span>목록</span>
+            </button>
+          </Link>
+
+          <button
+            onClick={handleWriteClick}
+            className="flex-center w-[90px] h-[40px] font-bold text-[14px] px-[14px] bg-[#098212] text-white rounded-[8px]"
+          >
             <img src="/community/ico-edit-20.svg" alt="ico-edit" />
             <span>글쓰기</span>
           </button>
@@ -26,7 +144,7 @@ export default function BoardDetailpage() {
           자유
         </div>
         <div className="text-[24px] font-bold overflow-hidden text-gray-700 leading-9 text-ellipsis">
-          교환구해요
+          {boardData[0]?.title}
         </div>
       </div>
       {/* 작성자 닉네임 */}
@@ -38,10 +156,10 @@ export default function BoardDetailpage() {
               src="/community/lv_67.png"
               alt="lv_67.png"
             />
-            <span>티모</span>
+            <span>{boardData[0]?.user_nickname}</span>
           </span>
           <span className="text-[14px] font-[400] text-gray-400">
-            2024-11-27 01:53
+            {formatDateTime(boardData[0]?.created_at)}
           </span>
         </div>
         <div className="flex items-center gap-[50px]">
@@ -72,44 +190,42 @@ export default function BoardDetailpage() {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <button className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] ">
-              <img src="/community/ico-link-20.svg" alt="ico-link" />
-            </button>
-            <button className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] ">
-              <img src="/community/ico-report-20.svg" alt="ico-report" />
-            </button>
             {/* 작성자 */}
-            {/*        <button className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] ">
-              <img src="/community/ico-pencil-20.svg" alt="ico-pencil" />
-            </button>
-            <button className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] ">
-              <img src="/community/ico-trash-20.svg" alt="ico-trash" />
-            </button> */}
+            {boardData[0]?.user_nickname === userInfo?.nickname ? (
+              <>
+                <button className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] ">
+                  <img src="/community/ico-link-20.svg" alt="ico-link" />
+                </button>
+                <button
+                  onClick={handleEditBoard}
+                  className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] "
+                >
+                  <img src="/community/ico-pencil-20.svg" alt="ico-pencil" />
+                </button>
+                <button
+                  onClick={handleDeleteBoard}
+                  className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] "
+                >
+                  <img src="/community/ico-trash-20.svg" alt="ico-trash" />
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] ">
+                  <img src="/community/ico-link-20.svg" alt="ico-link" />
+                </button>
+                <button className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] ">
+                  <img src="/community/ico-report-20.svg" alt="ico-report" />
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
 
       {/* 게시판 내용 */}
-      <div className="w-[1216px] h-auto px-[32px] pt-[20px] red">
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
-        게시판 내용입니당 <br />
+      <div className="w-[1216px] h-auto px-[32px] pt-[50px]">
+        {boardData[0]?.content}
       </div>
 
       {/* 게시판 좋아요 부분 */}
@@ -140,11 +256,11 @@ export default function BoardDetailpage() {
 
       {/* 작성자 정보 */}
       <div className="flex-center">
-        <div className="flex-center w-[1152px] h-[146px] mb-[64px] border border-gray-200 rounded-[8px]">
-          <div className="flex items-center  gap-4 w-[881px] h-[96px]">
+        <div className="flex items-center justify-between pl-[24px] px-[32px] w-[1152px] h-[146px] mb-[64px] border border-gray-200 rounded-[8px]">
+          <div className="flex items-center gap-4 w-[881px] h-[96px]">
             <img
               className="rounded-full border-[#F2F4F7] object-cover w-[96px] h-[96px] border-4"
-              src="/community/no-character.png"
+              src={boardProfile || "/community/no-character.png"}
               alt="no-character"
             />
             <span className="flex-center gap-2">
@@ -153,7 +269,7 @@ export default function BoardDetailpage() {
                 src="/community/lv_67.png"
                 alt="lv_67.png"
               />
-              <span>티모</span>
+              <span>{boardData[0]?.user_nickname}</span>
               <span className="flex-center gap-1 w-[63px] h-[30px] text-[#0C6812] border border-[#0C6812] text-[11px] px-[10px] rounded-[8px]">
                 <img
                   className="w-[14px] h-[15px]"
@@ -165,14 +281,25 @@ export default function BoardDetailpage() {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <button className="flex-center w-[117px] h-[37px] font-bold text-[12px] px-[14px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
-              <img src="/community/ico-list-20.svg" alt="ico-list" />
-              <span>작성글 보기</span>
-            </button>
-            <button className="flex-center w-[75px] h-[37px] font-bold text-[12px] px-[14px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
-              <img src="/community/ico-block-20.svg" alt="ico-block" />
-              <span>차단</span>
-            </button>
+            {boardData[0]?.user_nickname === userInfo?.nickname ? (
+              <>
+                <button className="flex-center w-[117px] h-[37px] font-bold text-[12px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
+                  <img src="/community/ico-list-20.svg" alt="ico-list" />
+                  <span>작성글 보기</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="flex-center w-[117px] h-[37px] font-bold text-[12px] px-[14px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
+                  <img src="/community/ico-list-20.svg" alt="ico-list" />
+                  <span>작성글 보기</span>
+                </button>
+                <button className="flex-center w-[75px] h-[37px] font-bold text-[12px] px-[14px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
+                  <img src="/community/ico-block-20.svg" alt="ico-block" />
+                  <span>차단</span>
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
