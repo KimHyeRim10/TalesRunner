@@ -30,7 +30,7 @@ export default function HomeSection1() {
                 안내
               </span>
               <p className="w-[211px] h-[24px] text-[16px] truncate hover:underline leading-6 text-base cursor-pointer">
-                [안내] 개인정보처리방침 변경...
+                점령전 로딩 문제 수정을 위한 서버 재부팅 안내
               </p>
               <img
                 width={18}
@@ -44,7 +44,7 @@ export default function HomeSection1() {
                 안내
               </span>
               <p className="w-[211px] h-[24px] text-[16px] truncate hover:underline leading-6 text-base cursor-pointer">
-                11월 20일 (수) 정기 점검 완료...
+                [안내] 한게임 영구 이용 제한 이용자 환불 처리 관련 안내
               </p>
               <img
                 width={18}
@@ -58,7 +58,7 @@ export default function HomeSection1() {
                 안내
               </span>
               <p className="w-[211px] h-[24px] text-[16px] truncate hover:underline leading-6 text-base cursor-pointer">
-                계정 이관 보상 5,000 보너스 캐시
+                알려진 문제점 안내 (24. 12. 20. 12:32 수정)
               </p>
             </div>
             <div className="flex items-center gap-x-1">
@@ -66,7 +66,7 @@ export default function HomeSection1() {
                 안내
               </span>
               <p className="w-[211px] h-[24px] text-[16px] truncate hover:underline leading-6 text-base cursor-pointer">
-                11월 11일 (월) 임심 점검 진행 완료...
+                12월 18일 (수) 정기 점검 완료 안내
               </p>
             </div>
           </div>

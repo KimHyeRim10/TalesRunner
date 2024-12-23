@@ -9,12 +9,12 @@ export default function HomeSection2() {
     {
       image: "/home/section2-1.jpg",
       alt: "section2-1",
-      title: "아린의 연구일지",
+      title: "[이벤트] 긴 여정의 끝, 그 마지막 이야기",
     },
     {
       image: "/home/section2-2.jpg",
       alt: "section2-2",
-      title: "[이벤트] 11월의 NEW 핫타임 이벤트 안내",
+      title: "[이벤트] 12월의 NEW 핫타임 이벤트 안내",
     },
     {
       image: "/home/section2-3.jpg",
@@ -24,7 +24,7 @@ export default function HomeSection2() {
     {
       image: "/home/section2-4.jpg",
       alt: "section2-4",
-      title: "[이벤트] 11월의 커뮤니티 이벤트",
+      title: "[이벤트] 12월의 커뮤니티 이벤트",
     },
   ];
 

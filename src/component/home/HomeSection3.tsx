@@ -18,7 +18,7 @@ export default function HomeSection3() {
       alt: "section3-1",
       iconImage: "/home/ico-edit-12.svg",
       iconAlt: "블로그 아이콘",
-      iconWidth: "70",
+      iconWidth: "78px",
       iconName: "블로그",
       background: "rgb(238,70,188)",
       title: "[테일즈런너] 테런, 그것이 궁금하다! - 빛과 어둠의 서",
@@ -29,18 +29,18 @@ export default function HomeSection3() {
       alt: "section3-2",
       iconImage: "/home/ico-play-circle-12.svg",
       iconAlt: "동영상 아이콘",
-      iconWidth: "70",
+      iconWidth: "78px",
       iconName: "동영상",
       background: "rgb(6,174,212)",
-      title: "[뉴비복귀] 아린의 연구일지 밀저100 세팅",
-      name: "수업꽁",
+      title: '[테일즈런너] "푸른 생명의 땅" 맵 공략 | 01.19.96',
+      name: "고스트8",
     },
     {
       image: "/home/section3-3.jpg",
       alt: "section3-3",
       iconImage: "/home/ico-book-open-12.svg",
       iconAlt: "연재만화 아이콘",
-      iconWidth: "82",
+      iconWidth: "90px",
       iconName: "연재만화",
       background: "#875BF7",
       title: "리렆인구",
@@ -51,7 +51,7 @@ export default function HomeSection3() {
       alt: "section3-4",
       iconImage: "/home/ico-edit-12.svg",
       iconAlt: "블로그 아이콘",
-      iconWidth: "70",
+      iconWidth: "78px",
       iconName: "블로그",
       background: "rgb(238,70,188)",
       title: "[테일즈런너] 슈퍼테런데이",
@@ -74,7 +74,11 @@ export default function HomeSection3() {
                 alt={item.alt}
               />
               <span
-                className={`absolute top-2 left-2 z-10 w-[${item.iconWidth}px] h-[29px] flex-center gap-x-1 rounded-lg leading-[29px] text-[14px] font-[600] bg-[${item.background}] text-white`}
+                style={{
+                  backgroundColor: item.background,
+                  width: item.iconWidth,
+                }}
+                className="absolute top-2 left-2 z-10 h-[29px] flex-center gap-x-1 rounded-lg leading-[29px] text-[14px] font-[600] text-white"
               >
                 <img
                   className="w-[12px] h-[29px]"
