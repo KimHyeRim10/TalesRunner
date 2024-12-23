@@ -22,7 +22,7 @@ export default async function handler(
 
   const { data, error } = await supabase
     .from("member")
-    .select("email ,password,  user_nickname")
+    .select("email,password,user_nickname")
     .eq("email", email)
     .single(); // 하나만 가져와서 값을 비교함!
 
@@ -37,10 +37,10 @@ export default async function handler(
   // password as stirng :  사용자가 입력한 비밀번호 , data.password : 데이터베이스에 저장된 해시 비밀번호
   // bcrypt.compare는 Promise<boolean>을 반환
   // 일치하면 true, 그렇지 않으면 false를 반환
-  if (isMatch) {
-    console.log("비밀번호 일치");
-  } else {
-    console.log("비밀번호 불일치");
+
+  if (!isMatch) {
+    res.status(401).json({ error: "Invalid email or password" }); // 비밀번호가 일치하지 않는 경우 응답
+    return;
   }
 
   // JWT 토큰 생성
