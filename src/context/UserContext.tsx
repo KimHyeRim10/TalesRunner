@@ -7,56 +7,82 @@ import React, {
   useState,
   ReactNode,
 } from "react";
-import { getProfile } from "@/services/userService";
-import { getUser } from "@/utils/localStorage"; // getUser 함수 임포트
-
-interface UserInfo {
-  email: string;
-}
+import { getProfile, getLevel, getNicknameColor } from "@/services/userService";
+import { getUser } from "@/utils/localStorage";
+import { UserInfo } from "@/types/userInfo";
 
 interface UserContextProps {
+  user: UserInfo | null;
   profileURL: string | null;
-  setProfileURL: (url: string) => void;
+  levelURL: string | null;
+  nicknameColor: string | null;
+  setUser: React.Dispatch<React.SetStateAction<UserInfo | null>>;
+  setProfileURL: (profile: string) => void;
+  setLevelURL: (level: string) => void;
+  setNicknameColor: (color: string) => void;
+  refreshUserData: () => void; // 데이터를 새로 불러오는 함수
 }
 
 const UserContext = createContext<UserContextProps | null>(null);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [profileURL, setProfileURL] = useState<string>(
-    "/home/no-character.png"
-  );
+  const [user, setUser] = useState<UserInfo | null>(null);
+  const [profileURL, setProfileURL] = useState<string | null>(null);
+  const [levelURL, setLevelURL] = useState<string | null>(null);
+  const [nicknameColor, setNicknameColor] = useState<string | null>(null);
+
+  const fetchUserData = async () => {
+    const user = getUser();
+    if (!user || !user.email) {
+      return;
+    }
+    setUser(user); // 로컬 스토리지에서 유저 설정
+
+    try {
+      const [profile, level, color] = await Promise.all([
+        getProfile(user.email),
+        getLevel(user.email),
+        getNicknameColor(user.email),
+      ]);
+
+      setProfileURL(profile || "/home/no-character.png");
+      setLevelURL(level || "/uploads/v1/level/lv_03.png");
+      setNicknameColor(color || "#FFA500");
+    } catch (error) {
+      console.error("유저 데이터 가져오기 실패:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchProfileImage = async () => {
-      /*   if (typeof window !== "undefined") { */
-      const userInfo: UserInfo | null = getUser();
-
-      if (userInfo?.email) {
-        const email = userInfo.email;
-        const url = await getProfile(email); // API 호출
-        setProfileURL(url || "/home/no-character.png");
-      } else {
-        setProfileURL("/home/no-character.png");
-        /*        } */
-      }
-    };
-
-    fetchProfileImage();
+    fetchUserData(); // 컴포넌트 마운트 시 실행
   }, []);
 
+  // 데이터를 강제로 새로고침하는 함수
+  const refreshUserData = () => {
+    fetchUserData();
+  };
+
   return (
-    <UserContext.Provider value={{ profileURL, setProfileURL }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        profileURL,
+        setProfileURL,
+        levelURL,
+        setLevelURL,
+        nicknameColor,
+        setNicknameColor,
+        refreshUserData,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
 };
 
-// Custom Hook
 export const useUser = () => {
   const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUser must be used within a UserProvider");
-  }
-
+  if (!context) throw new Error("useUser must be used within a UserProvider");
   return context;
 };
