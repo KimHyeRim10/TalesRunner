@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "@/context/FormContext";
 import { validateCheckTerms } from "@/utils/validate";
@@ -8,9 +9,19 @@ import { validateCheckTerms } from "@/utils/validate";
 export default function SignupTerms() {
   const router = useRouter();
   const { formData, handleCheck } = useForm();
+  const [isButtonActive, setIsButtonActive] = useState(false);
+
+  // 버튼 활성화 상태 업데이트
+  useEffect(() => {
+    const { terms, personal } = formData;
+    const isRequiredChecked = terms && personal; // 필수 항목 체크 확인
+    setIsButtonActive(isRequiredChecked); // 버튼 활성화 여부 업데이트
+  }, [formData]);
 
   const handleButtonClick = () => {
-    validateCheckTerms(formData, router); // router 객체를 전달
+    if (isButtonActive) {
+      validateCheckTerms(formData, router); // router 객체를 전달
+    }
   };
 
   return (
@@ -88,7 +99,11 @@ export default function SignupTerms() {
 
         <button
           onClick={handleButtonClick}
-          className="w-[384px] h-[50px] bg-[#f2f4f7] text-[#98a2b3] border border-[#f2f4f7] text-[16px] px-[13px] rounded-[8px]"
+          className={`w-[384px] h-[50px] text-[16px] px-[13px] rounded-[8px] ${
+            isButtonActive
+              ? "bg-[#8544E2] text-white border-[#8544E2]"
+              : "bg-[#f2f4f7] text-[#98a2b3] border-[#f2f4f7]"
+          }`}
         >
           동의 후 계속하기
         </button>
