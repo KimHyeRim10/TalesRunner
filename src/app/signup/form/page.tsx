@@ -22,6 +22,9 @@ export default function SignupForm() {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isNickNameChecked, setIsNickNameChecked] = useState(false);
+  const [emailOtp, setEmailOtp] = useState("");
+  const [isOtpChecked, setIsOtpChecked] = useState(false);
+  const [isOtpValid, setIsOtpValid] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -63,7 +66,7 @@ export default function SignupForm() {
         setIsNickNameChecked(false);
       }
     } catch (error) {
-      console.error("닉네임 중복 확인 오류:", error);
+      console.log("닉네임 중복 확인 오류:", error);
       alert("닉네임 중복 확인 중 오류가 발생했습니다.");
     }
   };
@@ -85,6 +88,54 @@ export default function SignupForm() {
     }
   };
 
+  /* 이메일 인증 api */
+  const sendEmail = async () => {
+    const response = await axios.post("/api/auth/sendEmail", {
+      email: formData.email,
+    });
+    try {
+      if (response.data.success) {
+        alert("이메일 발송 성공! 이메일을 확인해 주세요");
+      }
+    } catch (error) {
+      console.log("이메일 발송 실패", error);
+    }
+  };
+
+  /* otp 조건 체크 */
+  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange(e);
+    const emailOtp = e.target.value;
+
+    if (!/^\d*$/.test(emailOtp)) {
+      return;
+    }
+    setEmailOtp(emailOtp);
+    if (emailOtp.length === 6) {
+      setIsOtpChecked(true);
+    } else {
+      setIsOtpChecked(false);
+    }
+  };
+
+  /* OTP 유효성 검사 */
+  const handleOtpValidation = async () => {
+    const response = await axios.post("/api/auth/otpValidation", {
+      email: formData.email,
+      otp: emailOtp,
+    });
+    try {
+      if (response.data.success) {
+        alert("이메일 인증 성공!");
+        setIsOtpValid(true);
+      } else {
+        alert("인증번호가 일치하지 않습니다."); // 이 부분은 보통 실행되지 않음
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   /* 인증 메일 버튼 클릭 시 중복 검사 및 서버 요청 */
   const handleSendVerification = async () => {
     if (!isEmailValid) {
@@ -98,10 +149,10 @@ export default function SignupForm() {
       });
 
       if (response.data.isAvailable) {
-        alert("인증메일이 발송되었습니다! 이메일을 확인하세요.");
         setErrorMessage(""); // 에러 메시지 초기화
         setIsEmailValid(true);
         //이메일 인증번호 보내기
+        sendEmail();
       } else {
         alert("이미 사용 중인 이메일입니다! 다른 이메일을 사용해 주세요");
         setErrorMessage("다른 이메일을 입력해 주세요");
@@ -129,6 +180,10 @@ export default function SignupForm() {
     }
     if (!isEmailValid) {
       alert("이메일 확인을 진행해 주세요.");
+      return;
+    }
+    if (!isOtpValid) {
+      alert("이메일 인증번호 확인을 진행해 주세요");
       return;
     }
     try {
@@ -242,11 +297,21 @@ export default function SignupForm() {
               </label>
               <div className="flex items-center gap-1">
                 <input
+                  name="emailOtp"
+                  value={emailOtp}
+                  onChange={handleOtpChange}
                   className="w-[250px] h-[48px] border border-[var(--border-color)] rounded-[8px] px-[14px]"
                   type="text"
                   placeholder="인증번호 확인"
                 />
-                <button className="w-[127px] h-[48px] text-[#98A2B3] text-[16px] bg-[#f2f4f7] px-[13px] rounded-[8px]">
+                <button
+                  onClick={handleOtpValidation}
+                  className={`w-[127px] h-[48px] rounded-[8px] px-[13px] text-[16px] ${
+                    isOtpChecked
+                      ? "bg-[#8544E2] text-white"
+                      : "text-[#98A2B3] text-[16px] bg-[#f2f4f7]"
+                  }`}
+                >
                   인증번호 확인
                 </button>
               </div>
