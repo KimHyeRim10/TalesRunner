@@ -4,19 +4,28 @@ import Link from "next/link";
 import SocialLogin from "@/component/SocialLogin";
 import { useForm } from "@/context/FormContext";
 import axios from "axios";
+import { useEffect } from "react";
 import { useRef, MutableRefObject } from "react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
+
+type InputRefs = Record<string, MutableRefObject<HTMLInputElement | null>>;
 
 export default function Login() {
-  const { formData, handleChange } = useForm();
+  const { formData, handleChange, clearFormData } = useForm();
   const router = useRouter();
-
-  type InputRefs = Record<string, MutableRefObject<HTMLInputElement | null>>;
+  const { refreshUserData } = useUser();
 
   const refs: InputRefs = {
     emailRef: useRef(null),
     userPassRef: useRef(null),
   };
+
+  useEffect(() => {
+    return () => {
+      clearFormData(); // 페이지를 벗어날 때 초기화
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,14 +51,13 @@ export default function Login() {
         document.cookie = `x-auth-jwt=${login_token}; path=/; max-age=3600;`;
 
         alert("로그인에 성공했습니다");
-
+        refreshUserData(); // UserProvider 상태 즉시 업데이트
         router.push("/");
       } else {
         alert("로그인에 실패했습니다");
       }
     } catch (error) {
-      console.error("로그인 확인 오류 :", error);
-      alert("로그인 확인 중 오류가 발생했습니다.");
+      alert("아이디 또는 비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
     }
   };
 
