@@ -6,18 +6,35 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { UserInfo } from "@/types/userInfo";
 import { useUser } from "@/context/UserContext";
+import LevelImageModal from "./LevelImageModal";
+import NicknameColorModal from "./NicknameColorModal";
+import LoginActions from "./LoginActions";
 
 interface UserProfileProps {
   user: UserInfo | null; // null을 허용
   setUser: React.Dispatch<React.SetStateAction<UserInfo | null>>; // 상태 변경 함수
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({ user, setUser }) => {
+const UserProfile: React.FC<UserProfileProps> = () => {
   const router = useRouter();
-  const { profileURL, setProfileURL } = useUser();
+  const { user, setUser, profileURL, setProfileURL, levelURL, nicknameColor } =
+    useUser();
   const [profileImage, setProfileImage] = useState<string>(
     "/home/no-character.png"
   ); // 기본 이미지
+
+  const [isLevelModalOpen, setLevelModalOpen] = useState(false); // 모달 상태 관리
+  const [isNickNameModal, setNickNameModal] = useState(false);
+
+  const [showTooltip, setShowTooltip] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowTooltip(false);
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (profileURL) {
@@ -33,7 +50,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, setUser }) => {
   };
 
   if (!user) {
-    return <div>사용자 정보가 없습니다.</div>;
+    return <LoginActions />;
   }
 
   /* supabase storage에 이미지 업로드하기  */
@@ -58,7 +75,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, setUser }) => {
           await saveImageUrl(user.email, uploadedUrl);
         }
       } catch (error) {
-        console.error("이미지 업로드 실패:", error);
+        console.log("이미지 업로드 실패:", error);
         alert("이미지 업로드 실패");
       }
     };
@@ -82,26 +99,47 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, setUser }) => {
     }
   };
 
+  // 레벨 모달  핸들러
+  const handleLevelOpenModal = () => {
+    setLevelModalOpen(true);
+  };
+
+  const handleLevelCloseModal = () => {
+    setLevelModalOpen(false);
+  };
+
+  // 닉네임 모달  핸들러
+  const openNickNameModal = () => {
+    setNickNameModal(true);
+  };
+
+  const closeNickNameModal = () => {
+    setNickNameModal(false);
+  };
+
   return (
     <div>
       <div>
         <div className="flex-center w-[280px] h-[106px] border border-[var(--border-color)]">
           <div className="flex gap-x-4">
             <div className="flex flex-col gap-y-2 w-[49px] h-[80px]">
-              <label htmlFor="profile-upload" className="cursor-pointer">
-                <img
-                  className="w-[48px] h-[48px] rounded-full object-cover border"
-                  src={profileImage}
-                  alt="프로필 이미지"
+              <div className="profile-tooltip">
+                <label htmlFor="profile-upload" className="cursor-pointer">
+                  <img
+                    className="w-[48px] h-[48px] rounded-full object-cover border"
+                    src={profileImage}
+                    alt="프로필 이미지"
+                  />
+                </label>
+                <span className="profile-tooltip-text">프로필 이미지 변경</span>
+                <input
+                  id="profile-upload"
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleImageUpload}
                 />
-              </label>
-              <input
-                id="profile-upload"
-                type="file"
-                accept="image/*"
-                style={{ display: "none" }}
-                onChange={handleImageUpload}
-              />
+              </div>
               <button className="w-[48px] h-[22px] flex-center border border-[var(--border-color)] rounded-full text-[10px] font-medium text-gray-400 ">
                 <img
                   className="w-[12px] h-[12px] pr-[px]"
@@ -113,15 +151,45 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, setUser }) => {
             </div>
             <div className="w-[183px] h-[80px] flex flex-col text-xs text-gray-500 font-[400] leading-[18px]">
               <div className="flex items-center">
-                <img
-                  className="w-[20px] h-[20px] mr-2 pointer-events-none"
-                  src="/home/lv_106.png"
-                  alt="Level image"
-                />
-                <span className="font-[400] truncate text-xs pl-1 text-[rgb(255,165,0)]">
-                  {user.nickname}
-                </span>
+                <div className="profile-tooltip">
+                  <img
+                    className="w-[20px] h-[20px] mr-2 custor-pointer"
+                    src={levelURL || "/uploads/v1/level/lv_03.png"}
+                    alt="Level image"
+                    onClick={handleLevelOpenModal}
+                  />
+                  <span className="profile-tooltip-text">레벨 변경</span>
+                </div>
+
+                {isLevelModalOpen && (
+                  <LevelImageModal onLevelModalClose={handleLevelCloseModal} />
+                )}
+
+                <div className="profile-tooltip">
+                  <span
+                    style={{ color: nicknameColor || "#FFA500" }}
+                    onClick={openNickNameModal}
+                    className="font-[400] truncate text-xs pl-1 cursor-pointer"
+                  >
+                    {user.nickname}
+                  </span>
+                  <span className="profile-tooltip-text">닉네임 색상 변경</span>
+
+                  {showTooltip && (
+                    <span className="showtooltip-text">
+                      🔥 [프로필, 레벨, 닉네임]을 클릭해 자유롭게 설정해 보세요!
+                    </span>
+                  )}
+                </div>
+
+                {/* 닉네임 모달 */}
+                {isNickNameModal && (
+                  <NicknameColorModal
+                    onNicknameModalClose={closeNickNameModal}
+                  />
+                )}
               </div>
+
               <div className="flex gap-1 mb-2">
                 <span className="basis-6 text-[12px] text-[#667085]">길드</span>
                 <span className="text-[12px] text-[#475467] font-bold">

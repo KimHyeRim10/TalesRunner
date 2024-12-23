@@ -20,6 +20,8 @@ export default function Modal() {
     { id: 5, image: "/home/m5.jpg", alt: "m5" },
     { id: 6, image: "/home/m6.jpg", alt: "m6" },
     { id: 7, image: "/home/m7.jpg", alt: "m7" },
+    { id: 8, image: "/home/m8.jpg", alt: "m8" },
+    { id: 9, image: "/home/m9.jpg", alt: "m9" },
   ];
 
   useEffect(() => {
