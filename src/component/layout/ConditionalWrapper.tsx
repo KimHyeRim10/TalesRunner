@@ -26,9 +26,7 @@ export default function ConditionalWrapper({
       {!isExcluded && <NavBar />}
       {isCommunityPage && <CommunityMainImage />}
       {isCommunityPage && <CommunityNavBar />}
-      <div className="w-[1280px] flex justify-center m-auto red">
-        {children}
-      </div>
+      <div className="w-[1280px] flex justify-center m-auto">{children}</div>
       {!isExcluded && <Footer />}
     </>
   );
