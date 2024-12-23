@@ -4,6 +4,7 @@ import "./globals.css";
 import ConditionalWrapper from "@/component/layout/ConditionalWrapper";
 import { FormProvider } from "@/context/FormContext";
 import { UserProvider } from "@/context/UserContext";
+import { CommentProvider } from "@/context/CommentContext";
 
 export const metadata: Metadata = {
   title: "TaiesRunner",
@@ -18,11 +19,13 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <ConditionalWrapper>
-          <UserProvider>
-            <FormProvider>{children}</FormProvider>
-          </UserProvider>
-        </ConditionalWrapper>
+        <UserProvider>
+          <ConditionalWrapper>
+            <CommentProvider>
+              <FormProvider>{children}</FormProvider>
+            </CommentProvider>
+          </ConditionalWrapper>
+        </UserProvider>
       </body>
     </html>
   );
