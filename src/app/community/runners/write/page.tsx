@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { getUser } from "@/utils/localStorage";
+import { useUser } from "@/context/UserContext";
 import ToolbarButton from "@/component/community/ToolbarButton";
 
 export default function WritePage() {
@@ -13,6 +14,8 @@ export default function WritePage() {
   const [btitle, setTitle] = useState(""); // 제목
   const [bcontent, setContent] = useState(""); // 내용
   const [bid, setId] = useState("");
+
+  const { levelURL, nicknameColor } = useUser();
 
   // 수정인지 등록인지 구분
   const isEdit = Boolean(editBoardData.id);
@@ -57,13 +60,18 @@ export default function WritePage() {
           id: bid,
           title: btitle,
           content: bcontent,
+          levelURL: levelURL,
+          nicknameColor: nicknameColor,
         });
       } else {
         // 등록 요청
+
         response = await axios.post("/api/board/newBoard", {
           nickname,
           title: btitle,
           content: bcontent,
+          levelURL,
+          nicknameColor,
         });
       }
 
@@ -76,7 +84,7 @@ export default function WritePage() {
         router.push("/community/runners/all");
       }
     } catch (error) {
-      console.error("API 호출 실패:", error);
+      console.log("API 호출 실패:", error);
       alert("오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
@@ -129,6 +137,10 @@ export default function WritePage() {
         <ToolbarButton />
         {/* 게시판 내용 작성 */}
         <textarea
+          style={{
+            resize: "none",
+            overflow: "hidden",
+          }}
           name="bcontent"
           value={bcontent}
           onChange={handleChange}
