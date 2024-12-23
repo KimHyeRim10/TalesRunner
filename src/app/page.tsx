@@ -1,4 +1,3 @@
-import HomeCarousel from "@/component/home/HomeCarousel";
 import Carousel from "@/component/home/Carousel";
 import HomeSection1 from "@/component/home/HomeSection1";
 import HomeSection2 from "@/component/home/HomeSection2";
