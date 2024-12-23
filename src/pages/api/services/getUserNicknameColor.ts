@@ -18,7 +18,7 @@ export default async function handler(
   try {
     const { data, error } = await supabase
       .from("member")
-      .select("profile")
+      .select("nickname_color")
       .eq("email", email)
       .single();
 
@@ -27,9 +27,10 @@ export default async function handler(
       throw error;
     }
 
-    const profileURL = data?.profile || "/home/no-character.png";
+    // nickname_color가 없을 경우 기본값 설정
+    const nicknameColor = data?.nickname_color || "#FFA500";
 
-    res.status(200).json({ profileURL });
+    res.status(200).json({ nicknameColor });
   } catch (err: any) {
     console.error("서버 에러:", err.message);
     return res.status(500).json({ error: err.message });

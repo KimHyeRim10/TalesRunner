@@ -9,29 +9,21 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { email } = req.body;
-
-  if (!email) {
-    return res.status(400).json({ error: "Missing email in request query" });
-  }
+  const { nicknameColor, nickname } = req.body;
 
   try {
     const { data, error } = await supabase
       .from("member")
-      .select("profile")
-      .eq("email", email)
-      .single();
+      .update({ nickname_color: nicknameColor })
+      .eq("user_nickname", nickname);
 
     if (error) {
-      console.error("Supabase 에러:", error.message);
       throw error;
     }
 
-    const profileURL = data?.profile || "/home/no-character.png";
-
-    res.status(200).json({ profileURL });
+    res.status(200).json({ success: true, data });
   } catch (err: any) {
-    console.error("서버 에러:", err.message);
+    console.error({ err: err.message });
     return res.status(500).json({ error: err.message });
   }
 }

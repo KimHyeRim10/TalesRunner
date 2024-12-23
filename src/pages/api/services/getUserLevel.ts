@@ -18,7 +18,7 @@ export default async function handler(
   try {
     const { data, error } = await supabase
       .from("member")
-      .select("profile")
+      .select("level")
       .eq("email", email)
       .single();
 
@@ -27,9 +27,9 @@ export default async function handler(
       throw error;
     }
 
-    const profileURL = data?.profile || "/home/no-character.png";
+    const levelURL = data?.level || "/uploads/v1/level/lv_03.png";
 
-    res.status(200).json({ profileURL });
+    res.status(200).json({ levelURL });
   } catch (err: any) {
     console.error("서버 에러:", err.message);
     return res.status(500).json({ error: err.message });
