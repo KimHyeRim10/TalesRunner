@@ -1,13 +1,16 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import GameStartButton from "./GameStartButton";
 import { getUser } from "@/utils/localStorage";
 import { UserInfo } from "@/types/userInfo";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import { useUser } from "@/context/UserContext";
 
 export default function CommunityMainImage() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const { levelURL } = useUser();
+  const { nicknameColor } = useUser();
 
   useEffect(() => {
     const user = getUser(); // 클라이언트에서 로그인 상태 가져오기
@@ -35,8 +38,11 @@ export default function CommunityMainImage() {
               className="flex items-center justify-between gap-2 px-[12px] py-[9px] w-auto h-[37px]  text-white bg-white text-[14px] rounded-[8px]"
               type="submit"
             >
-              <img src="/community/lv_67.png" alt="레벨" />
-              <span className="text-[12px] text-[#FFA500]">
+              <img src={levelURL || "/uploads/v1/level/lv_03.png"} />
+              <span
+                style={{ color: nicknameColor || "#FFA500" }}
+                className="text-[12px]"
+              >
                 {userInfo.nickname}
               </span>
               <div className="flex-center rounded-full w-[49px] text-[#98A2B3] h-[22px] border border-[var(--border-color)]">
