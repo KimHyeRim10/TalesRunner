@@ -180,3 +180,85 @@ body {
   left: 10px;
   pointer-events: none; /* 클릭 불가 */
 }
+
+/* level images modal */
+
+.highlighter {
+  display: inline-block;
+  background: linear-gradient(to top, #f0e373 60%, transparent 90%);
+}
+
+/* UserProfile */
+
+.profile-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-tooltip-text {
+  visibility: hidden;
+  width: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.profile-tooltip:hover .profile-tooltip-text,
+.profile-tooltip:focus .profile-tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  10%,
+  90% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+.showtooltip-text {
+  width: auto;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  position: absolute;
+  z-index: 100;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+  animation: fadeInOut 10s ease-in-out, bounce 1.5s infinite;
+}
