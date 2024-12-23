@@ -8,11 +8,14 @@ import Link from "next/link";
 import { getUser } from "@/utils/localStorage";
 import { formatCreatedAt } from "@/utils/formatCreatedAt";
 import BoardNotice from "@/component/community/BoardNotice";
+import CheckIcon from "@/icons/community/CheckIcon";
 
 export default function Runners() {
   const router = useRouter();
   const [isTitleDropdown, setIsTitleDropdown] = useState(false);
-  const [isNicknameDropdown, setIsNicknameDropdown] = useState(false);
+  const [isNicknameDropdown, setIsNicknameDropdown] = useState<number | null>(
+    null
+  );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [boardList, setBoardList] = useState([]);
 
@@ -44,8 +47,8 @@ export default function Runners() {
   };
 
   /* 닉네임 드롭다운 */
-  const isNicknameDropdownOpen = () => {
-    setIsNicknameDropdown(!isNicknameDropdown);
+  const isNicknameDropdownOpen = (id: number) => {
+    setIsNicknameDropdown((prevId) => (prevId === id ? null : id));
   };
 
   useEffect(() => {
@@ -143,60 +146,15 @@ export default function Runners() {
         {/* 게시판 */}
         <div className="flex gap-4 w-[1216px] h-[30px] mb-[16px] mt-[35px] text-[14px] font-bold">
           <p className="flex gap-1 items-center">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                className="stroke-gray-600"
-                d="M16.6666 5L7.49998 14.1667L3.33331 10"
-                stroke="#475467"
-                strokeWidth="1.66667"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></path>
-            </svg>
+            <CheckIcon />
             <span>최신 등록순</span>
           </p>
           <p className="flex gap-1 items-center">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                className="stroke-gray-400"
-                d="M16.6666 5L7.49998 14.1667L3.33331 10"
-                stroke="#475467"
-                strokeWidth="1.66667"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></path>
-            </svg>
+            <CheckIcon />
             <span className="text-gray-400">최신 댓글등록순</span>
           </p>
           <p className="flex gap-1 items-center">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                className="stroke-gray-400"
-                d="M16.6666 5L7.49998 14.1667L3.33331 10"
-                stroke="#475467"
-                strokeWidth="1.66667"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></path>
-            </svg>
+            <CheckIcon />
             <span className="text-gray-400">좋아요</span>
           </p>
         </div>
@@ -226,8 +184,16 @@ export default function Runners() {
                         자유
                       </span>
                       <Link href={`/community/runners/all/${board.id}`}>
-                        <span className="text-[16px] text-[#344054] truncate hover:underline cursor-pointer">
-                          {board.title}
+                        <span className="flex items-center text-[16px] text-[#344054] truncate cursor-pointer max-w-[580px]">
+                          <p className="hover:underline truncate">
+                            {board.title}
+                          </p>
+                          &nbsp;
+                          <p className="text-green-700">
+                            {board.comment_count > 0
+                              ? `[${board.comment_count}]`
+                              : ""}
+                          </p>
                         </span>
                       </Link>
                     </div>
@@ -239,7 +205,7 @@ export default function Runners() {
                         src="/community/ico-eye-18.svg"
                         alt="ico-eye"
                       />
-                      7
+                      {board.views ?? 0}
                     </span>
                   </td>
                   <td className="pl-6 pr-0">
@@ -255,17 +221,18 @@ export default function Runners() {
                   <td className="flex items-center h-[72px] pl-[6px] pr-[6px] ">
                     <img
                       className="mr-2"
-                      src="/community/lv_111.png"
+                      src={board.user_level || "/uploads/v1/level/lv_03.png"}
                       alt="pierrot"
                     />
                     <div className="relative">
                       <span
-                        onClick={isNicknameDropdownOpen}
+                        style={{ color: board.nickname_color || "#FFA500" }}
+                        onClick={() => isNicknameDropdownOpen(board.id)}
                         className="text-[16px] text-[#475467] cursor-pointer"
                       >
                         {board.user_nickname}
                       </span>
-                      {isNicknameDropdown && (
+                      {isNicknameDropdown === board.id && (
                         <div className="absolute top-[25px] z-10 flex flex-col items-center justify-center text-center p-[6px] text-[12px] text-[#475467] font-bold w-[110px] h-[91px] rounded-[8px] bg-white border border-[var(--border-color)]">
                           <div className="flex-1 flex items-center justify-center cursor-pointer">
                             작성글 보기
