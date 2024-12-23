@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import SocialLogin from "@/component/SocialLogin";
+import SocialLogin from "@/component/signup/SocialLogin";
 import { useRouter } from "next/navigation";
 
 export default function Signup() {

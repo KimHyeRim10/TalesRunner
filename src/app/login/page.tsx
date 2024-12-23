@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import SocialLogin from "@/component/SocialLogin";
+import SocialLogin from "@/component/signup/SocialLogin";
 import { useForm } from "@/context/FormContext";
 import axios from "axios";
 import { useEffect } from "react";
