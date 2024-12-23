@@ -1,4 +1,4 @@
-import ExternalLinkIcon from "@/component/home/ExternalLinkIcon";
+import ExternalLinkIcon from "@/icons/home/ExternalLinkIcon";
 import Link from "next/link";
 
 export default function NavBar() {
@@ -40,8 +40,12 @@ export default function NavBar() {
     {
       category: "커뮤니티",
       items: [
-        { label: "런너게시판", hasicon: "false", link: "/community/runners" },
-        { label: "창작게시판", hasicon: "false" },
+        {
+          label: "런너게시판",
+          hasicon: "false",
+          link: "/community/runners/all",
+        },
+        { label: "런너채팅방", hasicon: "false", link: "/community/chat" },
         { label: "공략게시판", hasicon: "false" },
         { label: "길드게시판", hasicon: "false" },
         { label: "토론게시판", hasicon: "false" },
