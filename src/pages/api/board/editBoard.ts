@@ -6,30 +6,55 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "PUT") {
-    const { id, title, content } = req.body;
+    const { id, title, content, levelURL, nicknameColor } = req.body;
 
-    const { data, error } = await supabase
-      .from("board")
-      .update({ title, content })
-      .eq("id", id)
-      .select("*"); // 수정된 데이터를 반환
-
-    if (error) {
-      return res
-        .status(500)
-        .json({ success: false, message: "게시글 수정 중 오류 발생", error });
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "게시글 ID가 제공되지 않았습니다.",
+      });
     }
 
-    if (!data || data.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "게시글을 찾을 수 없습니다." });
-    }
+    const updateData: Record<string, any> = {};
+    if (title !== undefined) updateData.title = title;
+    if (content !== undefined) updateData.content = content;
+    if (levelURL !== undefined) updateData.user_level = levelURL;
+    if (nicknameColor !== undefined) updateData.nickname_color = nicknameColor;
 
-    return res.status(200).json({
-      success: true,
-      message: "게시글이 성공적으로 수정되었습니다.",
-      data,
-    });
+    try {
+      const { data, error } = await supabase
+        .from("board")
+        .update(updateData)
+        .eq("id", id)
+        .select("*"); // 수정된 데이터를 반환
+
+      if (error) {
+        console.error("Supabase Error:", error.message);
+        return res.status(500).json({
+          success: false,
+          message: "게시글 수정 중 오류 발생",
+          error: error.message,
+        });
+      }
+
+      if (!data || data.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "게시글을 찾을 수 없습니다.",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: "게시글이 성공적으로 수정되었습니다.",
+        data,
+      });
+    } catch (err: any) {
+      console.error("서버 오류:", err);
+      return res.status(500).json({
+        success: false,
+        message: "서버 내부 오류가 발생했습니다.",
+      });
+    }
   }
 }

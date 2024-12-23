@@ -10,15 +10,17 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { title, content, nickname } = req.body;
+  const { title, content, nickname, levelURL, nicknameColor } = req.body;
 
   try {
     // Supabase에 데이터 삽입
     const { data, error } = await supabase.from("board").insert([
       {
+        user_nickname: nickname,
         title: title,
         content: content,
-        user_nickname: nickname,
+        user_level: levelURL,
+        nickname_color: nicknameColor,
       },
     ]);
 

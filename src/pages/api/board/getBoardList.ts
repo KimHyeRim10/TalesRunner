@@ -10,7 +10,6 @@ export default async function handler(
   }
 
   try {
-    // Supabase에서 게시판 데이터 가져오기
     const { data, error } = await supabase
       .from("board")
       .select("*")
