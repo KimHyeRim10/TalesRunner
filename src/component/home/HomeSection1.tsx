@@ -6,6 +6,8 @@ import { getUser } from "@/utils/localStorage";
 import { useState, useEffect } from "react";
 import { UserInfo } from "@/types/userInfo";
 
+import Image from "next/image";
+
 export default function HomeSection1() {
   const [user, setUser] = useState<UserInfo | null>(null);
 
@@ -21,7 +23,7 @@ export default function HomeSection1() {
           {/* 공지사항 */}
           <div className="w-[280px] h-[30px] flex justify-between">
             <span className="h-[30px] text-[20px] font-bold">공지사항</span>
-            <img width={14} height={14} src="/home/ico-add-14.svg" alt="+" />
+            <Image width={14} height={14} src="/home/ico-add-14.svg" alt="+" />
           </div>
           {/* 안내메시지 */}
           <div className="flex flex-col pt-4 pb-[22px] gap-y-2 w-[280px] h-[158px]">
@@ -32,7 +34,7 @@ export default function HomeSection1() {
               <p className="w-[211px] h-[24px] text-[16px] truncate hover:underline leading-6 text-base cursor-pointer">
                 점령전 로딩 문제 수정을 위한 서버 재부팅 안내
               </p>
-              <img
+              <Image
                 width={18}
                 height={18}
                 src="/home/ico-new-18.svg"
@@ -46,7 +48,7 @@ export default function HomeSection1() {
               <p className="w-[211px] h-[24px] text-[16px] truncate hover:underline leading-6 text-base cursor-pointer">
                 [안내] 한게임 영구 이용 제한 이용자 환불 처리 관련 안내
               </p>
-              <img
+              <Image
                 width={18}
                 height={18}
                 src="/home/ico-new-18.svg"
@@ -73,13 +75,13 @@ export default function HomeSection1() {
 
           {/* 이벤트소식/업데이트소식 버튼 */}
           <div className="flex justify-between">
-            <img
+            <Image
               width={138}
               height={52}
               src="/home/guide.png"
               alt="이벤트소식"
             />
-            <img
+            <Image
               width={138}
               height={52}
               src="/home/update.png"
@@ -88,12 +90,19 @@ export default function HomeSection1() {
           </div>
         </div>
         {/* section1 이미지 부분 */}
-        <img width={592} height={240} src="/home/section1.png" alt="section1" />
+        <Image
+          width={592}
+          height={240}
+          src="/home/section1.png"
+          alt="section1"
+        />
         {/* 게임시작/로그인 */}
         <div className="w-[280px]">
           {/* 게임시작버튼 */}
           <div className="relative group w-[280px] h-[108px] text-white flex items-center justify-center gap-y-1">
-            <img
+            <Image
+              layout="fill"
+              objectFit="cover"
               className="w-full h-full object-cover"
               src="/home/file.svg"
               alt="게임시작버튼"
@@ -106,23 +115,31 @@ export default function HomeSection1() {
               <li>|</li>
               <li className="hover:underline">문제해결</li>
             </ul>
-            <img
+            <Image
+              width={280}
+              height={108}
               className="absolute mix-blend-screen group-hover:mix-blend-plus-lighter"
               src="/home/circle01.svg"
               alt="circle01"
             />
-            <img
+            <Image
+              width={280}
+              height={108}
               className="absolute mix-blend-screen group-hover:mix-blend-plus-lighter"
               src="/home/circle02.svg"
               alt="circle02"
             />
-            <img
+            <Image
+              width={280}
+              height={108}
               className="absolute start animate-start w-[280px] h-[108px] group-hover:hidden mix-blend-overlay"
               src="/home/light.svg"
               alt="light"
             />
-            <img
-              className="absolute start animate-start w-[280px] h-[108px] group-hover:hidden mix-blend-soft-light opacity-50"
+            <Image
+              width={100}
+              height={108}
+              className="absolute start animate-start  group-hover:hidden mix-blend-soft-light opacity-50"
               src="/home/big-light.svg"
               alt="big-light"
             />

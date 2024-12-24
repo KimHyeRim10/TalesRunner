@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function HomeSection4() {
   type Content = Record<"image" | "alt" | "color" | "title", string>;
 
@@ -53,8 +55,10 @@ export default function HomeSection4() {
                 key={item.alt}
                 className={`w-[190px] h-[104px] relative flex items-center bg-gradient-to-t to-transparent from-[0.17%] to-[65.81%] from-[${item.color}] cursor-pointer`}
               >
-                <img
-                  className="w-[190px] h-[104px]  absolute -z-[1] top-0 left-0"
+                <Image
+                  width={190}
+                  height={104}
+                  className="absolute -z-[1] top-0 left-0"
                   src={item.image}
                   alt={item.alt}
                 />
@@ -67,13 +71,16 @@ export default function HomeSection4() {
         </div>
 
         <div className="flex gap-x-8">
-          <img
+          <Image
+            width={280}
+            height={257}
             className="w-[280px] h-[257px]"
             src="/home/section4-vip.png"
             alt="vip"
           />
-          <img
-            className="w-[280px] h-[257px]"
+          <Image
+            width={280}
+            height={257}
             src="/home/section4-birthday.jpg"
             alt="birthday"
           />

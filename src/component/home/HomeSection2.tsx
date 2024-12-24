@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function HomeSection2() {
   interface PierrotNewsItem {
     image: string;
@@ -37,11 +39,7 @@ export default function HomeSection2() {
         <div className="flex justify-between text-[14px] text-gray-700 font-[500] lending-[21px] text-ellipsis overflow-hidden line-clamp-2">
           {pierrotNewsList.map((item) => (
             <div key={item.title} className="w-[280px] cursor-pointer">
-              <img
-                className="h-[157px] w-[280px]"
-                src={item.image}
-                alt={item.alt}
-              />
+              <Image width={280} height={157} src={item.image} alt={item.alt} />
               <div className="h-[74px] w-[280px] p-[16px] border border-[var(--border-color)]">
                 {item.title}
               </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import SocialLogin from "@/component/signup/SocialLogin";
 import { useForm } from "@/context/FormContext";
 import axios from "axios";
@@ -65,8 +66,10 @@ export default function Login() {
     <>
       <div className="w-[448px] h-[582px] px-[32px]  justify-center mt-[96px] mb-[600px]">
         <Link href={"/"}>
-          <img
-            className="w-[214px] h-[40px] mx-auto"
+          <Image
+            width={214}
+            height={40}
+            className="mx-auto"
             src="/header/rhaon-ci.png"
             alt="logo"
           />
@@ -126,30 +129,35 @@ export default function Login() {
           </div>
           <div className="flex justify-between mt-8 w-[384px] h-[31px]">
             <div className="flex-center cursor-pointer gap-[6px] w-[184px] h-[31px] border border-[#d5d5dd] rounded-[8px]">
-              <img
-                className="w-[20px] h-[20px]"
+              <Image
+                width={20}
+                height={20}
                 src="/login/stove.png"
                 alt="stove"
               />
               <span className="text-[#344054] text-[12px]">
                 스토브 바로가기
               </span>
-              <img
-                className="w-[14px] h-[14px]"
+              <Image
+                width={14}
+                height={14}
                 src="/login/ico-chevron-right-20.svg"
                 alt="chevron-right-20"
               />
             </div>
             <div className="flex-center cursor-pointer gap-[6px] w-[184px] h-[31px] border border-[#d5d5dd] rounded-[8px]">
-              <img
-                className="w-[20px] h-[20px]"
+              <Image
+                width={20}
+                height={20}
                 src="/login/hangame.png"
                 alt="hangame"
               />
               <span className="text-[#344054] text-[12px]">
                 한게임 바로가기
               </span>
-              <img
+              <Image
+                width={14}
+                height={14}
                 className="w-[14px] h-[14px]"
                 src="/login/ico-chevron-right-20.svg"
                 alt="chevron-right-20"

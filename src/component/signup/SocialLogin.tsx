@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export default function SocialLogin() {
   type SocialLogin = Record<"image" | "alt" | "background", string>;
@@ -39,7 +40,7 @@ export default function SocialLogin() {
           className={`flex-center w-[48px] h-[48px] border border-[var(--border-color)] rounded-[100px]`}
           style={{ background: item.background }}
         >
-          <img className="w-[20px] h-[20px]" src={item.image} alt={item.alt} />
+          <Image width={20} height={20} src={item.image} alt={item.alt} />
         </div>
       ))}
     </div>

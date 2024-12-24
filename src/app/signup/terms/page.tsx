@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "@/context/FormContext";
@@ -28,8 +29,10 @@ export default function SignupTerms() {
     <div>
       <div className="w-[448px] h-[582px] px-[32px]  justify-center mt-[96px] mb-[600px]">
         <Link href={"/"}>
-          <img
-            className="w-[214px] h-[40px] mx-auto"
+          <Image
+            width={214}
+            height={40}
+            className="mx-auto"
             src="/header/rhaon-ci.png"
             alt="logo"
           />
@@ -47,7 +50,6 @@ export default function SignupTerms() {
                 모두 동의
               </label>
             </div>
-            <img src="/signup/ico-chevron-right-20.svg" alt=">" />
           </div>
           <div className="flex items-center justify-between w-[384px] h-[63px] border-b boder-[var(--border-color)]">
             <div className="flex items-center gap-2">
@@ -62,7 +64,12 @@ export default function SignupTerms() {
                 라온 서비스 이용약관
               </label>
             </div>
-            <img src="/signup/ico-chevron-right-20.svg" alt=">" />
+            <Image
+              width={20}
+              height={21}
+              src="/signup/ico-chevron-right-20.svg"
+              alt=">"
+            />
           </div>
           <div className="flex items-center  justify-between w-[384px] h-[63px] border-b boder-[var(--border-color)]">
             <div className="flex items-center gap-2">
@@ -77,7 +84,12 @@ export default function SignupTerms() {
                 개인정보 수집 및 이용 동의
               </label>
             </div>
-            <img src="/signup/ico-chevron-right-20.svg" alt=">" />
+            <Image
+              width={20}
+              height={21}
+              src="/signup/ico-chevron-right-20.svg"
+              alt=">"
+            />
           </div>
           <div className="flex items-center justify-between w-[384px] h-[63px] border-b boder-[var(--border-color)]">
             <div className="flex items-center gap-2">
@@ -93,7 +105,12 @@ export default function SignupTerms() {
                 <span className="text-[#8544E2]">(선택)</span>
               </label>
             </div>
-            <img src="/signup/ico-chevron-right-20.svg" alt=">" />
+            <Image
+              width={20}
+              height={21}
+              src="/signup/ico-chevron-right-20.svg"
+              alt=">"
+            />
           </div>
         </div>
 

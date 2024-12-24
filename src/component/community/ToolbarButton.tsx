@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { TextBoldIcon } from "@/icons/community/ToolbarIcon";
 import { ItalicIcon } from "@/icons/community/ToolbarIcon";
 import { UnderlineIcon } from "@/icons/community/ToolbarIcon";
@@ -74,16 +75,18 @@ export default function ToolbarButton() {
         <span className="fr-sr-only">이미지 삽입</span>
       </button>
       <button>
-        <img
-          className="w-[24px] h-[24px]"
+        <Image
+          width={24}
+          height={24}
           src="/community/ico-gift-20.svg"
           alt="gift"
         />
         <span className="fr-sr-only">추첨</span>
       </button>
       <button>
-        <img
-          className="w-[24px] h-[24px]"
+        <Image
+          width={24}
+          height={24}
           src="/community/ico-vote-black-18.svg"
           alt="vote"
         />

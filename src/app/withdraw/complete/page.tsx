@@ -1,17 +1,22 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function WithDrawComplete() {
   return (
     <div>
       <div className="w-[448px] h-[582px] px-[32px] justify-center mt-[96px] mb-[600px]">
         <Link href={"/"}>
-          <img
-            className="w-[214px] h-[40px] mx-auto"
+          <Image
+            width={214}
+            height={40}
+            className="mx-auto"
             src="/header/rhaon-ci.png"
             alt="logo"
           />
         </Link>
-        <img
+        <Image
+          width={150}
+          height={160}
           className="mx-auto w-[150px] h-[160px] mt-[40px] mb-[30px]"
           src="/signup/rhaoni.png"
           alt="라오니"

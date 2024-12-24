@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function Modal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,7 +57,9 @@ export default function Modal() {
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="w-[700px] h-[400px] rounded-t-[8px] relative overflow-hidden">
           {/* 이미지 */}
-          <img
+          <Image
+            width={700}
+            height={400}
             src={modal[currentIndex].image}
             alt={modal[currentIndex].alt}
             className="absolute w-full h-full object-cover"
@@ -85,8 +88,9 @@ export default function Modal() {
             오늘 하루 동안 열지 않기
           </span>
           <span onClick={closeModal}>
-            <img
-              className="w-[20px] h-[20px]"
+            <Image
+              width={20}
+              height={20}
               src="/home/ico-x-close-20.svg"
               alt="X"
             />
@@ -97,8 +101,9 @@ export default function Modal() {
           onClick={goToPrev}
           className="absolute w-[56px] h-[56px] left-[-70px] top-1/2 transform -translate-y-1/2 bg-[#00000080] bg-opacity-80 p-2 rounded-[8px] shadow"
         >
-          <img
-            className="w-[40px] h-[40px]"
+          <Image
+            width={40}
+            height={40}
             src="/home/ico-chevron-left-40.svg"
             alt="ico-chevron"
           />
@@ -107,8 +112,9 @@ export default function Modal() {
           onClick={goToNext}
           className="absolute  w-[56px] h-[56px] right-[-70px] top-1/2 transform -translate-y-1/2 bg-[#00000080] bg-opacity-80 p-2 rounded-[8px]  shadow"
         >
-          <img
-            className="w-[40px] h-[40px]"
+          <Image
+            width={40}
+            height={40}
             src="/home/ico-chevron-right-40.svg"
             alt="chevron-right"
           />

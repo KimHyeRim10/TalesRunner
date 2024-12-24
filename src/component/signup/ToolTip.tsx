@@ -1,7 +1,9 @@
+import Image from "next/image";
+
 export default function ToolTip() {
   return (
     <div className="tooltip flex-center">
-      <img src="/signup/ico-help-16.svg" alt="?" />
+      <Image width={16} height={16} src="/signup/ico-help-16.svg" alt="?" />
       <div className="tooltip-text text-left">
         <p>안전한 비밀번호 설정방법</p>
         <p>
@@ -16,7 +18,9 @@ export default function ToolTip() {
         <p>다른 사이트에서 사용하지 않은 비밀번호를 입력해 주세요.</p>
         <p>비밀번호는 3~6개월에 한 번씩 주기적으로 변경하는 것이 좋습니다.</p>
       </div>
-      <img
+      <Image
+        width={16}
+        height={10}
         className="tooltip-arrow"
         src="/signup/tooltip-shape-b.svg"
         alt="tooltiparrow"

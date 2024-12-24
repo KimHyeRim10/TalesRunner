@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function HomeBenefit() {
   type Benefit = Record<"iconImage" | "iconAlt" | "title", string>;
 
@@ -36,8 +38,9 @@ export default function HomeBenefit() {
           key={item.title}
           className="flex-center gap-x-2 w-[243px] h-[59px] bg-[#F9FAFB]"
         >
-          <img
-            className="w-[20px] h-[20px]"
+          <Image
+            width={20}
+            height={20}
             src={item.iconImage}
             alt={item.iconAlt}
           />

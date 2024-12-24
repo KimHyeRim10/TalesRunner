@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { formatCreatedAt } from "@/utils/formatCreatedAt";
 import { getUser } from "@/utils/localStorage";
@@ -40,8 +41,10 @@ export default function CommentItem({ id }: Props) {
         <React.Fragment key={comment.id}>
           <div className="flex gap-2 w-[1216px] min-h-[169px] mx-auto px-[24px] py-[32px]">
             <div>
-              <img
-                className="rounded-full border-[#F2F4F7] object-cover w-[51px] h-[51px] border-2"
+              <Image
+                width={51}
+                height={51}
+                className="rounded-full border-[#F2F4F7] object-cover border-2"
                 src={comment.profile}
                 alt="no-character"
               />
@@ -49,8 +52,9 @@ export default function CommentItem({ id }: Props) {
             <div className="flex flex-col">
               <div className="relative flex items-center justify-between w-[1088px] h-[36px]">
                 <div className="flex-center gap-2">
-                  <img
-                    className="w-[20px] h-[20px]"
+                  <Image
+                    width={20}
+                    height={20}
                     src={comment.user_level || "/uploads/v1/level/lv_03.png"}
                     alt="level"
                   />
@@ -67,8 +71,10 @@ export default function CommentItem({ id }: Props) {
                   </span>
                 </div>
                 <div className="group">
-                  <img
-                    className="w-[20px] h-[20px] group-hover:opacity-100"
+                  <Image
+                    width={20}
+                    height={20}
+                    className="group-hover:opacity-100"
                     src="/community/ico-dots-horizon-20.svg"
                     alt="더보기"
                   />
@@ -78,7 +84,9 @@ export default function CommentItem({ id }: Props) {
                     <>
                       <div className="group-hover:opacity-100 opacity-0 absolute right-[-1px] flex flex-col justify-center items-center z-10 w-[81px] h-[92px] bg-white rounded-[8px] border border-[var(--border-color)]">
                         <div className="flex-center w-[81px] h-[41] py-[10px] gap-x-2  text-[14px] cursor-pointer">
-                          <img
+                          <Image
+                            width={16}
+                            height={16}
                             src="/community/ico-pencil-20.svg"
                             alt="ico-pencil"
                           />
@@ -86,9 +94,11 @@ export default function CommentItem({ id }: Props) {
                         </div>
                         <div
                           onClick={() => handleDelete(comment.id)}
-                          className="flex-center w-[81px] h-[41] py-[10px] gap-1 text-[14px] cursor-pointer"
+                          className="flex-center w-[81px] h-[41] py-[10px] gap-2 text-[14px] cursor-pointer"
                         >
-                          <img
+                          <Image
+                            width={16}
+                            height={16}
                             src="/community/ico-trash-20.svg"
                             alt="ico-trash"
                           />
@@ -100,14 +110,18 @@ export default function CommentItem({ id }: Props) {
                     <>
                       <div className="group-hover:opacity-100 opacity-0 absolute right-[-1px] flex flex-col justify-center items-center z-10 w-[81px] h-[92px] bg-white rounded-[8px] border border-[var(--border-color)]">
                         <div className="flex-center w-[81px] h-[41] py-[10px] gap-x-2  text-[14px] cursor-pointer">
-                          <img
+                          <Image
+                            width={16}
+                            height={16}
                             src="/community/ico-report-20.svg"
                             alt="ico-report"
                           />
                           <span>신고</span>
                         </div>
-                        <div className="flex-center w-[81px] h-[41] py-[10px] gap-1 text-[14px] cursor-pointer">
-                          <img
+                        <div className="flex-center w-[81px] h-[41] py-[10px] gap-2 text-[14px] cursor-pointer">
+                          <Image
+                            width={16}
+                            height={16}
                             src="/community/ico-block-20.svg"
                             alt="ico-block"
                           />

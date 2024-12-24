@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
+import Image from "next/image";
 
 import { getUser } from "@/utils/localStorage";
 import { formatCreatedAt } from "@/utils/formatCreatedAt";
@@ -95,7 +96,9 @@ export default function Runners() {
           <form className="flex gap-2 items-center " action="">
             <div className="relative flex items-center justify-between text-[14px] rounded-[8px] border border-[var(--border-color)] w-[105px] h-[40px] px-[14px]">
               제목
-              <img
+              <Image
+                width={20}
+                height={20}
                 onClick={isTitleDropdownOpen}
                 className="w-[20px] h-[20px]"
                 src="/community/arrow-bottom.jpg"
@@ -119,8 +122,9 @@ export default function Runners() {
 
             <div className="flex items-center justify-between py-[8px] px-[12px] w-[269px] h-[46px] border border-[var(--border-color)] rounded-[8px]">
               <input type="text" name="" placeholder="검색어를 입력하세요" />
-              <img
-                className="w-[16px] h-[16px]"
+              <Image
+                width={16}
+                height={16}
                 src="/community/ico-search-16.svg"
                 alt="돋보기"
               />
@@ -200,8 +204,9 @@ export default function Runners() {
                   </td>
                   <td className="pl-6 pr-0">
                     <span className="flex gap-x-1 text-gray-400">
-                      <img
-                        className="w-[18px] h-[18px]"
+                      <Image
+                        width={18}
+                        height={18}
                         src="/community/ico-eye-18.svg"
                         alt="ico-eye"
                       />
@@ -210,8 +215,9 @@ export default function Runners() {
                   </td>
                   <td className="pl-6 pr-0">
                     <span className="flex gap-x-1 text-gray-400">
-                      <img
-                        className="w-[18px] h-[18px]"
+                      <Image
+                        width={18}
+                        height={18}
                         src="/community/ico-heart-18.svg"
                         alt="ico-heart"
                       />
@@ -219,7 +225,9 @@ export default function Runners() {
                     </span>
                   </td>
                   <td className="flex items-center h-[72px] pl-[6px] pr-[6px] ">
-                    <img
+                    <Image
+                      width={20}
+                      height={20}
                       className="mr-2"
                       src={board.user_level || "/uploads/v1/level/lv_03.png"}
                       alt="pierrot"
@@ -264,7 +272,9 @@ export default function Runners() {
               disabled={currentPage <= pagesPerJump}
               className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed"
             >
-              <img
+              <Image
+                width={24}
+                height={24}
                 src="/community/ico-chevron-left-double-bold-24.svg"
                 alt="left-double"
               />
@@ -276,7 +286,9 @@ export default function Runners() {
               disabled={currentPage === 1}
               className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed"
             >
-              <img
+              <Image
+                width={24}
+                height={24}
                 src="/community/ico-chevron-left-bold-24.svg"
                 alt="left-bold"
               />
@@ -305,7 +317,9 @@ export default function Runners() {
               disabled={currentPage === totalPages}
               className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed"
             >
-              <img
+              <Image
+                width={24}
+                height={24}
                 src="/community/ico-chevron-right-bold-24.svg"
                 alt="right-bold"
               />
@@ -321,7 +335,9 @@ export default function Runners() {
               disabled={currentPage + pagesPerJump > totalPages}
               className="w-[40px] h-[40px] p-2 rounded-lg bg-gray-50 cursor-pointer disabled:cursor-not-allowed"
             >
-              <img
+              <Image
+                width={24}
+                height={24}
                 src="/community/ico-chevron-right-double-bold-24.svg"
                 alt="right-double"
               />
@@ -334,7 +350,12 @@ export default function Runners() {
               onClick={handleWriteClick}
               className="flex-center w-[90px] h-[40px] font-bold text-[14px] px-[14px] bg-[#098212] text-white rounded-[8px]"
             >
-              <img src="/community/ico-edit-20.svg" alt="ico-edit" />
+              <Image
+                width={20}
+                height={20}
+                src="/community/ico-edit-20.svg"
+                alt="ico-edit"
+              />
               <span>글쓰기</span>
             </button>
           </div>

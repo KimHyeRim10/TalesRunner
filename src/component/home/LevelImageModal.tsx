@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getUser } from "@/utils/localStorage";
 import { UserInfo } from "@/types/userInfo";
@@ -82,10 +83,12 @@ export default function LevelImageModal({
                 <ul className="flex-center gap-[40px]">
                   {category.items.map((level) => (
                     <li key={level.data} className="flex-center">
-                      <img
+                      <Image
+                        width={25}
+                        height={25}
                         src={level.src}
                         alt={level.alt}
-                        className="cursor-pointer w-[25px] h-[25px]"
+                        className="cursor-pointer"
                         onClick={() => handleLevelImageClick(level.data)}
                       />
                     </li>

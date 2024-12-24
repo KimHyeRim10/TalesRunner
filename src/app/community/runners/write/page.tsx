@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getUser } from "@/utils/localStorage";
 import { useUser } from "@/context/UserContext";
@@ -99,9 +100,10 @@ export default function WritePage() {
       <div className="flex items-center justify-between mt-[40px] mb-[20px]">
         <div className="relative flex items-center justify-between w-[105px]  h-[40px] border border-[var(--border-color)] rounded-[8px] px-[14px]">
           <span className=" text-[14px] text-[#344054]">자유</span>
-          <img
+          <Image
+            width={12}
+            height={12}
             onClick={toggleDropdown}
-            className="w-[12px] h-[12px]"
             src="/community/arrow-bottom.jpg"
             alt="arrow-bottom"
           />

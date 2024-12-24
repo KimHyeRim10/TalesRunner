@@ -1,9 +1,10 @@
 "use Client";
 
+import axios from "axios";
+import Image from "next/image";
 import { removeUser } from "@/utils/localStorage";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { UserInfo } from "@/types/userInfo";
 import { useUser } from "@/context/UserContext";
 import LevelImageModal from "./LevelImageModal";
@@ -125,8 +126,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             <div className="flex flex-col gap-y-2 w-[49px] h-[80px]">
               <div className="profile-tooltip">
                 <label htmlFor="profile-upload" className="cursor-pointer">
-                  <img
-                    className="w-[48px] h-[48px] rounded-full object-cover border"
+                  <Image
+                    width={48}
+                    height={48}
+                    className="rounded-full object-cover border"
                     src={profileImage}
                     alt="프로필 이미지"
                   />
@@ -141,7 +144,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 />
               </div>
               <button className="w-[48px] h-[22px] flex-center border border-[var(--border-color)] rounded-full text-[10px] font-medium text-gray-400 ">
-                <img
+                <Image
+                  width={12}
+                  height={12}
                   className="w-[12px] h-[12px] pr-[px]"
                   src="/home/ico-home-12.svg"
                   alt="homeicon"
@@ -152,7 +157,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             <div className="w-[183px] h-[80px] flex flex-col text-xs text-gray-500 font-[400] leading-[18px]">
               <div className="flex items-center">
                 <div className="profile-tooltip">
-                  <img
+                  <Image
+                    width={20}
+                    height={20}
                     className="w-[20px] h-[20px] mr-2 custor-pointer"
                     src={levelURL || "/uploads/v1/level/lv_03.png"}
                     alt="Level image"
@@ -209,8 +216,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 <span className="text-[12px] text-[#f04C27] font-bold mr-[130px]">
                   0
                 </span>
-                <img
-                  className="w-4 h-4 "
+                <Image
+                  width={16}
+                  height={16}
                   src="/home/ico-plus-circle-16.svg"
                   alt="ico-plus"
                 />

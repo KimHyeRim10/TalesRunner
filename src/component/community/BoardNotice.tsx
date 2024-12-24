@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function BoardNotice() {
   return (
     <>
@@ -21,8 +23,9 @@ export default function BoardNotice() {
             </td>
             <td>
               <div className="flex items-center pl-[6px] gap-2 h-[72px]">
-                <img
-                  className="w-[20px] h-[20px]"
+                <Image
+                  width={20}
+                  height={20}
                   src="/community/lv_998 (2).png"
                   alt="pierrot"
                 />
@@ -46,8 +49,9 @@ export default function BoardNotice() {
             </td>
             <td>
               <div className="flex items-center pl-[6px] gap-2 h-[72px]">
-                <img
-                  className="w-[20px] h-[20px]"
+                <Image
+                  width={20}
+                  height={20}
                   src="/community/lv_998 (2).png"
                   alt="pierrot"
                 />

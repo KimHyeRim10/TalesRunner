@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "@/context/FormContext";
 import { useState, useRef, MutableRefObject } from "react";
@@ -202,8 +203,10 @@ export default function SignupForm() {
     <div>
       <div className="w-[448px] h-[582px] px-[32px] justify-center mt-[96px] mb-[600px]">
         <Link href={"/"}>
-          <img
-            className="w-[214px] h-[40px] mx-auto"
+          <Image
+            width={214}
+            height={40}
+            className="mx-auto"
             src="/header/rhaon-ci.png"
             alt="logo"
           />

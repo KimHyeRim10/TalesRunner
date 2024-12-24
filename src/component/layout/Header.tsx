@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { removeUser } from "@/utils/localStorage";
 
@@ -25,8 +26,9 @@ export default function Header() {
   return (
     <div className="px-12 h-[48px] border-b border-gray-200 flex justify-between items-center">
       <div className="flex-center gap-2">
-        <img
-          className="w-[20px] h-[20px]"
+        <Image
+          width={20}
+          height={20}
           src="/header/ico-menu-14.svg"
           alt="Menu icon"
         />
@@ -37,8 +39,10 @@ export default function Header() {
 
       <div className="flex-center">
         <Link href={"/"}>
-          <img
-            className="w-[130px] h-[20px] ml-[140px]"
+          <Image
+            width={130}
+            height={20}
+            className="ml-[140px]"
             src="/header/rhaon-ci.png"
             alt="logo"
           />
@@ -48,8 +52,10 @@ export default function Header() {
       {user ? (
         <div>
           <div className="relative flex items-center justify-end min-w-[160px] h-[36px]">
-            <img
-              className="w-[33px] h-[33px] rounded-full border border-[var(--border-color)] mr-[10px]"
+            <Image
+              width={33}
+              height={33}
+              className="rounded-full border border-[var(--border-color)] mr-[10px]"
               src={profileURL || "/home/no-character.png"}
               alt="profile"
             />
@@ -57,8 +63,10 @@ export default function Header() {
               <p className="text-[15px] text-[#475467] font-[600]">
                 {user?.nickname}
               </p>
-              <img
-                className="w-[14px] h-[15px] m-[8px]"
+              <Image
+                width={14}
+                height={15}
+                className="m-[8px]"
                 src="/header/ico-chevron-down-14.svg"
                 alt="chevron-down"
                 onClick={handleToggleDropdown}
@@ -88,7 +96,12 @@ export default function Header() {
                   <li className="pb-[12px]">보안설정</li>
                   <li className="flex items-center gap-1">
                     <p>고객센터</p>
-                    <img src="/header/ico-link-new-14.svg" alt="link-new-" />
+                    <Image
+                      width={14}
+                      height={14}
+                      src="/header/ico-link-new-14.svg"
+                      alt="link-new-"
+                    />
                   </li>
                 </ul>
               </div>

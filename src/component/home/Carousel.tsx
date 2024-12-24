@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import GridIcon from "@/icons/home/GridIcon";
 
 export default function HomeCarousel() {
@@ -112,7 +113,12 @@ export default function HomeCarousel() {
     <>
       {/* main-image */}
       <div className="w-[2560px] h-[400px]">
-        <img src={slides[currentIndex].image} alt={slides[currentIndex].alt} />
+        <Image
+          width={2560}
+          height={400}
+          src={slides[currentIndex].image}
+          alt={slides[currentIndex].alt}
+        />
       </div>
 
       <div className="w-[2560px] h-[56px] flex justify-center bg-[#101828]">

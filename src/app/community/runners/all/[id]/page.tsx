@@ -16,6 +16,7 @@ import BoardLikeIcon from "@/icons/community/BoardLikeIcon";
 import ChevronDownIcon from "@/icons/community/ChevronDownIcon";
 import Runners from "../page";
 import { useComment } from "@/context/CommentContext";
+import Image from "next/image";
 
 export default function BoardDetailpage() {
   const { id } = useParams() as { id: string }; // 반환 값을 { id: string }으로 단언
@@ -147,7 +148,12 @@ export default function BoardDetailpage() {
           <div className="flex gap-3">
             <Link href={"/community/runners/all"}>
               <button className="flex-center w-[90px] h-[40px] font-bold text-[14px] px-[14px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
-                <img src="/community/ico-list-20.svg" alt="ico-list" />
+                <Image
+                  width={18}
+                  height={18}
+                  src="/community/ico-list-20.svg"
+                  alt="ico-list"
+                />
                 <span>목록</span>
               </button>
             </Link>
@@ -156,7 +162,12 @@ export default function BoardDetailpage() {
               onClick={handleWriteClick}
               className="flex-center w-[90px] h-[40px] font-bold text-[14px] px-[14px] bg-[#098212] text-white rounded-[8px]"
             >
-              <img src="/community/ico-edit-20.svg" alt="ico-edit" />
+              <Image
+                width={18}
+                height={18}
+                src="/community/ico-edit-20.svg"
+                alt="ico-edit"
+              />
               <span>글쓰기</span>
             </button>
           </div>
@@ -174,8 +185,9 @@ export default function BoardDetailpage() {
         <div className="flex items-center justify-between w-[1216px] h-[76px] border-b border-[var(--border-color)] px-8 py-4">
           <div className="flex items-center gap-3">
             <span className="flex-center gap-2">
-              <img
-                className="w-[20px] h-[20px]"
+              <Image
+                width={20}
+                height={20}
                 src={boardData[0]?.user_level || "/uploads/v1/level/lv_03.png"}
                 alt="level-image"
               />
@@ -192,7 +204,9 @@ export default function BoardDetailpage() {
           <div className="flex items-center gap-[50px]">
             <div className="flex items-center gap-5">
               <span className="flex gap-x-1 text-gray-400">
-                <img
+                <Image
+                  width={18}
+                  height={18}
                   className="w-[18px] h-[18px]"
                   src="/community/ico-heart-18.svg"
                   alt="ico-heart"
@@ -200,7 +214,9 @@ export default function BoardDetailpage() {
                 0
               </span>
               <span className="flex gap-x-1 text-gray-400">
-                <img
+                <Image
+                  width={18}
+                  height={18}
                   className="w-[18px] h-[18px]"
                   src="/community/ico-eye-18.svg"
                   alt="ico-eye"
@@ -208,7 +224,9 @@ export default function BoardDetailpage() {
                 {boardData[0]?.views ?? 0}
               </span>
               <span className="flex gap-x-1 text-gray-400">
-                <img
+                <Image
+                  width={18}
+                  height={18}
                   className="w-[18px] h-[18px]"
                   src="/community/ico-message-18.svg"
                   alt="ico-message"
@@ -221,28 +239,53 @@ export default function BoardDetailpage() {
               {boardData[0]?.user_nickname === userInfo?.nickname ? (
                 <>
                   <button className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] ">
-                    <img src="/community/ico-link-20.svg" alt="ico-link" />
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/community/ico-link-20.svg"
+                      alt="ico-link"
+                    />
                   </button>
                   <button
                     onClick={handleEditBoard}
                     className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] "
                   >
-                    <img src="/community/ico-pencil-20.svg" alt="ico-pencil" />
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/community/ico-pencil-20.svg"
+                      alt="ico-pencil"
+                    />
                   </button>
                   <button
                     onClick={handleDeleteBoard}
                     className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] "
                   >
-                    <img src="/community/ico-trash-20.svg" alt="ico-trash" />
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/community/ico-trash-20.svg"
+                      alt="ico-trash"
+                    />
                   </button>
                 </>
               ) : (
                 <>
                   <button className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] ">
-                    <img src="/community/ico-link-20.svg" alt="ico-link" />
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/community/ico-link-20.svg"
+                      alt="ico-link"
+                    />
                   </button>
                   <button className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] ">
-                    <img src="/community/ico-report-20.svg" alt="ico-report" />
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/community/ico-report-20.svg"
+                      alt="ico-report"
+                    />
                   </button>
                 </>
               )}
@@ -269,14 +312,17 @@ export default function BoardDetailpage() {
         <div className="flex-center">
           <div className="flex items-center justify-between pl-[24px] px-[32px] w-[1152px] h-[146px] mb-[64px] border border-gray-200 rounded-[8px]">
             <div className="flex items-center gap-4 w-[881px] h-[96px]">
-              <img
-                className="rounded-full border-[#F2F4F7] object-cover w-[96px] h-[96px] border-4"
+              <Image
+                width={96}
+                height={96}
+                className="rounded-full border-[#F2F4F7] object-cover border-4"
                 src={boardProfile || "/community/no-character.png"}
                 alt="no-character"
               />
               <span className="flex-center gap-2">
-                <img
-                  className="w-[20px] h-[20px]"
+                <Image
+                  width={20}
+                  height={20}
                   src={
                     boardData[0]?.user_level || "/uploads/v1/level/lv_03.png"
                   }
@@ -288,7 +334,9 @@ export default function BoardDetailpage() {
                   {boardData[0]?.user_nickname}
                 </span>
                 <span className="flex-center gap-1 w-[63px] h-[30px] text-[#0C6812] border border-[#0C6812] text-[11px] px-[10px] rounded-[8px]">
-                  <img
+                  <Image
+                    width={14}
+                    height={15}
                     className="w-[14px] h-[15px]"
                     src="/community/ico-home-14.svg"
                     alt="home-14"
@@ -301,18 +349,33 @@ export default function BoardDetailpage() {
               {boardData[0]?.user_nickname === userInfo?.nickname ? (
                 <>
                   <button className="flex-center w-[117px] h-[37px] font-bold text-[12px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
-                    <img src="/community/ico-list-20.svg" alt="ico-list" />
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/community/ico-list-20.svg"
+                      alt="ico-list"
+                    />
                     <span>작성글 보기</span>
                   </button>
                 </>
               ) : (
                 <>
                   <button className="flex-center w-[117px] h-[37px] font-bold text-[12px] px-[14px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
-                    <img src="/community/ico-list-20.svg" alt="ico-list" />
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/community/ico-list-20.svg"
+                      alt="ico-list"
+                    />
                     <span>작성글 보기</span>
                   </button>
                   <button className="flex-center w-[75px] h-[37px] font-bold text-[12px] px-[14px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
-                    <img src="/community/ico-block-20.svg" alt="ico-block" />
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/community/ico-block-20.svg"
+                      alt="ico-block"
+                    />
                     <span>차단</span>
                   </button>
                 </>

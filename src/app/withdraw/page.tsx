@@ -1,12 +1,15 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function WithDraw() {
   return (
     <div>
-      <div className="w-[448px] px-[32px]  justify-center mt-[96px] mb-[600px] red">
+      <div className="w-[448px] px-[32px]  justify-center mt-[96px] mb-[600px]">
         <Link href={"/"}>
-          <img
-            className="w-[214px] h-[40px] mx-auto"
+          <Image
+            width={214}
+            height={40}
+            className="mx-auto"
             src="/header/rhaon-ci.png"
             alt="logo"
           />
@@ -74,7 +77,12 @@ export default function WithDraw() {
 
         <button className="w-[120px] h-[32px] mt-[20px] rounded-[8px] font-bold flex-center gap-1 text-[11px] text-[#344054] border border-[var(--border-color)]">
           캐시 잔액 확인하기
-          <img src="/signup/arrow-square-up-right.svg" alt="arrow-square" />
+          <Image
+            width={15}
+            height={15}
+            src="/signup/arrow-square-up-right.svg"
+            alt="arrow-square"
+          />
         </button>
 
         <div className="flex items-center justify-between mt-[20px]">

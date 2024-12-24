@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import axios from "axios";
+import Image from "next/image";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { getUser } from "@/utils/localStorage";
@@ -58,8 +59,10 @@ export default function ReplyInput({ boardId, commentId }: Props) {
   return (
     <div className="flex justify-end gap-3 w-[1216px] min-h-[180px] pr-[32px] pl-[96px]">
       <div>
-        <img
-          className="rounded-full border-[#F2F4F7] object-cover w-[52px] h-[52px] border-2"
+        <Image
+          width={52}
+          height={52}
+          className="rounded-full border-[#F2F4F7] object-cover border-2"
           src={profileURL || "/home/no-character.png"}
           alt="profile"
         />

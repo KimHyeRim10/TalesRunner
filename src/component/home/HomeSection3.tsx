@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function HomeSection3() {
   type CreatorContent = Record<
     | "image"
@@ -68,8 +70,10 @@ export default function HomeSection3() {
         <div className="flex justify-between items-end">
           {creatorContentList.map((item) => (
             <div key={item.alt} className="relative w-[280px] h-[158px]">
-              <img
-                className="object-cover w-full h-[158px]"
+              <Image
+                width={280}
+                height={158}
+                className="object-cover"
                 src={item.image}
                 alt={item.alt}
               />
@@ -80,8 +84,9 @@ export default function HomeSection3() {
                 }}
                 className="absolute top-2 left-2 z-10 h-[29px] flex-center gap-x-1 rounded-lg leading-[29px] text-[14px] font-[600] text-white"
               >
-                <img
-                  className="w-[12px] h-[29px]"
+                <Image
+                  width={12}
+                  height={29}
                   src={item.iconImage}
                   alt={item.iconAlt}
                 />

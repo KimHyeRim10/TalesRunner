@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig: import("next").NextConfig = {
+  reactStrictMode: true,
+  images: {
+    domains: ["rzfjmamvpuuxuvsrwbzh.supabase.co"],
+  },
   async redirects() {
     return [
       {

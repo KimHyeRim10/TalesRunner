@@ -1,5 +1,6 @@
-import ExternalLinkIcon from "@/icons/home/ExternalLinkIcon";
 import Link from "next/link";
+import Image from "next/image";
+import ExternalLinkIcon from "@/icons/home/ExternalLinkIcon";
 
 export default function NavBar() {
   interface DropDownItem {
@@ -78,11 +79,7 @@ export default function NavBar() {
     <div className="group relative flex-center max-w-[2560px] min-w-[1440px] mx-auto">
       <div className="w-[1280px] h-[80px] px-8 flex justify-between items-center">
         <a className="left-8" href="/">
-          <img
-            className="w-[100px] h-[63px]"
-            src="/header/tr-ci.svg"
-            alt="TRlogo"
-          />
+          <Image width={100} height={63} src="/header/tr-ci.svg" alt="TRlogo" />
         </a>
         <nav>
           <ul className="flex h-[80px] items-center">

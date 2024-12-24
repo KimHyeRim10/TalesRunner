@@ -2,6 +2,7 @@
 
 import React from "react";
 import axios from "axios";
+import Image from "next/image";
 import { useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
@@ -58,8 +59,10 @@ export default function CommentInput({ id }: Props) {
   return (
     <div className="flex justify-center gap-3 w-[1216px] min-h-[180px]">
       <div>
-        <img
-          className="rounded-full border-[#F2F4F7] object-cover w-[52px] h-[52px] border-2"
+        <Image
+          width={52}
+          height={52}
+          className="rounded-full border-[#F2F4F7] object-cover border-2"
           src={profileURL || "/home/no-character.png"}
           alt="no-character"
         />

@@ -3,6 +3,7 @@
 import { useUser } from "@/context/UserContext";
 import { useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client";
+import Image from "next/image";
 
 // 소켓 설정
 const socket: Socket = io("http://localhost:3000", {
@@ -76,8 +77,9 @@ export default function Chat() {
 
         <div className="flex-center mt-[70px]">
           <h1 className="text-[50px] font-[700] mr-[10px]">Runners Talk</h1>
-          <img
-            className="w-[50px] h-[50px]"
+          <Image
+            width={50}
+            height={50}
             src="/uploads/v1/level/lv_51.png"
             alt="level"
           />
@@ -124,8 +126,10 @@ export default function Chat() {
               style={{ margin: "10px 0" }}
             >
               {msg.nickname !== user?.nickname && (
-                <img
-                  className="w-[50px] h-[50px] rounded-full border border-[var(--border-color)]"
+                <Image
+                  width={50}
+                  height={50}
+                  className="rounded-full border border-[var(--border-color)]"
                   src={msg.profileURL || "/home/no-character.png"}
                   alt="profile"
                 />
@@ -146,8 +150,10 @@ export default function Chat() {
                 </span>
               </div>
               {msg.nickname === user?.nickname && (
-                <img
-                  className="w-[50px] h-[50px] rounded-full border border-[var(--border-color)]"
+                <Image
+                  width={50}
+                  height={50}
+                  className="rounded-full border border-[var(--border-color)]"
                   src={msg.profileURL || "/home/no-character.png"}
                   alt="profile"
                 />

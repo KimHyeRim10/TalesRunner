@@ -1,10 +1,12 @@
+import Image from "next/image";
+
 export default function Footer() {
   return (
     <div className="border-t border-t-[var(--border-color)] py-[64px] h-[309px] m-auto">
       <div className="w-[1280px] m-auto">
-        <img
-          width="161"
-          height="30"
+        <Image
+          width={161}
+          height={30}
           src="/footer/rhaon-ci (1).png"
           alt="logo"
         />
@@ -19,29 +21,33 @@ export default function Footer() {
           </div>
           <div className="flex-center gap-5">
             <a href="https://www.facebook.com/rhaonTRofficial/">
-              <img
-                className="w-[24px] h-[25px]"
+              <Image
+                width={24}
+                height={25}
                 src="/footer/ico-facebook-24.svg"
                 alt="ico-facebook"
               />
             </a>
             <a href="https://www.youtube.com/@rhaon_tr_official">
-              <img
-                className="w-[24px] h-[25px]"
+              <Image
+                width={24}
+                height={25}
                 src="/footer/ico-youtube-24.svg"
                 alt="ico-youtub"
               />
             </a>
             <a href="https://www.instagram.com/rhaon_tr_official">
-              <img
-                className="w-[24px] h-[25px]"
+              <Image
+                width={24}
+                height={25}
                 src="/footer/ico-instagram-24.svg"
                 alt="ico-instagram"
               />
             </a>
             <a href="https://x.com/TR_Official_KR">
-              <img
-                className="w-[24px] h-[25px]"
+              <Image
+                width={24}
+                height={25}
                 src="/footer/ico-twitter-24.svg"
                 alt="ico-twitter"
               />
@@ -69,8 +75,10 @@ export default function Footer() {
             </div>
           </div>
           <div>
-            <img
-              className="pointer-events-none"
+            <Image
+              width={600}
+              height={61}
+              className="red pointer-events-none"
               src="/footer/grading-table.jpg"
               alt="grading-table"
             />
