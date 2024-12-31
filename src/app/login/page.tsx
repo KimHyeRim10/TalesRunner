@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import ReCAPTCHA from "react-google-recaptcha";
 import SocialLogin from "@/component/signup/SocialLogin";
 import { useForm } from "@/context/FormContext";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRef, MutableRefObject } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
@@ -16,6 +17,12 @@ export default function Login() {
   const { formData, handleChange, clearFormData } = useForm();
   const router = useRouter();
   const { refreshUserData } = useUser();
+
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY as string;
+  const [failedAttempts, setFailedAttempts] = useState(0); // 실패 횟수
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaVerified, setCaptchaVerified] = useState(false); // reCAPTCHA 검증 상태
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const refs: InputRefs = {
     emailRef: useRef(null),
@@ -28,16 +35,36 @@ export default function Login() {
     };
   }, []);
 
+  const handleCaptchaChange = (token: string | null) => {
+    setCaptchaToken(token); // reCAPTCHA에서 받은 토큰 저장
+    setCaptchaVerified(!!token); // CAPTCHA 검증 여부
+  };
+
+  // ReCAPTCHA 상태를 초기화하는 함수
+  const resetCaptcha = () => {
+    if (recaptchaRef.current) {
+      recaptchaRef.current.reset(); // ReCAPTCHA 컴포넌트 초기화
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // 실패 횟수 초과 시 CAPTCHA 검증 여부 확인
+    if (failedAttempts >= 3 && !captchaVerified) {
+      alert("체크박스를 클릭하여 인증을 완료하여 로봇이 아님을 증명해주세요.");
+      return;
+    }
 
     try {
       const response = await axios.post("/api/auth/login", {
         email: formData.email,
         password: formData.userPass,
+        captchaToken: failedAttempts >= 3 ? captchaToken : undefined, // CAPTCHA 토큰 전송
+        failedAttempts,
       });
 
-      if (response.data.message) {
+      if (response.data.success) {
         const { login_token, decoded } = response.data; // 토큰과 디코딩된 정보 가져오기
         const userInfo = {
           email: decoded.email,
@@ -52,12 +79,26 @@ export default function Login() {
         document.cookie = `x-auth-jwt=${login_token}; path=/; max-age=3600;`;
 
         alert("로그인에 성공했습니다");
+        setFailedAttempts(0); // 성공 시 실패 횟수 초기화
+        setCaptchaVerified(false); // CAPTCHA 상태 초기화
+        setCaptchaToken(null); // CAPTCHA 토큰 초기화
         refreshUserData(); // UserProvider 상태 즉시 업데이트
         router.push("/");
       } else {
+        // 새로운 CAPTCHA 인증 필요
+        setFailedAttempts((prev) => prev + 1);
+        if (failedAttempts >= 3) {
+          setCaptchaVerified(false); // CAPTCHA 검증 초기화
+          setCaptchaToken(null); // 새로 인증 필요
+        }
         alert("로그인에 실패했습니다");
       }
     } catch (error) {
+      // 서버 오류 시 CAPTCHA 상태 초기화
+      setFailedAttempts((prev) => prev + 1);
+      setCaptchaVerified(false); // CAPTCHA 상태 초기화
+      setCaptchaToken(null); // CAPTCHA 토큰 초기화
+      resetCaptcha();
       alert("아이디 또는 비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
     }
   };
@@ -98,13 +139,24 @@ export default function Login() {
               placeholder="비밀번호(영문, 숫자, 특수문자 8~16자)"
             />
           </div>
-          <div className="flex items-center gap-2">
+
+          <div className="flex items-center gap-2 mb-[10px]">
             <input
               className="w-[16px] h-[16px] border border-[#D0D5DD] rounded-[8px]"
               type="checkbox"
             />
             <span className="text-[14px] text-[#667085]">로그인 유지</span>
           </div>
+
+          {failedAttempts >= 3 && (
+            <ReCAPTCHA
+              key={failedAttempts} // 강제 재렌더링
+              ref={recaptchaRef} // ReCAPTCHA 초기화 참조
+              sitekey={siteKey}
+              onChange={handleCaptchaChange}
+            />
+          )}
+
           <button
             className="w-[384px] h-[50px] px-[13px] text-white bg-[#8544E2] text-[18px] rounded-[8px] mt-8"
             type="submit"
@@ -132,6 +184,7 @@ export default function Login() {
               <Image
                 width={20}
                 height={20}
+                style={{ width: "20px", height: "20px" }}
                 src="/login/stove.png"
                 alt="stove"
               />
@@ -149,6 +202,7 @@ export default function Login() {
               <Image
                 width={20}
                 height={20}
+                style={{ width: "20px", height: "20px" }}
                 src="/login/hangame.png"
                 alt="hangame"
               />

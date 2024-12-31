@@ -3,6 +3,7 @@
 import React from "react";
 import axios from "axios";
 import Image from "next/image";
+import DOMPurify from "dompurify";
 import { useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
@@ -19,6 +20,7 @@ export default function CommentInput({ id }: Props) {
   const { profileURL, levelURL, nicknameColor } = useUser();
   const { fetchCommentList } = useComment();
   const [content, setContent] = useState<string>("");
+  const sanitizedContent = DOMPurify.sanitize(content);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setContent(e.target.value);
@@ -34,6 +36,12 @@ export default function CommentInput({ id }: Props) {
     }
 
     const { nickname } = userInfo;
+
+    //  XSS 필터링
+    if (sanitizedContent !== content) {
+      alert("허용되지 않은 태그가 포함되어 있습니다.");
+      return;
+    }
 
     try {
       const response = await axios.post("/api/board/comments/comment", {
@@ -62,6 +70,7 @@ export default function CommentInput({ id }: Props) {
         <Image
           width={52}
           height={52}
+          style={{ width: "52px", height: "52px" }}
           className="rounded-full border-[#F2F4F7] object-cover border-2"
           src={profileURL || "/home/no-character.png"}
           alt="no-character"

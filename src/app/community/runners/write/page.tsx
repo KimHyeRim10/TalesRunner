@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
+import DOMPurify from "dompurify";
 import { useRouter } from "next/navigation";
 import { getUser } from "@/utils/localStorage";
 import { useUser } from "@/context/UserContext";
@@ -15,8 +16,10 @@ export default function WritePage() {
   const [btitle, setTitle] = useState(""); // 제목
   const [bcontent, setContent] = useState(""); // 내용
   const [bid, setId] = useState("");
-
   const { levelURL, nicknameColor } = useUser();
+  //XSS 방어 변수
+  const sanitizedTitle = DOMPurify.sanitize(btitle);
+  const sanitizedContent = DOMPurify.sanitize(bcontent);
 
   // 수정인지 등록인지 구분
   const isEdit = Boolean(editBoardData.id);
@@ -52,6 +55,13 @@ export default function WritePage() {
       alert("제목과 내용을 모두 입력해 주세요.");
       return;
     }
+
+    //  XSS 필터링
+    if (sanitizedTitle !== btitle || sanitizedContent !== bcontent) {
+      alert("허용되지 않은 태그가 포함되어 있습니다.");
+      return;
+    }
+
     try {
       let response;
 
@@ -66,7 +76,6 @@ export default function WritePage() {
         });
       } else {
         // 등록 요청
-
         response = await axios.post("/api/board/newBoard", {
           nickname,
           title: btitle,

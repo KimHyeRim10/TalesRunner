@@ -1,5 +1,6 @@
 import { supabase } from "@/utils/supabaseClient";
 import type { NextApiRequest, NextApiResponse } from "next";
+import sanitizeHtml from "sanitize-html";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,13 +13,27 @@ export default async function handler(
 
   const { title, content, nickname, levelURL, nicknameColor } = req.body;
 
+  // XSS 방어: 제목 필터링 (HTML 태그 제거)
+  const sanitizedTitle = sanitizeHtml(title, {
+    allowedTags: [], // 제목에서는 모든 HTML 태그를 제거
+    allowedAttributes: {}, // 속성도 허용하지 않음
+  });
+
+  // XSS 방어: 내용 필터링 (허용된 태그만 남김)
+  const sanitizedContent = sanitizeHtml(content, {
+    allowedTags: ["b", "i", "em", "strong", "a"], // 허용할 태그
+    allowedAttributes: {
+      a: ["href"], // a 태그의 href 속성만 허용
+    },
+  });
+
   try {
     // Supabase에 데이터 삽입
     const { data, error } = await supabase.from("board").insert([
       {
         user_nickname: nickname,
-        title: title,
-        content: content,
+        title: sanitizedTitle,
+        content: sanitizedContent,
         user_level: levelURL,
         nickname_color: nicknameColor,
       },

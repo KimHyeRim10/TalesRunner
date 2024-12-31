@@ -1,5 +1,6 @@
 import { supabase } from "@/utils/supabaseClient";
 import type { NextApiRequest, NextApiResponse } from "next";
+import sanitizeHtml from "sanitize-html";
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,13 +20,21 @@ export default async function handler(
     nicknameColor,
   } = req.body;
 
+  // XSS 방어: 내용 필터링 (허용된 태그만 남김)
+  const sanitizedContent = sanitizeHtml(content, {
+    allowedTags: ["b", "i", "em", "strong", "a"], // 허용할 태그
+    allowedAttributes: {
+      a: ["href"], // a 태그의 href 속성만 허용
+    },
+  });
+
   try {
     const { data, error } = await supabase.from("reply").insert([
       {
         board_id: boardId,
         comment_id: commentId,
         user_nickname: nickname,
-        content: content,
+        content: sanitizedContent,
         profile: profileURL,
         user_level: levelURL,
         nickname_color: nicknameColor,
