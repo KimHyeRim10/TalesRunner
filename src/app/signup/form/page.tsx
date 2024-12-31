@@ -13,7 +13,6 @@ import {
 } from "@/utils/validate";
 import { useEffect } from "react";
 import axios from "axios";
-import { ChangeEvent } from "react";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -22,6 +21,7 @@ export default function SignupForm() {
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorNickNameMsg, setErrorNickNameMsg] = useState("");
   const [isNickNameChecked, setIsNickNameChecked] = useState(false);
   const [emailOtp, setEmailOtp] = useState("");
   const [isOtpChecked, setIsOtpChecked] = useState(false);
@@ -33,23 +33,33 @@ export default function SignupForm() {
     };
   }, []);
 
-  type InputRefs = Record<string, MutableRefObject<HTMLInputElement | null>>;
+  const userNameRef = useRef<HTMLInputElement>(null);
+  const userNickNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const userPassRef = useRef<HTMLInputElement>(null);
+  const userPassCheckRef = useRef<HTMLInputElement>(null);
 
-  const refs: InputRefs = {
-    userNameRef: useRef(null),
-    userNickNameRef: useRef(null),
-    emailRef: useRef(null),
-    userPassRef: useRef(null),
-    userPassCheckRef: useRef(null),
+  const refs = {
+    userNameRef,
+    userNickNameRef,
+    emailRef,
+    userPassRef,
+    userPassCheckRef,
   };
 
   /*  닉네임 길이 조건 체크와 자음,모음은 닉네임 사용 제한함 */
-  const handleNickNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleNickNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
     const isValid =
       /^[a-zA-Z0-9\uAC00-\uD7A3]*$/.test(nickname) && nickname.length >= 2;
     handleChange(e);
     setIsNickNameValid(isValid);
+
+    if (isValid) {
+      setErrorNickNameMsg("");
+    } else {
+      setErrorNickNameMsg("한글,영문 2자이상 가능");
+    }
   };
 
   /*   닉네임 중복 확인 */
@@ -169,7 +179,7 @@ export default function SignupForm() {
     if (!validateCheckForm(formData, refs)) {
       return;
     }
-    if (!passCheck(formData, refs)) {
+    if (!passCheck(formData)) {
       return;
     }
     if (!validateUserPass(formData, refs)) {
@@ -256,6 +266,14 @@ export default function SignupForm() {
                   중복 확인
                 </button>
               </div>
+            </li>
+
+            <li>
+              {errorNickNameMsg && (
+                <div>
+                  <p className="text-red-500">{errorNickNameMsg}</p>
+                </div>
+              )}
             </li>
 
             <li className="w-[384px] h-[76px] mt-3">
