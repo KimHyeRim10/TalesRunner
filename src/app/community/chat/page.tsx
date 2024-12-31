@@ -5,11 +5,6 @@ import { useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client";
 import Image from "next/image";
 
-// 소켓 설정
-const socket: Socket = io("http://localhost:3000", {
-  path: "/api/chat/socket",
-});
-
 type ChatMessage = {
   id: string;
   nickname: string;
@@ -23,11 +18,18 @@ export default function Chat() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
+  // 소켓 설정
+  const socket: Socket = io("http://localhost:3000", {
+    path: "/api/chat/socket",
+    query: { nickname: user?.nickname || "익명" },
+  });
+
   useEffect(() => {
     // 소켓 연결 확인
     socket.on("connect", () => {
       console.log("Socket connected to server");
     });
+
     socket.on("disconnect", () => {
       console.log("Socket disconnected from server");
     });
@@ -129,6 +131,7 @@ export default function Chat() {
                 <Image
                   width={50}
                   height={50}
+                  style={{ width: "50px", height: "50px" }}
                   className="rounded-full border border-[var(--border-color)]"
                   src={msg.profileURL || "/home/no-character.png"}
                   alt="profile"
@@ -153,6 +156,7 @@ export default function Chat() {
                 <Image
                   width={50}
                   height={50}
+                  style={{ width: "50px", height: "50px" }}
                   className="rounded-full border border-[var(--border-color)]"
                   src={msg.profileURL || "/home/no-character.png"}
                   alt="profile"
@@ -169,6 +173,11 @@ export default function Chat() {
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                sendMessage(); // 엔터 키를 누르면 메시지 전송
+              }
+            }}
             placeholder="내용을 입력하세요"
           />
           <button
