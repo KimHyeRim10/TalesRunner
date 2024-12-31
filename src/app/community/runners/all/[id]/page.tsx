@@ -315,6 +315,7 @@ export default function BoardDetailpage() {
               <Image
                 width={96}
                 height={96}
+                style={{ width: "96px", height: "96px" }}
                 className="rounded-full border-[#F2F4F7] object-cover border-4"
                 src={boardProfile || "/community/no-character.png"}
                 alt="no-character"

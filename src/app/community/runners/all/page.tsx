@@ -121,7 +121,12 @@ export default function Runners() {
             </div>
 
             <div className="flex items-center justify-between py-[8px] px-[12px] w-[269px] h-[46px] border border-[var(--border-color)] rounded-[8px]">
-              <input type="text" name="" placeholder="검색어를 입력하세요" />
+              <input
+                className="outline-none"
+                type="text"
+                name=""
+                placeholder="검색어를 입력하세요"
+              />
               <Image
                 width={16}
                 height={16}

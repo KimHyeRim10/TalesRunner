@@ -33,6 +33,13 @@ body {
   }
 }
 
+@layer base {
+  img {
+    width: auto;
+    height: auto;
+  }
+}
+
 /* 공통 스타일 */
 .flex-center {
   @apply flex justify-center items-center;
