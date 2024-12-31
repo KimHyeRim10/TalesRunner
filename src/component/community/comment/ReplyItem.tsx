@@ -39,6 +39,7 @@ export default function ReplyItem({ boardId, commentId }: Props) {
               <Image
                 width={51}
                 height={51}
+                style={{ width: "51px", height: "51px" }}
                 className="rounded-full border-[#F2F4F7] object-cover border-2"
                 src={reply.profile}
                 alt="no-character"

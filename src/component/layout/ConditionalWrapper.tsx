@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Header from "@/component/layout/Header";
 import Footer from "@/component/layout/Footer";
@@ -13,6 +14,27 @@ export default function ConditionalWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+
+  useEffect(() => {
+    const isExcluded =
+      pathname?.startsWith("/signup") ||
+      pathname?.startsWith("/login") ||
+      pathname?.startsWith("/withdraw");
+
+    const favicon = document.querySelector("link[rel='icon']");
+    if (isExcluded) {
+      document.title = "라온엔터테인먼트";
+      if (favicon) {
+        favicon.setAttribute("href", "/favicon2.ico");
+      }
+    } else {
+      document.title = "TalesRunner";
+      if (favicon) {
+        favicon.setAttribute("href", "/favicon.ico");
+      }
+    }
+  }, [pathname]);
+
   const isExcluded =
     pathname?.startsWith("/signup") ||
     pathname?.startsWith("/login") ||

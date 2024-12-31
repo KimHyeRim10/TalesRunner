@@ -79,7 +79,13 @@ export default function NavBar() {
     <div className="group relative flex-center max-w-[2560px] min-w-[1440px] mx-auto">
       <div className="w-[1280px] h-[80px] px-8 flex justify-between items-center">
         <a className="left-8" href="/">
-          <Image width={100} height={63} src="/header/tr-ci.svg" alt="TRlogo" />
+          <Image
+            width={100}
+            height={63}
+            style={{ width: "100px", height: "63px" }}
+            src="/header/tr-ci.svg"
+            alt="TRlogo"
+          />
         </a>
         <nav>
           <ul className="flex h-[80px] items-center">

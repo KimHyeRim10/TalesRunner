@@ -4,7 +4,8 @@ export default function GameStartButton() {
   return (
     <div className="relative group w-[190px] h-[80px] text-white flex items-center justify-center gap-y-1">
       <Image
-        layout="fill"
+        width={190}
+        height={80}
         priority
         className="w-full h-full object-cover"
         src="/home/file.svg"
@@ -35,8 +36,9 @@ export default function GameStartButton() {
         alt="light"
       />
       <Image
-        width={100}
+        width={130}
         height={108}
+        style={{ width: "130px", height: "108px" }}
         className="absolute start animate-start group-hover:hidden mix-blend-soft-light opacity-50"
         src="/home/big-light.svg"
         alt="big-light"

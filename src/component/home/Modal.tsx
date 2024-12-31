@@ -11,18 +11,19 @@ export default function Modal() {
     id: number;
     image: string;
     alt: string;
+    priority: boolean;
   }
 
   const modal: ModalType[] = [
-    { id: 1, image: "/home/m1.jpg", alt: "m1" },
-    { id: 2, image: "/home/m2.jpg", alt: "m2" },
-    { id: 3, image: "/home/m3.jpg", alt: "m3" },
-    { id: 4, image: "/home/m4.jpg", alt: "m4" },
-    { id: 5, image: "/home/m5.jpg", alt: "m5" },
-    { id: 6, image: "/home/m6.jpg", alt: "m6" },
-    { id: 7, image: "/home/m7.jpg", alt: "m7" },
-    { id: 8, image: "/home/m8.jpg", alt: "m8" },
-    { id: 9, image: "/home/m9.jpg", alt: "m9" },
+    { id: 1, image: "/home/m1.jpg", alt: "m1", priority: true },
+    { id: 2, image: "/home/m2.jpg", alt: "m2", priority: false },
+    { id: 3, image: "/home/m3.jpg", alt: "m3", priority: false },
+    { id: 4, image: "/home/m4.jpg", alt: "m4", priority: false },
+    { id: 5, image: "/home/m5.jpg", alt: "m5", priority: false },
+    { id: 6, image: "/home/m6.jpg", alt: "m6", priority: false },
+    { id: 7, image: "/home/m7.jpg", alt: "m7", priority: false },
+    { id: 8, image: "/home/m8.jpg", alt: "m8", priority: false },
+    { id: 9, image: "/home/m9.jpg", alt: "m9", priority: false },
   ];
 
   useEffect(() => {
@@ -62,6 +63,7 @@ export default function Modal() {
             height={400}
             src={modal[currentIndex].image}
             alt={modal[currentIndex].alt}
+            priority={modal[currentIndex].priority}
             className="absolute w-full h-full object-cover"
           />
 

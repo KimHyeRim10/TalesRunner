@@ -12,11 +12,12 @@ export default async function handler(
   const { boardId } = req.query;
 
   try {
-    // Supabase에서 댓글 데이터 가져오기
+    // Supabase에서 댓글 데이터 가져오기 (오래된 순 -> 최신 댓글 맨 아래)
     const { data, error } = await supabase
       .from("comments")
       .select("*")
-      .eq("board_id", boardId); // 최신순 정렬
+      .eq("board_id", boardId)
+      .order("created_at", { ascending: true }); // 오래된 순 정렬
 
     if (error) {
       throw new Error(error.message);

@@ -87,6 +87,7 @@ export default function HomeSection3() {
                 <Image
                   width={12}
                   height={29}
+                  style={{ width: "12px", height: "29px" }}
                   src={item.iconImage}
                   alt={item.iconAlt}
                 />

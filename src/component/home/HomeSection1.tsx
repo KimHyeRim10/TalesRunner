@@ -74,7 +74,7 @@ export default function HomeSection1() {
           </div>
 
           {/* 이벤트소식/업데이트소식 버튼 */}
-          <div className="flex justify-between">
+          <div className="flex justify-between w-[280px] h-[52px]">
             <Image
               width={138}
               height={52}
@@ -89,20 +89,24 @@ export default function HomeSection1() {
             />
           </div>
         </div>
+
         {/* section1 이미지 부분 */}
+
         <Image
           width={592}
           height={240}
+          style={{ width: "592px", height: "240px" }}
           src="/home/section1.png"
           alt="section1"
         />
+
         {/* 게임시작/로그인 */}
         <div className="w-[280px]">
           {/* 게임시작버튼 */}
           <div className="relative group w-[280px] h-[108px] text-white flex items-center justify-center gap-y-1">
             <Image
-              layout="fill"
-              objectFit="cover"
+              width={280}
+              height={108}
               className="w-full h-full object-cover"
               src="/home/file.svg"
               alt="게임시작버튼"
@@ -137,8 +141,9 @@ export default function HomeSection1() {
               alt="light"
             />
             <Image
-              width={100}
+              width={130}
               height={108}
+              style={{ width: "130px", height: "108px" }}
               className="absolute start animate-start  group-hover:hidden mix-blend-soft-light opacity-50"
               src="/home/big-light.svg"
               alt="big-light"

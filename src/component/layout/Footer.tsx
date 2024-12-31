@@ -78,7 +78,7 @@ export default function Footer() {
             <Image
               width={600}
               height={61}
-              className="red pointer-events-none"
+              className="pointer-events-none"
               src="/footer/grading-table.jpg"
               alt="grading-table"
             />

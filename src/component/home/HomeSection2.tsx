@@ -38,8 +38,17 @@ export default function HomeSection2() {
         </div>
         <div className="flex justify-between text-[14px] text-gray-700 font-[500] lending-[21px] text-ellipsis overflow-hidden line-clamp-2">
           {pierrotNewsList.map((item) => (
-            <div key={item.title} className="w-[280px] cursor-pointer">
-              <Image width={280} height={157} src={item.image} alt={item.alt} />
+            <div
+              key={item.title}
+              className="w-[280px] h-[232px] cursor-pointer"
+            >
+              <Image
+                width={280}
+                height={157}
+                style={{ width: "280px", height: "157px" }}
+                src={item.image}
+                alt={item.alt}
+              />
               <div className="h-[74px] w-[280px] p-[16px] border border-[var(--border-color)]">
                 {item.title}
               </div>

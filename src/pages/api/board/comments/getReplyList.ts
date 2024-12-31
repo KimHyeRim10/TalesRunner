@@ -15,7 +15,8 @@ export default async function handler(
     const { data, error } = await supabase
       .from("reply")
       .select("*")
-      .eq("board_id", boardId);
+      .eq("board_id", boardId)
+      .order("created_at", { ascending: true }); // 오래된 순 정렬
 
     if (error) {
       throw new Error(error.message);

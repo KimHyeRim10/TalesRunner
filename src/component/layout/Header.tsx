@@ -42,6 +42,7 @@ export default function Header() {
           <Image
             width={130}
             height={20}
+            style={{ width: "130px", height: "20px" }}
             className="ml-[140px]"
             src="/header/rhaon-ci.png"
             alt="logo"
@@ -55,6 +56,7 @@ export default function Header() {
             <Image
               width={33}
               height={33}
+              style={{ width: "33px", height: "33px" }}
               className="rounded-full border border-[var(--border-color)] mr-[10px]"
               src={profileURL || "/home/no-character.png"}
               alt="profile"
