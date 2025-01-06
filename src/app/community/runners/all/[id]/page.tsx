@@ -138,7 +138,7 @@ export default function BoardDetailpage() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className="loader"></div>;
 
   return (
     <div className="w-[1280px] h-auto px-8 mb-[200px]">
