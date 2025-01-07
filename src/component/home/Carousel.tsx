@@ -5,6 +5,7 @@ import Image from "next/image";
 import GridIcon from "@/icons/home/GridIcon";
 
 export default function HomeCarousel() {
+  const [isClient, setIsClient] = useState(false); // 클라이언트 체크 상태 추가
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   interface SlidesType {
@@ -87,15 +88,23 @@ export default function HomeCarousel() {
     { id: 15, image: "/home/c15.jpg", alt: "c15", title: "복귀 런너 지원 " },
   ];
 
+  // 클라이언트 로드 후 상태 설정
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === slides.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 5000);
-
-    return () => clearInterval(interval);
+    setIsClient(true);
   }, []);
+
+  // 클라이언트가 로드된 후에만 setInterval 실행
+  useEffect(() => {
+    if (isClient) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) =>
+          prevIndex === slides.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 5000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isClient]);
 
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) =>
@@ -108,6 +117,8 @@ export default function HomeCarousel() {
       prevIndex === slides.length - 1 ? 0 : prevIndex + 1
     );
   };
+
+  if (!isClient) return null;
 
   return (
     <>

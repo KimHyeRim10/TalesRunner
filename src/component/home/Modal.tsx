@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 
 export default function Modal() {
+  const [isClient, setIsClient] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -27,7 +28,9 @@ export default function Modal() {
   ];
 
   useEffect(() => {
+    setIsClient(true);
     setIsOpen(true);
+    setCurrentIndex(0);
   }, []);
 
   const closeModal = () => setIsOpen(false);
@@ -51,7 +54,7 @@ export default function Modal() {
     return () => clearInterval(interval);
   }, [modal.length]);
 
-  if (!isOpen) return null;
+  if (!isClient || !isOpen) return null;
 
   return (
     <div className="relative overlay">
