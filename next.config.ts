@@ -2,7 +2,13 @@
 const nextConfig: import("next").NextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["rzfjmamvpuuxuvsrwbzh.supabase.co"],
+    /*  domains: ["rzfjmamvpuuxuvsrwbzh.supabase.co"], */
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "rzfjmamvpuuxuvsrwbzh.supabase.co",
+      },
+    ],
   },
   async redirects() {
     return [
