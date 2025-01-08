@@ -78,10 +78,11 @@ export default function Chat() {
         </div>
 
         <div className="flex-center mt-[70px]">
-          <h1 className="text-[50px] font-[700] mr-[10px]">Runners Talk</h1>
+          <h1 className="text-[50px] font-[700] mr-[10px]">런너 Talk</h1>
           <Image
             width={50}
             height={50}
+            style={{ width: "50px", height: "50px" }}
             src="/uploads/v1/level/lv_51.png"
             alt="level"
           />
@@ -107,15 +108,6 @@ export default function Chat() {
               })}
             </div>
           </div>
-
-          {/*     <div className="flex-center">
-            {enterMessages.map((msg, index) => (
-              <div key={index} className="text-blue-500 text-sm">
-                {msg}
-                <br />
-              </div>
-            ))}
-          </div> */}
 
           {messages.map((msg) => (
             <div
