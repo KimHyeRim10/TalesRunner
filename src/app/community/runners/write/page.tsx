@@ -11,6 +11,7 @@ import ToolbarButton from "@/component/community/ToolbarButton";
 
 export default function WritePage() {
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDropdown, setIsDropdown] = useState(false);
   const [editBoardData, setEditBoardData] = useState<any>({});
   const [btitle, setTitle] = useState(""); // 제목
@@ -18,11 +19,27 @@ export default function WritePage() {
   const [bid, setId] = useState("");
   const { levelURL, nicknameColor } = useUser();
   //XSS 방어 변수
-  const sanitizedTitle = DOMPurify.sanitize(btitle);
-  const sanitizedContent = DOMPurify.sanitize(bcontent);
+  const sanitizedTitle =
+    typeof window !== "undefined" ? DOMPurify.sanitize(btitle) : btitle;
+  const sanitizedContent =
+    typeof window !== "undefined" ? DOMPurify.sanitize(bcontent) : bcontent;
+  const userInfo = getUser();
 
   // 수정인지 등록인지 구분
   const isEdit = Boolean(editBoardData.id);
+
+  // URL 다이렉트 접근 방지
+  useEffect(() => {
+    // 로그인 상태 확인
+    if (userInfo) {
+      setIsLoggedIn(true);
+    } else {
+      alert(
+        "로그인 후 글쓰기를 이용하실 수 있습니다. 로그인 페이지로 이동합니다."
+      );
+      router.push("/login");
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     // 클라이언트에서만 실행되도록 보장
