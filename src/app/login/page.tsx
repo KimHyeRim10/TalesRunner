@@ -100,6 +100,7 @@ export default function Login() {
       setCaptchaToken(null); // CAPTCHA 토큰 초기화
       resetCaptcha();
       alert("아이디 또는 비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
+      console.log(error);
     }
   };
 

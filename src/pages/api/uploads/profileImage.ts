@@ -29,9 +29,8 @@ export default async function handler(
     }
 
     // Supabase Storage에 업로드
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from("profile-images")
-      .upload(fileName, buffer, {
+    const { /* data: uploadData, */ error: uploadError } =
+      await supabase.storage.from("profile-images").upload(fileName, buffer, {
         contentType: "image/png",
         upsert: true,
       });

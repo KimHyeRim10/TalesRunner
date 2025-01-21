@@ -118,7 +118,7 @@ export const CommentProvider = ({ children }: { children: ReactNode }) => {
         alert("댓글이 삭제되었습니다");
       }
     } catch (error) {
-      console.log("댓글이 삭제되었습니다");
+      console.log("댓글이 삭제되었습니다", error);
     }
   };
 

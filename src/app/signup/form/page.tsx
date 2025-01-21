@@ -169,7 +169,7 @@ export default function SignupForm() {
         setErrorMessage("다른 이메일을 입력해 주세요");
         setIsEmailValid(false);
       }
-    } catch (error: any) {
+    } catch (error) {
       setErrorMessage(error.response?.data?.message || "오류가 발생했습니다.");
     }
   };
@@ -203,7 +203,7 @@ export default function SignupForm() {
         alert("회원가입 성공!");
         router.push("/signup/complete");
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error(error.response?.data?.error || error.message);
       alert("회원가입에 실패했습니다.");
     }

@@ -15,7 +15,14 @@ export default async function handler(
       });
     }
 
-    const updateData: Record<string, any> = {};
+    type UpdateData = {
+      title?: string;
+      content?: string;
+      user_level?: string;
+      nickname_color?: string;
+    };
+
+    const updateData: UpdateData = {};
     if (title !== undefined) updateData.title = title;
     if (content !== undefined) updateData.content = content;
     if (levelURL !== undefined) updateData.user_level = levelURL;

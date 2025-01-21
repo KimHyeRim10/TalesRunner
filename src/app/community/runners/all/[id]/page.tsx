@@ -55,7 +55,7 @@ export default function BoardDetailpage() {
         });
         /*     console.log("조회수 업데이트 성공:", response.data); */
       } catch (error) {
-        console.log("조회수 업데이트 실패");
+        console.log("조회수 업데이트 실패", error);
       }
     };
     updateViewCount();

@@ -52,7 +52,7 @@ export default function LevelImageModal({
       const userInfo: UserInfo | null = getUser();
       const nickname = userInfo?.nickname;
 
-      const response = await axios.post("/api/uploads/levelImage", {
+      await axios.post("/api/uploads/levelImage", {
         levelImage,
         nickname,
       });
@@ -60,7 +60,7 @@ export default function LevelImageModal({
       alert("레벨 이미지가 변경되었습니다!");
       refreshUserData(); // UserProvider 상태 즉시 업데이트
       onLevelModalClose();
-    } catch (error: any) {
+    } catch (error) {
       console.log("레벨 이미지 저장 실패:", error);
     }
   };

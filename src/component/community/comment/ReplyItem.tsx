@@ -32,7 +32,7 @@ export default function ReplyItem({ boardId, commentId }: Props) {
 
   return (
     <>
-      {filteredReplies.map((reply: any) => (
+      {filteredReplies.map((reply) => (
         <React.Fragment key={reply.id}>
           <div className="flex gap-3 w-[1216px] min-h-[169px] mx-auto  px-8 py-6 pl-[96px]">
             <div>

@@ -42,7 +42,7 @@ export default async function handler(
       message: "레벨 이미지가 성공적으로 저장되었습니다.",
       levelImageUrl: levelImageUrl,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return res.status(500).json({
       error: "서버 오류가 발생했습니다.",
       details: (err as Error).message,
