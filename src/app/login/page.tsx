@@ -14,7 +14,9 @@ import { useUser } from "@/context/UserContext";
 type InputRefs = Record<string, MutableRefObject<HTMLInputElement | null>>;
 
 export default function Login() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  console.log("apiUrl", apiUrl);
+
   const { formData, handleChange, clearFormData } = useForm();
   const router = useRouter();
   const { refreshUserData } = useUser();
