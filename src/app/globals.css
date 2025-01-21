@@ -276,7 +276,7 @@ body {
   font-weight: 600;
   font-size: 20px;
   animation-name: animatingtext;
-  animation-duration: 120ms;
+  animation-duration: 1000ms;
   animation-iteration-count: infinite;
 }
 
