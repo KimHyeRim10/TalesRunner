@@ -27,8 +27,10 @@ export default async function handler(
     }
 
     res.status(200).json({ success: true, data });
-  } catch (err: any) {
-    console.error({ err: err.message });
-    return res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    console.error({ err: (err as Error).message || "Unknown error" });
+    return res
+      .status(500)
+      .json({ error: (err as Error).message || "An unknown error occurred" });
   }
 }

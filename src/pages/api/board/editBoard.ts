@@ -49,8 +49,9 @@ export default async function handler(
         message: "게시글이 성공적으로 수정되었습니다.",
         data,
       });
-    } catch (err: any) {
-      console.error("서버 오류:", err);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "알 수 없는 오류";
+      console.error("서버 오류:", message);
       return res.status(500).json({
         success: false,
         message: "서버 내부 오류가 발생했습니다.",

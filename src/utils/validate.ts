@@ -41,7 +41,7 @@ export const validateCheckTerms = (
 export const validateCheckForm = (
   formData: FormData,
   refs: FormRefs
-): Boolean => {
+): boolean => {
   let checkFlag = true;
 
   if (!formData.userName) {
@@ -69,7 +69,7 @@ export const validateCheckForm = (
   return checkFlag;
 };
 
-export const passCheck = (formData: FormData /* refs: FormRefs */): Boolean => {
+export const passCheck = (formData: FormData /* refs: FormRefs */): boolean => {
   /*  const pass = refs.userPassRef.current;
   const passCheck = refs.userPassCheckRef.current; */
 
@@ -86,7 +86,7 @@ export const passCheck = (formData: FormData /* refs: FormRefs */): Boolean => {
 export const validateUserPass = (
   formData: FormData,
   refs: FormRefs
-): Boolean => {
+): boolean => {
   const passRegEx =
     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{8,16}$/;
   if (!formData.userPass || !passRegEx.test(formData.userPass)) {

@@ -78,7 +78,7 @@ export default function NavBar() {
   return (
     <div className="group relative flex-center max-w-[2560px] min-w-[1440px] mx-auto">
       <div className="w-[1280px] h-[80px] px-8 flex justify-between items-center">
-        <a className="left-8" href="/">
+        <Link className="left-8" href="/">
           <Image
             width={100}
             height={63}
@@ -86,7 +86,7 @@ export default function NavBar() {
             src="/header/tr-ci.svg"
             alt="TRlogo"
           />
-        </a>
+        </Link>
         <nav>
           <ul className="flex h-[80px] items-center">
             <li className="flex-center w-[150px] leading-10 font-[600] text-lg hover:text-green-600 text-gray-900 hover:underline underline-offset-[31px] decoration-green-600 decoration-[3px]">

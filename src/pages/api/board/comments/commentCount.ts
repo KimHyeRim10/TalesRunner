@@ -39,9 +39,12 @@ export default async function handler(
       }
 
       res.status(200).json({ totalComments });
-    } catch (error: any) {
-      console.error("Error in API handler:", error);
-      res.status(500).json({ error: error.message });
+    } catch (error: unknown) {
+      const message =
+        (error as Error).message ||
+        "An unknown error occurred in the API handler.";
+      console.error("Error in API handler:", message);
+      res.status(500).json({ error: message });
     }
   }
 }

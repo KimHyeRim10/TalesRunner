@@ -44,8 +44,9 @@ export default async function handler(
     }
 
     return res.status(200).json({ success: true, data });
-  } catch (err: any) {
-    console.error("게시판 저장 실패:", err.message);
-    return res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    const message = (err as Error).message || "An unknown error occurred";
+    console.error("게시판 저장 실패:", message);
+    return res.status(500).json({ error: message });
   }
 }

@@ -20,8 +20,12 @@ export default async function handler(
     }
 
     return res.status(200).json({ success: true, boardList: data });
-  } catch (err: any) {
-    console.error("게시판 목록 가져오기 실패:", err.message);
-    return res.status(500).json({ success: false, error: err.message });
+  } catch (err: unknown) {
+    const message = (err as Error).message || "An unknown error occurred";
+    console.error("게시판 목록 가져오기 실패:", message);
+    return res.status(500).json({
+      success: false,
+      error: message,
+    });
   }
 }

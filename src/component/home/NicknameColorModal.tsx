@@ -49,8 +49,11 @@ export default function NicknameColorModal({
       alert("닉네임 색상이 변경되었습니다!");
       refreshUserData(); // UserProvider 상태 즉시 업데이트
       onNicknameModalClose();
-    } catch (error: any) {
-      console.log("닉네임 컬러 저장 실패:", error);
+    } catch (error: unknown) {
+      const message =
+        (error as Error).message ||
+        "닉네임 컬러 저장 중 알 수 없는 오류가 발생했습니다.";
+      console.log("닉네임 컬러 저장 실패:", message);
     }
   };
 

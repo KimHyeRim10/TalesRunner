@@ -23,8 +23,9 @@ export default async function handler(
     }
 
     return res.status(200).json(data);
-  } catch (err: any) {
-    console.error("Error fetching profile data:", err.message);
-    return res.status(500).json({ error: "Internal server error" });
+  } catch (err: unknown) {
+    const message = (err as Error).message || "Internal server error";
+    console.error("Error fetching profile data:", message);
+    return res.status(500).json({ error: message });
   }
 }

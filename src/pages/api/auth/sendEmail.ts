@@ -59,8 +59,10 @@ export default async function handler(
       return res
         .status(200)
         .json({ success: true, message: "OTP가 이메일로 발송되었습니다." });
-    } catch (error: any) {
-      return res.status(500).json({ success: false, message: error.message });
+    } catch (error: unknown) {
+      const message =
+        (error as Error).message || "알 수 없는 서버 오류가 발생했습니다.";
+      return res.status(500).json({ success: false, message });
     }
   }
 }

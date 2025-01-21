@@ -30,8 +30,10 @@ export default async function handler(
     const levelURL = data?.level || "/uploads/v1/level/lv_03.png";
 
     res.status(200).json({ levelURL });
-  } catch (err: any) {
-    console.error("서버 에러:", err.message);
-    return res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    console.error({ err: (err as Error).message || "Unknown error" });
+    return res
+      .status(500)
+      .json({ error: (err as Error).message || "An unknown error occurred" });
   }
 }

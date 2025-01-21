@@ -30,8 +30,10 @@ export default async function handler(
     const profileURL = data?.profile || "/home/no-character.png";
 
     res.status(200).json({ profileURL });
-  } catch (err: any) {
-    console.error("서버 에러:", err.message);
-    return res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    console.error({ err: (err as Error).message || "Unknown error" });
+    return res
+      .status(500)
+      .json({ error: (err as Error).message || "An unknown error occurred" });
   }
 }

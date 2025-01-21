@@ -34,9 +34,12 @@ export default async function handler(
         message: "조회수 업데이트 성공",
         newViewCount: board.views + 1,
       });
-    } catch (error: any) {
-      console.error(error);
-      res.status(500).json({ error: error.message });
+    } catch (err: unknown) {
+      const message =
+        (err as Error).message ||
+        "조회수 업데이트 중 알 수 없는 오류가 발생했습니다.";
+      console.error("조회수 업데이트 실패:", message);
+      return res.status(500).json({ error: message });
     }
   }
 }

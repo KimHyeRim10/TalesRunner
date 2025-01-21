@@ -32,8 +32,10 @@ export default async function handler(
     }
 
     return res.status(200).json({ message: "회원가입 성공", data });
-  } catch (err: any) {
-    console.error("회원가입 실패:", err.message);
-    return res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    const message =
+      (err as Error).message || "회원가입 중 알 수 없는 오류가 발생했습니다.";
+    console.error("회원가입 실패:", message);
+    return res.status(500).json({ error: message });
   }
 }

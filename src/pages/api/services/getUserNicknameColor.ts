@@ -31,8 +31,10 @@ export default async function handler(
     const nicknameColor = data?.nickname_color || "#FFA500";
 
     res.status(200).json({ nicknameColor });
-  } catch (err: any) {
-    console.error("서버 에러:", err.message);
-    return res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    console.error({ err: (err as Error).message || "Unknown error" });
+    return res
+      .status(500)
+      .json({ error: (err as Error).message || "An unknown error occurred" });
   }
 }
