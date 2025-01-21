@@ -12,6 +12,17 @@ import ReplyItem from "./ReplyItem";
 import ReplyInput from "./ReplyInput";
 import CommentLikeIcon from "@/icons/community/CommentLikeIcon";
 
+/* interface CommentList {
+  board_id: number;
+  content: string;
+  created_at: string;
+  id: number;
+  nickname_color: string;
+  profile: string;
+  user_level: string;
+  user_nickname: string;
+} */
+
 type Props = {
   id: string;
 };
@@ -37,7 +48,7 @@ export default function CommentItem({ id }: Props) {
 
   return (
     <>
-      {commentList.map((comment: any) => (
+      {commentList.map((comment) => (
         <React.Fragment key={comment.id}>
           <div className="flex gap-2 w-[1216px] min-h-[169px] mx-auto px-[24px] py-[32px]">
             <div>

@@ -11,6 +11,19 @@ import { formatCreatedAt } from "@/utils/formatCreatedAt";
 import BoardNotice from "@/component/community/BoardNotice";
 import CheckIcon from "@/icons/community/CheckIcon";
 
+interface Board {
+  comment_count: number | null;
+  content: string;
+  created_at: string;
+  id: number;
+  like: number | null;
+  nickname_color: string;
+  title: string;
+  user_level: string;
+  user_nickname: string;
+  views: number;
+}
+
 export default function Runners() {
   const router = useRouter();
   const [isTitleDropdown, setIsTitleDropdown] = useState(false);
@@ -18,7 +31,7 @@ export default function Runners() {
     null
   );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [boardList, setBoardList] = useState([]);
+  const [boardList, setBoardList] = useState<Board[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   const itemsPerPage = 15; // 페이지당 보여줄 항목 수
@@ -182,7 +195,7 @@ export default function Runners() {
             </colgroup>
             <tbody>
               {/* 게시판 제목 리스트 */}
-              {currentItems.map((board: any) => (
+              {currentItems.map((board: Board) => (
                 <tr
                   key={board.id}
                   className="h-[72px] border-b border-[var(--border-color)]"
@@ -199,7 +212,8 @@ export default function Runners() {
                           </p>
                           &nbsp;
                           <p className="text-green-700">
-                            {board.comment_count > 0
+                            {board.comment_count !== null &&
+                            board.comment_count > 0
                               ? `[${board.comment_count}]`
                               : ""}
                           </p>

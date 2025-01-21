@@ -25,8 +25,8 @@ export default function Login() {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const refs: InputRefs = {
-    emailRef: useRef(null),
-    userPassRef: useRef(null),
+    emailRef: useRef<HTMLInputElement | null>(null),
+    userPassRef: useRef<HTMLInputElement | null>(null),
   };
 
   useEffect(() => {

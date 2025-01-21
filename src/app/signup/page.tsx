@@ -49,7 +49,7 @@ export default function Signup() {
             className="text-[14px] font-bold text-[#475467] leading-[21px] underline underline-offset-4 mx-auto"
             href="#"
           >
-            '간편 로그인(SNS) 가입' 유의사항 안내
+            &apos;간편 로그인(SNS) 가입&apos; 유의사항 안내
           </a>
         </div>
       </div>

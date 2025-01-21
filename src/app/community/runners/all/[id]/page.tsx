@@ -18,11 +18,24 @@ import Runners from "../page";
 import { useComment } from "@/context/CommentContext";
 import Image from "next/image";
 
+interface BoardDataItem {
+  comment_count: number | null;
+  content: string;
+  created_at: string;
+  id: number;
+  like: number | null;
+  nickname_color: string;
+  title: string;
+  user_level: string;
+  user_nickname: string;
+  views: number;
+}
+
 export default function BoardDetailpage() {
   const { id } = useParams() as { id: string }; // 반환 값을 { id: string }으로 단언
   const router = useRouter();
   const userInfo: UserInfo | null = getUser();
-  const [boardData, setBoardData] = useState<any>(null);
+  const [boardData, setBoardData] = useState<BoardDataItem[] | null>(null);
   const [boardProfile, setBoardProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false); //글쓰기 페이지로 가기위한 로그인됨 체크
@@ -37,7 +50,7 @@ export default function BoardDetailpage() {
     /* 조회수 업데이트 api*/
     const updateViewCount = async () => {
       try {
-        const response = await axios.post("/api/board/updateView", {
+        await axios.post("/api/board/updateView", {
           boardId: id,
         });
         /*     console.log("조회수 업데이트 성공:", response.data); */
@@ -112,12 +125,17 @@ export default function BoardDetailpage() {
   };
 
   const handleEditBoard = () => {
+    if (!boardData || boardData.length === 0) {
+      console.error("boardData가 비어 있습니다.");
+      return;
+    }
+
     const boardDataToEdit = {
-      id: boardData[0]?.id,
-      title: boardData[0]?.title,
-      content: boardData[0]?.content,
-      user_level: boardData[0]?.user_level || "/uploads/v1/level/lv_03.png",
-      nickname_color: boardData[0]?.nickname_color || "#FFA500",
+      id: boardData[0].id,
+      title: boardData[0].title,
+      content: boardData[0].content,
+      user_level: boardData[0].user_level || "/uploads/v1/level/lv_03.png",
+      nickname_color: boardData[0].nickname_color || "#FFA500",
     };
     localStorage.setItem("editBoardData", JSON.stringify(boardDataToEdit));
     router.push("/community/runners/write");
@@ -178,7 +196,7 @@ export default function BoardDetailpage() {
             자유
           </div>
           <div className="text-[24px] font-bold overflow-hidden text-gray-700 leading-9 text-ellipsis">
-            {boardData[0]?.title}
+            {boardData?.[0]?.title}
           </div>
         </div>
         {/* 작성자 닉네임 */}
@@ -188,17 +206,21 @@ export default function BoardDetailpage() {
               <Image
                 width={20}
                 height={20}
-                src={boardData[0]?.user_level || "/uploads/v1/level/lv_03.png"}
+                src={
+                  boardData?.[0]?.user_level || "/uploads/v1/level/lv_03.png"
+                }
                 alt="level-image"
               />
               <span
-                style={{ color: boardData[0]?.nickname_color || "#FFA500" }}
+                style={{ color: boardData?.[0]?.nickname_color || "#FFA500" }}
               >
-                {boardData[0]?.user_nickname}
+                {boardData?.[0]?.user_nickname}
               </span>
             </span>
             <span className="text-[14px] font-[400] text-gray-400">
-              {formatDateTime(boardData[0]?.created_at)}
+              {boardData?.[0]?.created_at
+                ? formatDateTime(boardData[0]?.created_at)
+                : "날짜 정보 없음"}
             </span>
           </div>
           <div className="flex items-center gap-[50px]">
@@ -221,7 +243,7 @@ export default function BoardDetailpage() {
                   src="/community/ico-eye-18.svg"
                   alt="ico-eye"
                 />
-                {boardData[0]?.views ?? 0}
+                {boardData?.[0]?.views ?? 0}
               </span>
               <span className="flex gap-x-1 text-gray-400">
                 <Image
@@ -236,7 +258,7 @@ export default function BoardDetailpage() {
             </div>
             <div className="flex items-center gap-4">
               {/* 작성자 */}
-              {boardData[0]?.user_nickname === userInfo?.nickname ? (
+              {boardData?.[0]?.user_nickname === userInfo?.nickname ? (
                 <>
                   <button className="w-[44px] h-[44px] flex-center rounded-lg border border-gray-300 hover:border-[#D0D5DD] ">
                     <Image
@@ -295,7 +317,7 @@ export default function BoardDetailpage() {
 
         {/* 게시판 내용 */}
         <div className="w-[1216px] h-auto px-[32px] pt-[50px]">
-          {boardData[0]?.content}
+          {boardData?.[0]?.content}
         </div>
 
         {/* 게시판 좋아요 부분 */}
@@ -325,14 +347,14 @@ export default function BoardDetailpage() {
                   width={20}
                   height={20}
                   src={
-                    boardData[0]?.user_level || "/uploads/v1/level/lv_03.png"
+                    boardData?.[0]?.user_level || "/uploads/v1/level/lv_03.png"
                   }
                   alt="lv_67.png"
                 />
                 <span
-                  style={{ color: boardData[0]?.nickname_color || "#FFA500" }}
+                  style={{ color: boardData?.[0]?.nickname_color || "#FFA500" }}
                 >
-                  {boardData[0]?.user_nickname}
+                  {boardData?.[0]?.user_nickname}
                 </span>
                 <span className="flex-center gap-1 w-[63px] h-[30px] text-[#0C6812] border border-[#0C6812] text-[11px] px-[10px] rounded-[8px]">
                   <Image
@@ -347,7 +369,7 @@ export default function BoardDetailpage() {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              {boardData[0]?.user_nickname === userInfo?.nickname ? (
+              {boardData?.[0]?.user_nickname === userInfo?.nickname ? (
                 <>
                   <button className="flex-center w-[117px] h-[37px] font-bold text-[12px] bg-white text-[#344054] border border-[var(--border-color)] rounded-[8px]">
                     <Image

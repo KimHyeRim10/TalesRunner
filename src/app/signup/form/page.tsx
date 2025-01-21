@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "@/context/FormContext";
-import { useState, useRef, MutableRefObject } from "react";
+import { useState, useRef /* MutableRefObject  */ } from "react";
 import ToolTip from "@/component/signup/ToolTip";
 import {
   validateCheckForm,

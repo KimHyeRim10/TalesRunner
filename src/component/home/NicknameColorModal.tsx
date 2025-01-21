@@ -41,7 +41,7 @@ export default function NicknameColorModal({
       const userInfo: UserInfo | null = getUser();
       const nickname = userInfo?.nickname;
 
-      const response = await axios.post("/api/uploads/nicknameColor", {
+      await axios.post("/api/uploads/nicknameColor", {
         nicknameColor,
         nickname,
       });

@@ -9,11 +9,18 @@ import { getUser } from "@/utils/localStorage";
 import { useUser } from "@/context/UserContext";
 import ToolbarButton from "@/component/community/ToolbarButton";
 
+interface EditBoardData {
+  id?: string;
+  title?: string;
+  content?: string;
+  nickname_color?: string;
+  user_level?: string;
+}
+
 export default function WritePage() {
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDropdown, setIsDropdown] = useState(false);
-  const [editBoardData, setEditBoardData] = useState<any>({});
+  const [editBoardData, setEditBoardData] = useState<EditBoardData>({});
   const [btitle, setTitle] = useState(""); // 제목
   const [bcontent, setContent] = useState(""); // 내용
   const [bid, setId] = useState("");
@@ -31,9 +38,7 @@ export default function WritePage() {
   // URL 다이렉트 접근 방지
   useEffect(() => {
     // 로그인 상태 확인
-    if (userInfo) {
-      setIsLoggedIn(true);
-    } else {
+    if (!userInfo) {
       alert(
         "로그인 후 글쓰기를 이용하실 수 있습니다. 로그인 페이지로 이동합니다."
       );
