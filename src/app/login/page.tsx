@@ -14,9 +14,6 @@ import { useUser } from "@/context/UserContext";
 type InputRefs = Record<string, MutableRefObject<HTMLInputElement | null>>;
 
 export default function Login() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  console.log("apiUrl", apiUrl);
-
   const { formData, handleChange, clearFormData } = useForm();
   const router = useRouter();
   const { refreshUserData } = useUser();
@@ -60,7 +57,7 @@ export default function Login() {
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/api/auth/login`, {
+      const response = await axios.post("/api/auth/login", {
         email: formData.email,
         password: formData.userPass,
         captchaToken: failedAttempts >= 3 ? captchaToken : undefined, // CAPTCHA 토큰 전송
