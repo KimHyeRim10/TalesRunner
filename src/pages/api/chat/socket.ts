@@ -18,7 +18,10 @@ export default function handler(req: NextApiRequest, res: ExtendedResponse) {
     io = new IOServer(res.socket.server, {
       path: "/api/chat/socket",
       cors: {
-        origin: "http://localhost:3000", // 클라이언트 URL
+        origin: [
+          "http://localhost:3000", // 클라이언트 URL
+          "https://talesrunner-1220.vercel.app",
+        ],
         methods: ["GET", "POST"],
       },
     });
