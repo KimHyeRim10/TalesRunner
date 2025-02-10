@@ -19,7 +19,18 @@ export default function Chat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   // 소켓 설정
-  const socket: Socket = io("http://localhost:3000", {
+  /*   const socket: Socket = io("http://localhost:3000", {
+    path: "/api/chat/socket",
+    query: { nickname: user?.nickname || "익명" },
+  }); */
+
+  const SOCKET_URL =
+    typeof window !== "undefined" &&
+    window.location.origin.includes("talesrunner-1220.vercel.app")
+      ? "https://talesrunner-1220.vercel.app"
+      : "http://localhost:3000";
+
+  const socket: Socket = io(SOCKET_URL, {
     path: "/api/chat/socket",
     query: { nickname: user?.nickname || "익명" },
   });
