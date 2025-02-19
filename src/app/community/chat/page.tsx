@@ -24,14 +24,28 @@ export default function Chat() {
     query: { nickname: user?.nickname || "익명" },
   }); */
 
-  const SOCKET_URL =
+  /* 
+   const SOCKET_URL =
     typeof window !== "undefined" &&
     window.location.origin.includes("talesrunner-1220.vercel.app")
-      ? "https://talesrunner-1220.vercel.app"
-      : "http://localhost:3000";
+      ? "wss://talesrunner-1220.vercel.app"
+      : "ws://localhost:3000";
 
   const socket: Socket = io(SOCKET_URL, {
     path: "/api/chat/socket",
+    query: { nickname: user?.nickname || "익명" },
+  });
+   */
+
+  const SOCKET_URL =
+    typeof window !== "undefined" &&
+    window.location.origin.includes("talesrunner-1220.vercel.app")
+      ? "wss://talesrunner-be.up.railway.app"
+      : "ws://localhost:3001";
+
+  const socket: Socket = io(SOCKET_URL, {
+    withCredentials: true,
+    transports: ["websocket"], // 웹소켓만 사용 (polling 방지)
     query: { nickname: user?.nickname || "익명" },
   });
 
