@@ -40,7 +40,13 @@ export default function SocialLogin() {
           className={`flex-center w-[48px] h-[48px] border border-[var(--border-color)] rounded-[100px]`}
           style={{ background: item.background }}
         >
-          <Image width={20} height={20} src={item.image} alt={item.alt} />
+          <Image
+            width={20}
+            height={20}
+            src={item.image}
+            alt={item.alt}
+            style={{ width: "20px", height: "20px" }}
+          />
         </div>
       ))}
     </div>

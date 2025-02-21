@@ -111,6 +111,7 @@ export default function Login() {
           <Image
             width={214}
             height={40}
+            style={{ width: "214px", height: "40px" }}
             className="mx-auto"
             src="/header/rhaon-ci.png"
             alt="logo"
