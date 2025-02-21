@@ -41,7 +41,7 @@ export default function Chat() {
     typeof window !== "undefined" &&
     window.location.origin.includes("talesrunner-1220.vercel.app")
       ? "wss://talesrunner-be.up.railway.app"
-      : "ws://localhost:3001";
+      : "ws://localhost:3000";
 
   const socket: Socket = io(SOCKET_URL, {
     withCredentials: true,
