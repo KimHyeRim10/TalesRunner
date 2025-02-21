@@ -197,6 +197,7 @@ export default function Login() {
               <Image
                 width={14}
                 height={14}
+                className="w-[14px] h-[14px]"
                 src="/login/ico-chevron-right-20.svg"
                 alt="chevron-right-20"
               />
