@@ -146,7 +146,9 @@ export default function Login() {
               className="w-[16px] h-[16px] border border-[#D0D5DD] rounded-[8px]"
               type="checkbox"
             />
-            <span className="text-[14px] text-[#667085]">로그인 유지</span>
+            <span className="text-[14px] text-[#667085] relative top-[1px]">
+              로그인 유지
+            </span>
           </div>
 
           {failedAttempts >= 3 && (
