@@ -34,7 +34,7 @@ const nextConfig: import("next").NextConfig = {
           {
             key: "Access-Control-Allow-Origin",
             value:
-              "https://talesrunner-1220.vercel.app, https://talesrunner-be.up.railway.app",
+              "https://talesrunner-1220.vercel.app, https://talesrunner-be-production.up.railway.app",
           },
           {
             key: "Access-Control-Allow-Methods",
