@@ -25,6 +25,7 @@ export default function Chat() {
   }); */
 
   /* 
+  // 로컬 환경 테스트
    const SOCKET_URL =
     typeof window !== "undefined" &&
     window.location.origin.includes("talesrunner-1220.vercel.app")
