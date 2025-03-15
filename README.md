@@ -1,8 +1,9 @@
 # 테일즈런너 🏃‍♂️🏃‍♀️
 
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/741575ea-5d06-419f-8cdc-3f149c39914e" alt="baskin_robbins_logo" width="500">
+    <img src="https://github.com/user-attachments/assets/da9aeba2-d76d-46b3-ba7c-0bd30bde7bc2" alt="Image" width="500">
 </p>
+
 
 ## 주제 선정
 Next.js의 실무적인 활용법을 익히기 위해, 어린 시절 즐겨 했던 게임의 홈페이지를 직접 리뉴얼해 보았습니다.
