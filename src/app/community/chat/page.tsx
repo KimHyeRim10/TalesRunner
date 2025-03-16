@@ -24,9 +24,9 @@ export default function Chat() {
     query: { nickname: user?.nickname || "익명" },
   }); */
 
-  /* 
+  /*
   // 로컬 환경 테스트
-   const SOCKET_URL =
+  const SOCKET_URL =
     typeof window !== "undefined" &&
     window.location.origin.includes("talesrunner-1220.vercel.app")
       ? "wss://talesrunner-1220.vercel.app"
@@ -36,8 +36,9 @@ export default function Chat() {
     path: "/api/chat/socket",
     query: { nickname: user?.nickname || "익명" },
   });
-   */
+*/
 
+  //배포 환경 테스트
   const SOCKET_URL =
     typeof window !== "undefined" &&
     window.location.origin.includes("talesrunner-1220.vercel.app")
