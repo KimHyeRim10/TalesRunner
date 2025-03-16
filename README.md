@@ -28,10 +28,26 @@ Next.js의 실무적인 활용법을 익히기 위해, 어린 시절 즐겨 했�
 
 ## 작업 화면 
 
+### [로그인]
+➡️ Socket.io를 활용한 실시간 채팅 기능 
+<br/><br/>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d85acdba-514e-45a1-b934-13ef2112bc32" alt="Image">
+</p>
+<br/><br/>
+
 ### [런너채팅방]
 ➡️ Socket.io를 활용한 실시간 채팅 기능 
 <br/><br/>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/c7651954-47a1-4747-b4a5-72d07169db97" alt="Image">
 </p>
+<br/><br/>
 
+## 🛠 Trouble Shooting 
+- 로그인, 회원가입 페이지 파비콘 아이콘 변경
+- 로그인 시 프로필 이미지 업데이트 오류
+- 이미지 크기 변경 오류
+- ui 변경 오류 
+- 배포 후 채팅 페이지 오류
+  
