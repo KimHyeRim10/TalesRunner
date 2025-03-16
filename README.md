@@ -52,7 +52,7 @@ Next.js의 실무적인 활용법을 익히기 위해, 추억의 게임 홈페�
 ➡️ Socket.io를 활용한 실시간 채팅 기능 
 <br/><br/>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/c7651954-47a1-4747-b4a5-72d07169db97" alt="Image">
+  <img src="https://github.com/user-attachments/assets/c7651954-47a1-4747-b4a5-72d07169db97" alt="Image" width="350">
 </p>
 <br/><br/>
 
