@@ -28,32 +28,10 @@ Next.js의 실무적인 활용법을 익히기 위해, 어린 시절 즐겨 했�
 
 ## 작업 화면 
 
-### [화면 1]
-➡️ 위에 내비게이션 바에서 제품 카테고리를 선택해 클릭하면 해당 Menu의 전체 제품을 보여줍니다. 
+### [런너채팅방]
+➡️ Socket.io를 활용한 실시간 채팅 기능 
+<br/><br/>
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/a6a0cbc9-1bf4-4902-8ab4-6ff0461b3a03" width="500" height="500" alt="1-1">
-    <img src="https://github.com/user-attachments/assets/9fdd79f7-b322-402d-a4f2-af9e3ba65d11" width="500" height="500" alt="1-2">
-    <img src="https://github.com/user-attachments/assets/33408a50-eb96-4c19-80be-6a158a6679b4" width="500" height="500" alt="1-3">
+  <img src="https://github.com/user-attachments/assets/c7651954-47a1-4747-b4a5-72d07169db97" alt="Image">
 </p>
 
-### [화면 2]
-➡️ 전체 제품 리스트에서 아이스크림, 프리팩, 아이스크림 케이크 상품을 클릭하면 해당 제품의 상세 페이지로 이동합니다. 
-<br/><br/>
-🍧 아이스크림 상세 페이지
-<br/><br/>
-<p align="center">
-    <img src="https://github.com/user-attachments/assets/20920d73-6d9d-4696-ad31-2d425e142508" width="800" height="400" alt="2-1">
-</p>
-<br/><br/>
-🍧 프리팩 상세 페이지
-<br/><br/>
-<p align="center">
-    <img src="https://github.com/user-attachments/assets/bbf4c69e-3ca5-4e9d-a725-8b4bd9cf09d9" width="800" height="400" alt="2-2">
-</p>
-<br/><br/>
-🍧 아이크스림 케이크 상세 페이지 
-<br/><br/>
-<p align="center">
-    <img src="https://github.com/user-attachments/assets/762b812e-765b-484e-836d-c15d8815e86b" width="800" height="400" alt="2-3">
-</p>
-<br/><br/>
