@@ -42,7 +42,7 @@ Next.js의 실무적인 활용법을 익히기 위해, 추억의 게임 홈페�
 ➡️ nodemailer를 이용한 이메일 인증 기능 제공
 <br/><br/>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/291a7ce6-3f5c-4ad4-aee4-226c13ceae98" alt="Email Verification" width="400">
+  <img src="https://github.com/user-attachments/assets/291a7ce6-3f5c-4ad4-aee4-226c13ceae98" alt="Email Verification" width="300">
 </p>
 <br/><br/>
 
