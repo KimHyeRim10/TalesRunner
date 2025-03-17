@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// Axios 에러 처리 함수
 export const handleAxiosError = (error: unknown): never => {
   if (axios.isAxiosError(error)) {
     console.log(error.response?.data?.error || error.message);
@@ -11,16 +10,15 @@ export const handleAxiosError = (error: unknown): never => {
   }
 };
 
-// User 관련 서비스 함수
 export const getProfile = async (email: string): Promise<string> => {
   try {
     const response = await axios.post("/api/services/getUserProfile", {
       email,
     });
 
-    return response.data.profileURL; // 성공 시 데이터 반환
+    return response.data.profileURL;
   } catch (error: unknown) {
-    handleAxiosError(error); // 에러 처리 함수 호출
+    handleAxiosError(error);
     throw error;
   }
 };

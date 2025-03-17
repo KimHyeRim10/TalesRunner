@@ -33,7 +33,7 @@ export default async function handler(
         .from("board")
         .update(updateData)
         .eq("id", id)
-        .select("*"); // 수정된 데이터를 반환
+        .select("*");
 
       if (error) {
         console.error("Supabase Error:", error.message);

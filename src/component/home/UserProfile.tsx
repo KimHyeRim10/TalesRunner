@@ -12,8 +12,8 @@ import NicknameColorModal from "./NicknameColorModal";
 import LoginActions from "./LoginActions";
 
 interface UserProfileProps {
-  user: UserInfo | null; // null을 허용
-  setUser: React.Dispatch<React.SetStateAction<UserInfo | null>>; // 상태 변경 함수
+  user: UserInfo | null;
+  setUser: React.Dispatch<React.SetStateAction<UserInfo | null>>;
 }
 
 const UserProfile: React.FC<UserProfileProps> = () => {
@@ -22,9 +22,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     useUser();
   const [profileImage, setProfileImage] = useState<string>(
     "/home/no-character.png"
-  ); // 기본 이미지
+  );
 
-  const [isLevelModalOpen, setLevelModalOpen] = useState(false); // 모달 상태 관리
+  const [isLevelModalOpen, setLevelModalOpen] = useState(false);
   const [isNickNameModal, setNickNameModal] = useState(false);
 
   const [showTooltip, setShowTooltip] = useState(true);
@@ -46,7 +46,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
   const handleLogout = () => {
     alert("로그아웃 되었습니다");
     removeUser();
-    setUser(null); // 로그아웃 후 상태 업데이트
+    setUser(null);
     router.push("/");
   };
 
@@ -54,7 +54,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     return <LoginActions />;
   }
 
-  /* supabase storage에 이미지 업로드하기  */
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
 
@@ -72,7 +71,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         const uploadedUrl = response.data.url;
 
         if (uploadedUrl) {
-          setProfileURL(uploadedUrl); // Context 상태 업데이트
+          setProfileURL(uploadedUrl);
           await saveImageUrl(user.email, uploadedUrl);
         }
       } catch (error) {
@@ -84,7 +83,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     reader.readAsDataURL(file);
   };
 
-  /* supabase에 저장된 url을 DB member 테이블 profile 컬럼에 저장하기 */
   const saveImageUrl = async (email: string, imageUrl: string) => {
     try {
       const response = await axios.post("/api/uploads/saveProfileImage", {
@@ -100,7 +98,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     }
   };
 
-  // 레벨 모달  핸들러
   const handleLevelOpenModal = () => {
     setLevelModalOpen(true);
   };
@@ -109,7 +106,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     setLevelModalOpen(false);
   };
 
-  // 닉네임 모달  핸들러
   const openNickNameModal = () => {
     setNickNameModal(true);
   };

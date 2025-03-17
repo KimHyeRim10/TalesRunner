@@ -12,17 +12,6 @@ import ReplyItem from "./ReplyItem";
 import ReplyInput from "./ReplyInput";
 import CommentLikeIcon from "@/icons/community/CommentLikeIcon";
 
-/* interface CommentList {
-  board_id: number;
-  content: string;
-  created_at: string;
-  id: number;
-  nickname_color: string;
-  profile: string;
-  user_level: string;
-  user_nickname: string;
-} */
-
 type Props = {
   id: string;
 };
@@ -30,18 +19,16 @@ type Props = {
 export default function CommentItem({ id }: Props) {
   const userInfo: UserInfo | null = getUser();
   const { commentList, getCommentList, fetchDeleteComment } = useComment();
-  const [activeReplyId, setActiveReplyId] = useState<string | null>(null); // ReplyInput 활성화 상태 관리
+  const [activeReplyId, setActiveReplyId] = useState<string | null>(null);
 
-  /* 댓글리스트 가져오기 */
   useEffect(() => {
     getCommentList(id);
   }, [id]);
 
   const handleReplyClick = (commentId: string) => {
-    setActiveReplyId((prev) => (prev === commentId ? null : commentId)); // 토글 방식
+    setActiveReplyId((prev) => (prev === commentId ? null : commentId));
   };
 
-  /* 댓글 삭제 */
   const handleDelete = (commentId: string) => {
     fetchDeleteComment(id, commentId);
   };

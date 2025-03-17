@@ -14,7 +14,7 @@ export default function CommunityMainImage() {
   const { nicknameColor } = useUser();
 
   useEffect(() => {
-    const user = getUser(); // 클라이언트에서 로그인 상태 가져오기
+    const user = getUser();
     setUserInfo(user);
   }, []);
 

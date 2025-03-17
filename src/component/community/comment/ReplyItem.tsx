@@ -9,7 +9,7 @@ import ReplyLikeIcon from "@/icons/community/ReplyLikeIcon";
 import { useComment } from "@/context/CommentContext";
 
 type Props = {
-  boardId: string; // id 값을 props로 받을 것임
+  boardId: string;
   commentId: string;
 };
 
@@ -25,7 +25,6 @@ export default function ReplyItem({ boardId, commentId }: Props) {
     (reply) => reply.comment_id === commentId
   );
 
-  /* 대댓글 삭제 */
   const handleDeleteReply = (replyId: string) => {
     fetchDeleteReply(boardId, commentId, replyId);
   };

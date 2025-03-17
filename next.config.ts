@@ -2,7 +2,6 @@
 const nextConfig: import("next").NextConfig = {
   reactStrictMode: true,
   images: {
-    /*  domains: ["rzfjmamvpuuxuvsrwbzh.supabase.co"], */
     remotePatterns: [
       {
         protocol: "https",

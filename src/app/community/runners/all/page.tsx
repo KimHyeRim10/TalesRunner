@@ -33,19 +33,18 @@ export default function Runners() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [boardList, setBoardList] = useState<Board[]>([]);
 
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
-  const itemsPerPage = 15; // 페이지당 보여줄 항목 수
-  const maxPageButtons = 10; // 네비게이션 바에 표시할 최대 페이지 수
-  const pagesPerJump = 10; // 10페이지씩 건너뛸 때 사용
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
+  const maxPageButtons = 10;
+  const pagesPerJump = 10;
 
   // 페이지네이션 처리
-  const startIndex = (currentPage - 1) * itemsPerPage; // 현재 페이지의 시작 인덱스
-  const endIndex = startIndex + itemsPerPage; // 현재 페이지의 끝 인덱스
-  const currentItems = boardList.slice(startIndex, endIndex); // 현재 페이지에 해당하는 데이터
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = boardList.slice(startIndex, endIndex);
 
-  const totalPages = Math.ceil(boardList.length / itemsPerPage); // 전체 페이지 수 계산
+  const totalPages = Math.ceil(boardList.length / itemsPerPage);
 
-  // 현재 페이지를 기준으로 네비게이션 바에 표시할 페이지 범위 계산
   const startPage = Math.max(currentPage - Math.floor(maxPageButtons / 2), 1);
   const endPage = Math.min(startPage + maxPageButtons - 1, totalPages);
 
@@ -55,23 +54,20 @@ export default function Runners() {
     }
   };
 
-  /* 검색바 드롭다운  */
   const isTitleDropdownOpen = () => {
     setIsTitleDropdown(!isTitleDropdown);
   };
 
-  /* 닉네임 드롭다운 */
   const isNicknameDropdownOpen = (id: number) => {
     setIsNicknameDropdown((prevId) => (prevId === id ? null : id));
   };
 
   useEffect(() => {
-    // 로그인 여부 확인
     const userInfo = getUser();
     if (userInfo) {
-      setIsLoggedIn(true); // 로그인 상태 설정
+      setIsLoggedIn(true);
     } else {
-      setIsLoggedIn(false); // 로그아웃 상태 설정
+      setIsLoggedIn(false);
     }
 
     const fetchBoardList = async () => {

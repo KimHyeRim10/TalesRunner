@@ -6,29 +6,25 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  //POST 메서드만 허용함. 만약 다른 메서드 GET,PUT 등을 사용하면 응답과 함께 종료함.
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   const { title, content, nickname, levelURL, nicknameColor } = req.body;
 
-  // XSS 방어: 제목 필터링 (HTML 태그 제거)
   const sanitizedTitle = sanitizeHtml(title, {
-    allowedTags: [], // 제목에서는 모든 HTML 태그를 제거
-    allowedAttributes: {}, // 속성도 허용하지 않음
+    allowedTags: [],
+    allowedAttributes: {},
   });
 
-  // XSS 방어: 내용 필터링 (허용된 태그만 남김)
   const sanitizedContent = sanitizeHtml(content, {
-    allowedTags: ["b", "i", "em", "strong", "a"], // 허용할 태그
+    allowedTags: ["b", "i", "em", "strong", "a"],
     allowedAttributes: {
-      a: ["href"], // a 태그의 href 속성만 허용
+      a: ["href"],
     },
   });
 
   try {
-    // Supabase에 데이터 삽입
     const { data, error } = await supabase.from("board").insert([
       {
         user_nickname: nickname,

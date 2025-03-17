@@ -19,7 +19,7 @@ export default function handler(req: NextApiRequest, res: ExtendedResponse) {
       path: "/api/chat/socket",
       cors: {
         origin: [
-          "http://localhost:3000", // 클라이언트 URL
+          "http://localhost:3000",
           "https://talesrunner-1220.vercel.app",
         ],
         methods: ["GET", "POST"],
@@ -30,13 +30,11 @@ export default function handler(req: NextApiRequest, res: ExtendedResponse) {
     io.on("connection", (socket) => {
       console.log("A user connected:", socket.id);
 
-      const nickname = socket.handshake.query.nickname || "익명"; // 클라이언트에서 전달된 닉네임
+      const nickname = socket.handshake.query.nickname || "익명";
       console.log(`${nickname} connected`);
 
-      // 유저 입장 메시지 전송
       io.emit("login", `${nickname} 님이 입장하셨습니다.`);
 
-      // 전송된 객체 채팅메시지 처리
       socket.on("chat message", (chatmessage) => {
         io.emit("chat message", chatmessage);
       });

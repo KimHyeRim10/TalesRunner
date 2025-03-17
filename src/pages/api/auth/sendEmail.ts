@@ -16,11 +16,9 @@ export default async function handler(
     }
 
     try {
-      // OTP 생성 (6자리 숫자)
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10분 후 만료
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-      // Supabase에 테이블에 저장
       const { error: saveError } = await supabase
         .from("email_verifications")
         .upsert(
@@ -29,18 +27,17 @@ export default async function handler(
             otp: otp,
             expires_at: expiresAt,
           },
-          { onConflict: "email" } // email 컬럼 기준으로 충돌 처리
+          { onConflict: "email" }
         );
 
       if (saveError) {
         throw new Error(saveError.message);
       }
 
-      // nodemailer 사용
       const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_SERVICE,
         port: 587,
-        secure: false, // TLS 사용
+        secure: false,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
@@ -52,7 +49,7 @@ export default async function handler(
       await transporter.sendMail({
         from: `"테일즈런너" <${process.env.EMAIL_USER}>`,
         to: email,
-        subject: "[테일즈런너] 이메일 인증번호가 도착했습니다.", // 이메일 제목
+        subject: "[테일즈런너] 이메일 인증번호가 도착했습니다.",
         text: `인증번호는 ${otp} 입니다. 10분 내로 입력해 주세요.`,
       });
 

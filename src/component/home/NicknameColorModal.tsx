@@ -35,7 +35,6 @@ export default function NicknameColorModal({
     getFetchData();
   }, []);
 
-  /* 닉네임 컬러 member테이블 저장 핸들러 */
   const handleNickNameClick = async (nicknameColor: string) => {
     try {
       const userInfo: UserInfo | null = getUser();
@@ -45,9 +44,9 @@ export default function NicknameColorModal({
         nicknameColor,
         nickname,
       });
-      /*    console.log("닉네임 색상 저장 성공:", response.data); */
+
       alert("닉네임 색상이 변경되었습니다!");
-      refreshUserData(); // UserProvider 상태 즉시 업데이트
+      refreshUserData();
       onNicknameModalClose();
     } catch (error: unknown) {
       const message =
@@ -70,7 +69,7 @@ export default function NicknameColorModal({
                 key={index}
                 className={`text-[20px] font-bold cursor-pointer`}
                 style={{ color: item.color }}
-                onClick={() => handleNickNameClick(item.color)} // 클릭 시 컬러 업데이트
+                onClick={() => handleNickNameClick(item.color)}
               >
                 {item.title}
               </p>

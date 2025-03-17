@@ -12,7 +12,6 @@ export default async function handler(
   const { levelImage, nickname } = req.body;
 
   try {
-    // 1. 스토리지에서 이미지 URL 생성
     const { data: publicUrlData } = supabase.storage
       .from("level-images")
       .getPublicUrl(levelImage);
@@ -25,7 +24,6 @@ export default async function handler(
         .json({ error: "해당 이미지 URL을 찾을 수 없습니다." });
     }
 
-    // 2. member 테이블의 level 컬럼 업데이트
     const { error: updateError } = await supabase
       .from("member")
       .update({ level: levelImageUrl })

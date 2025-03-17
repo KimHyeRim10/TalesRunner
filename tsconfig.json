@@ -1,13 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": false, // 기본 true였음
-    "skipLibCheck": false, //기본 true였음
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": false,
+    "skipLibCheck": false,
     "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
@@ -23,17 +19,11 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "baseUrl": "./",
     "types": [],
-    "typeRoots": [
-      "./types",
-      "./node_modules/@types"
-    ] // 사용자 정의 타입 경로
-    ,
+    "typeRoots": ["./types", "./node_modules/@types"],
     "strictNullChecks": true
   },
   "include": [
@@ -43,7 +33,5 @@
     ".next/types/**/*.ts",
     "types/**/*.d.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

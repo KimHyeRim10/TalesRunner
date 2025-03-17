@@ -21,7 +21,6 @@ type CustomRouter = {
   push: (path: string) => void;
 };
 
-/* Terms */
 export const validateCheckTerms = (
   formData: FormData,
   router: CustomRouter
@@ -37,7 +36,6 @@ export const validateCheckTerms = (
   }
 };
 
-/* Form */
 export const validateCheckForm = (
   formData: FormData,
   refs: FormRefs
@@ -69,15 +67,9 @@ export const validateCheckForm = (
   return checkFlag;
 };
 
-export const passCheck = (formData: FormData /* refs: FormRefs */): boolean => {
-  /*  const pass = refs.userPassRef.current;
-  const passCheck = refs.userPassCheckRef.current; */
-
+export const passCheck = (formData: FormData): boolean => {
   if (formData.userPass !== formData.userPassCheck) {
     alert("비밀번호가 일치하지 않습니다.");
-    /*    pass.value = "";
-    passCheck.value = "";
-    refs.userPassRef.current.focus(); */
     return false;
   }
   return true;

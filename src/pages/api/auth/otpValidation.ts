@@ -12,7 +12,7 @@ export default async function handler(
 
   const { email, otp } = req.body;
 
-  const { data /* , error  */ } = await supabase
+  const { data } = await supabase
     .from("email_verifications")
     .select("*")
     .eq("email", email)

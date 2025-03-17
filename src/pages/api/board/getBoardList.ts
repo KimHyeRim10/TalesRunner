@@ -13,7 +13,7 @@ export default async function handler(
     const { data, error } = await supabase
       .from("board")
       .select("*")
-      .order("created_at", { ascending: false }); // 최신순 정렬
+      .order("created_at", { ascending: false });
 
     if (error) {
       throw new Error(error.message);

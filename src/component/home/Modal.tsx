@@ -47,7 +47,7 @@ export default function Modal() {
   };
 
   useEffect(() => {
-    const interval = setInterval(goToNext, 3000); // 자동 슬라이드
+    const interval = setInterval(goToNext, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -63,8 +63,8 @@ export default function Modal() {
             height={400}
             src={modal[currentIndex].image}
             alt={modal[currentIndex].alt}
-            priority={currentIndex === 0} // 첫 번째 이미지만 우선 로드
-            loading={currentIndex === 0 ? "eager" : "lazy"} // 나머지는 Lazy Load
+            priority={currentIndex === 0}
+            loading={currentIndex === 0 ? "eager" : "lazy"}
             className="absolute w-full h-full object-cover"
           />
 

@@ -6,7 +6,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  //POST 메서드만 허용함. 만약 다른 메서드 GET,PUT 등을 사용하면 응답과 함께 종료함.
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
@@ -14,10 +13,8 @@ export default async function handler(
   const formData = req.body;
 
   try {
-    // 비밀번호 해싱
     const hashedPassword = await bcrypt.hash(formData.userPass, 10);
 
-    // Supabase에 데이터 삽입
     const { data, error } = await supabase.from("member").insert([
       {
         user_name: formData.userName,

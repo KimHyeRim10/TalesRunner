@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "@/context/FormContext";
-import { useState, useRef /* MutableRefObject  */ } from "react";
+import { useState, useRef } from "react";
 import ToolTip from "@/component/signup/ToolTip";
 import {
   validateCheckForm,
@@ -29,7 +29,7 @@ export default function SignupForm() {
 
   useEffect(() => {
     return () => {
-      clearFormData(); // 페이지를 벗어날 때 초기화
+      clearFormData();
     };
   }, []);
 
@@ -47,7 +47,6 @@ export default function SignupForm() {
     userPassCheckRef,
   };
 
-  /*  닉네임 길이 조건 체크와 자음,모음은 닉네임 사용 제한함 */
   const handleNickNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
     const isValid =
@@ -62,11 +61,10 @@ export default function SignupForm() {
     }
   };
 
-  /*   닉네임 중복 확인 */
   const handleCheckNickName = async () => {
     try {
       const response = await axios.get("/api/auth/checkNickName", {
-        params: { nickname: formData.userNickName }, // 쿼리 파라미터 전달
+        params: { nickname: formData.userNickName },
       });
 
       if (response.data.isAvailable) {
@@ -82,7 +80,6 @@ export default function SignupForm() {
     }
   };
 
-  /*   이메일 변경 및 유효성 검사 */
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(e);
     const emailValue = e.target.value;
@@ -91,15 +88,14 @@ export default function SignupForm() {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (emailRegex.test(emailValue)) {
-      setIsEmailValid(true); // 이메일이 유효하면 상태 변경
-      setErrorMessage(""); // 에러 메시지 초기화
+      setIsEmailValid(true);
+      setErrorMessage("");
     } else {
-      setIsEmailValid(false); // 이메일이 유효하지 않으면 버튼 비활성화
+      setIsEmailValid(false);
       setErrorMessage("유효한 이메일을 입력하세요.");
     }
   };
 
-  /* 이메일 인증 api */
   const sendEmail = async () => {
     const response = await axios.post("/api/auth/sendEmail", {
       email: formData.email,
@@ -113,7 +109,6 @@ export default function SignupForm() {
     }
   };
 
-  /* otp 조건 체크 */
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(e);
     const emailOtp = e.target.value;
@@ -129,7 +124,6 @@ export default function SignupForm() {
     }
   };
 
-  /* OTP 유효성 검사 */
   const handleOtpValidation = async () => {
     const response = await axios.post("/api/auth/otpValidation", {
       email: formData.email,
@@ -140,14 +134,13 @@ export default function SignupForm() {
         alert("이메일 인증 성공!");
         setIsOtpValid(true);
       } else {
-        alert("인증번호가 일치하지 않습니다."); // 이 부분은 보통 실행되지 않음
+        alert("인증번호가 일치하지 않습니다.");
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  /* 인증 메일 버튼 클릭 시 중복 검사 및 서버 요청 */
   const handleSendVerification = async () => {
     if (!isEmailValid) {
       setErrorMessage("유효한 이메일을 입력하세요.");
@@ -156,13 +149,13 @@ export default function SignupForm() {
 
     try {
       const response = await axios.get("/api/auth/checkEmail", {
-        params: { email: formData.email }, // 쿼리 파라미터 전달
+        params: { email: formData.email },
       });
 
       if (response.data.isAvailable) {
-        setErrorMessage(""); // 에러 메시지 초기화
+        setErrorMessage("");
         setIsEmailValid(true);
-        //이메일 인증번호 보내기
+
         sendEmail();
       } else {
         alert("이미 사용 중인 이메일입니다! 다른 이메일을 사용해 주세요");
@@ -248,7 +241,7 @@ export default function SignupForm() {
                 <input
                   name="userNickName"
                   value={formData.userNickName}
-                  onChange={handleNickNameChange} // 닉네임 변경 시 길이 체크
+                  onChange={handleNickNameChange}
                   ref={refs.userNickNameRef}
                   className="w-[251px] h-[48px] border border-[var(--border-color)] rounded-[8px] px-[14px]"
                   type="text"
@@ -258,10 +251,10 @@ export default function SignupForm() {
                   onClick={handleCheckNickName}
                   className={`w-[127px] h-[48px] text-[16px] px-[13px] rounded-[8px] ${
                     isNickNameValid
-                      ? "bg-[#8544E2] text-white" // 유효한 닉네임일 때 스타일
-                      : "bg-[#f2f4f7] text-[#98A2B3]" // 유효하지 않을 때 스타일
+                      ? "bg-[#8544E2] text-white"
+                      : "bg-[#f2f4f7] text-[#98A2B3]"
                   }`}
-                  disabled={!isNickNameValid} // 닉네임 유효하지 않을 때 버튼 비활성화
+                  disabled={!isNickNameValid}
                 >
                   중복 확인
                 </button>
@@ -293,11 +286,11 @@ export default function SignupForm() {
                 <button
                   onClick={handleSendVerification}
                   className={`w-[127px] h-[48px] text-[16px] px-[13px] rounded-[8px] ${
-                    errorMessage === "" && email // 에러 메시지가 없고 이메일이 유효할 때
-                      ? "bg-[#8544E2] text-white" // 유효한 이메일일 때 스타일
-                      : "bg-[#f2f4f7] text-[#98A2B3]" // 유효하지 않을 때 스타일
+                    errorMessage === "" && email
+                      ? "bg-[#8544E2] text-white"
+                      : "bg-[#f2f4f7] text-[#98A2B3]"
                   }`}
-                  disabled={!email || errorMessage !== ""} // 이메일이 비어있거나 에러 메시지가 있을 때 버튼 비활성화
+                  disabled={!email || errorMessage !== ""}
                 >
                   인증메일 발송
                 </button>

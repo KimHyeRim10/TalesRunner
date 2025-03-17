@@ -9,13 +9,11 @@ export default async function handler(
     const { boardId } = req.query;
 
     try {
-      // 댓글 개수 가져오기
       const { data: commentData, error: commentError } = await supabase
         .from("comments")
         .select("board_id")
         .eq("board_id", boardId);
 
-      // 대댓글 개수 가져오기
       const { data: replyData, error: replyError } = await supabase
         .from("reply")
         .select("board_id")
@@ -28,7 +26,6 @@ export default async function handler(
       const totalComments =
         (commentData?.length || 0) + (replyData?.length || 0);
 
-      // board 테이블의 commentCount 컬럼 업데이트
       const { error: updateError } = await supabase
         .from("board")
         .update({ comment_count: totalComments })

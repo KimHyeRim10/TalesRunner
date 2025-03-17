@@ -19,9 +19,9 @@ export default function Login() {
   const { refreshUserData } = useUser();
 
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY as string;
-  const [failedAttempts, setFailedAttempts] = useState(0); // 실패 횟수
+  const [failedAttempts, setFailedAttempts] = useState(0);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [captchaVerified, setCaptchaVerified] = useState(false); // reCAPTCHA 검증 상태
+  const [captchaVerified, setCaptchaVerified] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const refs: InputRefs = {
@@ -31,7 +31,7 @@ export default function Login() {
 
   useEffect(() => {
     return () => {
-      clearFormData(); // 페이지를 벗어날 때 초기화
+      clearFormData();
     };
   }, []);
 
@@ -72,10 +72,7 @@ export default function Login() {
           token: login_token,
         };
 
-        // 로컬스토리지에 userInfo 저장
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
-
-        // 쿠키에 토큰 저장 (라이브러리 활용)
         document.cookie = `x-auth-jwt=${login_token}; path=/; max-age=3600;`;
 
         alert("로그인에 성공했습니다");

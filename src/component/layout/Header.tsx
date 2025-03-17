@@ -19,7 +19,7 @@ export default function Header() {
   const handleLogout = () => {
     alert("로그아웃 되었습니다");
     removeUser();
-    setUser(null); // 로그아웃 후 상태 업데이트
+    setUser(null);
     router.push("/");
   };
 

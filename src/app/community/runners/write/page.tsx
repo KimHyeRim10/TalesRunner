@@ -21,23 +21,20 @@ export default function WritePage() {
   const router = useRouter();
   const [isDropdown, setIsDropdown] = useState(false);
   const [editBoardData, setEditBoardData] = useState<EditBoardData>({});
-  const [btitle, setTitle] = useState(""); // 제목
-  const [bcontent, setContent] = useState(""); // 내용
+  const [btitle, setTitle] = useState("");
+  const [bcontent, setContent] = useState("");
   const [bid, setId] = useState("");
   const { levelURL, nicknameColor } = useUser();
-  //XSS 방어 변수
+
   const sanitizedTitle =
     typeof window !== "undefined" ? DOMPurify.sanitize(btitle) : btitle;
   const sanitizedContent =
     typeof window !== "undefined" ? DOMPurify.sanitize(bcontent) : bcontent;
   const userInfo = getUser();
 
-  // 수정인지 등록인지 구분
   const isEdit = Boolean(editBoardData.id);
 
-  // URL 다이렉트 접근 방지
   useEffect(() => {
-    // 로그인 상태 확인
     if (!userInfo) {
       alert(
         "로그인 후 글쓰기를 이용하실 수 있습니다. 로그인 페이지로 이동합니다."
@@ -47,10 +44,9 @@ export default function WritePage() {
   }, [userInfo]);
 
   useEffect(() => {
-    // 클라이언트에서만 실행되도록 보장
     const data = JSON.parse(localStorage.getItem("editBoardData") || "{}");
     setEditBoardData(data);
-    // 제목과 내용을 상태에 반영
+
     if (data.title) setTitle(data.title);
     if (data.content) setContent(data.content);
     if (data.id) setId(data.id);
@@ -72,13 +68,11 @@ export default function WritePage() {
     const userInfo = getUser();
     const nickname = userInfo?.nickname;
 
-    // 유효성 검사
     if (!btitle.trim() || !bcontent.trim()) {
       alert("제목과 내용을 모두 입력해 주세요.");
       return;
     }
 
-    //  XSS 필터링
     if (sanitizedTitle !== btitle || sanitizedContent !== bcontent) {
       alert("허용되지 않은 태그가 포함되어 있습니다.");
       return;
@@ -166,7 +160,6 @@ export default function WritePage() {
       </div>
 
       <div className="w-[1216px] min-h-[400px] border border-[var(--border-color)] rounded-[8px] px-[14px]">
-        {/* 텍스트 에디터 툴바 */}
         <ToolbarButton />
         {/* 게시판 내용 작성 */}
         <textarea

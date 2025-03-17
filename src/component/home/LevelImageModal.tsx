@@ -46,7 +46,6 @@ export default function LevelImageModal({
     getFetchData();
   }, []);
 
-  /* 레벨이미지 member테이블 저장 핸들러 */
   const handleLevelImageClick = async (levelImage: string) => {
     try {
       const userInfo: UserInfo | null = getUser();
@@ -56,9 +55,9 @@ export default function LevelImageModal({
         levelImage,
         nickname,
       });
-      /*    console.log("레벨 이미지 저장 성공:", response.data); */
+
       alert("레벨 이미지가 변경되었습니다!");
-      refreshUserData(); // UserProvider 상태 즉시 업데이트
+      refreshUserData();
       onLevelModalClose();
     } catch (error) {
       console.log("레벨 이미지 저장 실패:", error);

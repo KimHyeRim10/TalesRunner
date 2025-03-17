@@ -32,28 +32,25 @@ interface BoardDataItem {
 }
 
 export default function BoardDetailpage() {
-  const { id } = useParams() as { id: string }; // 반환 값을 { id: string }으로 단언
+  const { id } = useParams() as { id: string };
   const router = useRouter();
   const userInfo: UserInfo | null = getUser();
   const [boardData, setBoardData] = useState<BoardDataItem[] | null>(null);
   const [boardProfile, setBoardProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); //글쓰기 페이지로 가기위한 로그인됨 체크
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { commentCount, getCommentCount } = useComment();
 
   const formatDateTime = (dateString: string): string => {
     return dateString ? format(new Date(dateString), "yyyy-MM-dd HH:mm") : "";
   };
-  // 로컬 스토리지에서 데이터를 로드
 
   useEffect(() => {
-    /* 조회수 업데이트 api*/
     const updateViewCount = async () => {
       try {
         await axios.post("/api/board/updateView", {
           boardId: id,
         });
-        /*     console.log("조회수 업데이트 성공:", response.data); */
       } catch (error) {
         console.log("조회수 업데이트 실패", error);
       }
@@ -67,29 +64,26 @@ export default function BoardDetailpage() {
       if (savedData) {
         const parsedData = JSON.parse(savedData);
         setBoardData(parsedData);
-        localStorage.removeItem("editBoardData"); // 사용 후 데이터 삭제
+        localStorage.removeItem("editBoardData");
       }
     }
   }, []);
 
   useEffect(() => {
-    // 로그인 상태 확인
     if (userInfo) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
 
-    // 로컬스토리지에서 데이터 로드
     const savedData = localStorage.getItem("editBoardData");
     if (savedData) {
       setBoardData(JSON.parse(savedData));
-      localStorage.removeItem("editBoardData"); // 사용 후 삭제
-      setIsLoading(false); // 로딩 완료
-      return; // 로컬 데이터를 우선적으로 사용
+      localStorage.removeItem("editBoardData");
+      setIsLoading(false);
+      return;
     }
 
-    // 서버에서 데이터 로드
     const fetchBoardData = async () => {
       try {
         const boardResponse = await axios.get(`/api/board/${id}`);
@@ -108,7 +102,7 @@ export default function BoardDetailpage() {
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        setIsLoading(false); // 에러 발생 시 로딩 종료
+        setIsLoading(false);
       }
     };
     fetchBoardData();
@@ -141,7 +135,6 @@ export default function BoardDetailpage() {
     router.push("/community/runners/write");
   };
 
-  /* 게시판 내용 삭제 핸들러 */
   const handleDeleteBoard = async () => {
     try {
       const response = await axios.delete("/api/board/deleteBoard", {

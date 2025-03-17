@@ -61,11 +61,8 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // 폼 데이터 초기화 함수
-  // 폼 데이터를 전역으로 뿌려주기 때문에 다른 페이지에 이동해도 form페이지에 입력했던 폼데이터가 남아있게 되는 이슈 발생함.
-  // 그래서 clear함수를 만들어서 전부 지워줌.
   const clearFormData = (): void => {
-    setFormData(defaultFormData); // 초기 상태로 리셋
+    setFormData(defaultFormData);
   };
 
   return (
@@ -83,7 +80,6 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom Hook
 export const useForm = () => {
   const context = useContext(FormContext);
   if (!context) {

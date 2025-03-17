@@ -12,16 +12,15 @@ export default function SignupTerms() {
   const { formData, handleCheck } = useForm();
   const [isButtonActive, setIsButtonActive] = useState(false);
 
-  // 버튼 활성화 상태 업데이트
   useEffect(() => {
     const { terms, personal } = formData;
-    const isRequiredChecked = terms && personal; // 필수 항목 체크 확인
-    setIsButtonActive(isRequiredChecked); // 버튼 활성화 여부 업데이트
+    const isRequiredChecked = terms && personal;
+    setIsButtonActive(isRequiredChecked);
   }, [formData]);
 
   const handleButtonClick = () => {
     if (isButtonActive) {
-      validateCheckTerms(formData, router); // router 객체를 전달
+      validateCheckTerms(formData, router);
     }
   };
 

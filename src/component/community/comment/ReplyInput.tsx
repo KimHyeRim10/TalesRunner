@@ -11,7 +11,7 @@ import ImageUploadIcon from "@/icons/community/ImageUploadIcon";
 import { useComment } from "@/context/CommentContext";
 
 type Props = {
-  boardId: string; // id 값을 props로 받을 것임
+  boardId: string;
   commentId: string;
 };
 
@@ -26,7 +26,6 @@ export default function ReplyInput({ boardId, commentId }: Props) {
     setContent(e.target.value);
   };
 
-  /* 대댓글 저장 핸들러 */
   const handleSubmitReply = async () => {
     const userInfo = getUser();
     if (!userInfo) {
@@ -37,7 +36,6 @@ export default function ReplyInput({ boardId, commentId }: Props) {
 
     const { nickname } = userInfo;
 
-    //  XSS 필터링
     if (sanitizedContent !== content) {
       alert("허용되지 않은 태그가 포함되어 있습니다.");
       return;
@@ -56,7 +54,7 @@ export default function ReplyInput({ boardId, commentId }: Props) {
 
       if (response.data.success) {
         alert("댓글이 등록되었습니다");
-        fetchReplyList(boardId, commentId); // 새로고침 없이 대댓글리스트  가져오기
+        fetchReplyList(boardId, commentId);
         setContent("");
       }
     } catch (error) {

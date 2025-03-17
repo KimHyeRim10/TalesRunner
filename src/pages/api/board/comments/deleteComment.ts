@@ -8,7 +8,7 @@ export default async function handler(
   if (req.method === "DELETE") {
     const { boardId, commentId } = req.query;
 
-    const { /*  data, */ error } = await supabase
+    const { error } = await supabase
       .from("comments")
       .delete()
       .eq("board_id", boardId)

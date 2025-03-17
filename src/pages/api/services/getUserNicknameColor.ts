@@ -27,7 +27,6 @@ export default async function handler(
       throw error;
     }
 
-    // nickname_color가 없을 경우 기본값 설정
     const nicknameColor = data?.nickname_color || "#FFA500";
 
     res.status(200).json({ nicknameColor });

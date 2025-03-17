@@ -9,14 +9,14 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { boardId /* , commentId  */ } = req.query;
+  const { boardId } = req.query;
 
   try {
     const { data, error } = await supabase
       .from("reply")
       .select("*")
       .eq("board_id", boardId)
-      .order("created_at", { ascending: true }); // 오래된 순 정렬
+      .order("created_at", { ascending: true });
 
     if (error) {
       throw new Error(error.message);

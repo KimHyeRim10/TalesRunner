@@ -20,11 +20,10 @@ export default async function handler(
     nicknameColor,
   } = req.body;
 
-  // XSS 방어: 내용 필터링 (허용된 태그만 남김)
   const sanitizedContent = sanitizeHtml(content, {
-    allowedTags: ["b", "i", "em", "strong", "a"], // 허용할 태그
+    allowedTags: ["b", "i", "em", "strong", "a"],
     allowedAttributes: {
-      a: ["href"], // a 태그의 href 속성만 허용
+      a: ["href"],
     },
   });
 

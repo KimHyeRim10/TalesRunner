@@ -16,7 +16,6 @@ export default async function handler(
   }
 
   try {
-    // Supabase DB 업데이트
     const { data, error } = await supabase
       .from("member")
       .update({ profile: imageUrl })

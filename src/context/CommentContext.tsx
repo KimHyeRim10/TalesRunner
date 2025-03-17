@@ -29,7 +29,6 @@ type ReplyList = Record<
 >;
 
 interface CommentContextType {
-  /* 댓글 */
   commentList: CommentList[];
   getCommentList: (boardId: string) => Promise<void>;
   handleDeleteComment: (boardId: string, commentId: string) => Promise<void>;
@@ -37,7 +36,7 @@ interface CommentContextType {
   fetchDeleteComment: (boardId: string, commentId: string) => Promise<void>;
   commentCount: number | 0;
   getCommentCount: (boardId: string) => Promise<void>;
-  /* 대댓글 */
+
   replyList: ReplyList[];
   getReplyList: (boardId: string, commentId: string) => Promise<void>;
   handleDeleteReply: (
@@ -60,7 +59,6 @@ export const CommentProvider = ({ children }: { children: ReactNode }) => {
   const [replyList, setReplyList] = useState<ReplyList[]>([]);
   const [commentCount, setCommentCount] = useState<number>(0);
 
-  /* 댓글 리스트 가져오는 api */
   const getCommentList = async (boardId: string) => {
     try {
       const response = await axios.get("/api/board/comments/getCommentList", {
@@ -74,7 +72,6 @@ export const CommentProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  /* 댓글 삭제 핸들러 */
   const handleDeleteComment = async (boardId: string, commentId: string) => {
     try {
       const response = await axios.delete("/api/board/comments/deleteComment", {
@@ -88,7 +85,6 @@ export const CommentProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  /* 대댓글리스트 가져오는 api */
   const getReplyList = async (boardId: string, commentId: string) => {
     try {
       const response = await axios.get("/api/board/comments/getReplyList", {
@@ -103,7 +99,6 @@ export const CommentProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  /* 대댓글 삭제 핸들러 */
   const handleDeleteReply = async (
     boardId: string,
     commentId: string,
@@ -122,7 +117,6 @@ export const CommentProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  /* 총 댓글 개수 가져오는 api */
   const getCommentCount = async (boardId: string) => {
     try {
       const response = await axios.get("/api/board/comments/commentCount", {
@@ -138,30 +132,26 @@ export const CommentProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // 새로고침 없이 댓글리스트 갱신 함수
   const fetchCommentList = async (boardId: string) => {
     try {
-      await getCommentList(boardId); // 댓글 리스트 업데이트
-      await getCommentCount(boardId); // 댓글 수 동기화
+      await getCommentList(boardId);
+      await getCommentCount(boardId);
     } catch (error) {
       console.log("댓글 리스트 동기화 실패:", error);
     }
   };
 
-  // 새로고침 없이 댓글 삭제 후 댓글리스트를 갱신하는 함수
   const fetchDeleteComment = async (boardId: string, commentId: string) => {
     try {
-      // 댓글 삭제 요청
       await handleDeleteComment(boardId, commentId);
-      // 댓글 리스트와 댓글 수 상태 동기화
+
       await getCommentList(boardId);
-      await getCommentCount(boardId); // 댓글 수 동기화
+      await getCommentCount(boardId);
     } catch (error) {
       console.log("업데이트 실패", error);
     }
   };
 
-  // 새로고침 없이 대댓글리스트 갱신 함수
   const fetchReplyList = async (boardId: string, commentId: string) => {
     try {
       await getReplyList(boardId, commentId);
@@ -171,7 +161,6 @@ export const CommentProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // 새로고침 없이 대댓글 삭제 후 댓글리스트를 갱신하는 함수
   const fetchDeleteReply = async (
     boardId: string,
     commentId: string,

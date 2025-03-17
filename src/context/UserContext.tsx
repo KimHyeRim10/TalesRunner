@@ -20,7 +20,7 @@ interface UserContextProps {
   setProfileURL: (profile: string) => void;
   setLevelURL: (level: string) => void;
   setNicknameColor: (color: string) => void;
-  refreshUserData: () => void; // 데이터를 새로 불러오는 함수
+  refreshUserData: () => void;
 }
 
 const UserContext = createContext<UserContextProps | null>(null);
@@ -36,7 +36,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     if (!user || !user.email) {
       return;
     }
-    setUser(user); // 로컬 스토리지에서 유저 설정
+    setUser(user);
 
     try {
       const [profile, level, color] = await Promise.all([
@@ -54,10 +54,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    fetchUserData(); // 컴포넌트 마운트 시 실행
+    fetchUserData();
   }, []);
 
-  // 데이터를 강제로 새로고침하는 함수
   const refreshUserData = () => {
     fetchUserData();
   };

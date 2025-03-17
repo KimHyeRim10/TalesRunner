@@ -18,14 +18,7 @@ export default function Chat() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
-  // 소켓 설정
-  /*   const socket: Socket = io("http://localhost:3000", {
-    path: "/api/chat/socket",
-    query: { nickname: user?.nickname || "익명" },
-  }); */
-
   /*
-  // 로컬 환경 테스트
   const SOCKET_URL =
     typeof window !== "undefined" &&
     window.location.origin.includes("talesrunner-1220.vercel.app")
@@ -38,7 +31,6 @@ export default function Chat() {
   });
 */
 
-  //배포 환경 테스트
   const SOCKET_URL =
     typeof window !== "undefined" &&
     window.location.origin.includes("talesrunner-1220.vercel.app")
@@ -47,12 +39,11 @@ export default function Chat() {
 
   const socket: Socket = io(SOCKET_URL, {
     withCredentials: true,
-    transports: ["websocket"], // 웹소켓만 사용 (polling 방지)
+    transports: ["websocket"],
     query: { nickname: user?.nickname || "익명" },
   });
 
   useEffect(() => {
-    // 소켓 연결 확인
     socket.on("connect", () => {
       console.log("Socket connected to server");
     });
@@ -61,13 +52,12 @@ export default function Chat() {
       console.log("Socket disconnected from server");
     });
 
-    // 서버로부터 메시지 수신
     socket.on("chat message", (msg: ChatMessage) => {
       setMessages((prev) => [...prev, msg]);
     });
 
     return () => {
-      socket.off("chat message"); // 이벤트 해제
+      socket.off("chat message");
     };
   }, []);
 
@@ -87,10 +77,10 @@ export default function Chat() {
         timestamp: new Date().toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
-        }), //(오전 시:분)
+        }),
       };
 
-      socket.emit("chat message", chatMessage); // 서버로 객체형태 메시지 전송
+      socket.emit("chat message", chatMessage);
       setMessage("");
     }
   };
@@ -125,7 +115,6 @@ export default function Chat() {
           className="m-auto blue w-[550px] h-[800px] rounded-t-[12px] p-[10px] bg-blue-100"
         >
           <div className="text-center py-2">
-            {/* 날짜 표시 */}
             <div className="text-gray-500 text-sm font-medium">
               {new Date().toLocaleString("ko-KR", {
                 year: "numeric",
@@ -168,7 +157,7 @@ export default function Chat() {
                   className="block text-xs text-gray-500"
                   style={{ marginTop: "5px" }}
                 >
-                  {msg.timestamp} {/* 날짜 표시 */}
+                  {msg.timestamp}
                 </span>
               </div>
               {msg.nickname === user?.nickname && (
@@ -185,7 +174,6 @@ export default function Chat() {
           ))}
         </div>
 
-        {/* 메시지 입력 인풋 */}
         <div className="flex items-center justify-center">
           <input
             className="w-[450px] h-[50px] px-4 text-lg border rounded-bl-[12px] border-gray-300  outline-none"
@@ -194,7 +182,7 @@ export default function Chat() {
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                sendMessage(); // 엔터 키를 누르면 메시지 전송
+                sendMessage();
               }
             }}
             placeholder="내용을 입력하세요"
