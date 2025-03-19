@@ -28,7 +28,7 @@ Next.js의 실무적인 활용법을 익히기 위해, 추억의 게임 홈페�
 ```sh
 npm install
 npm start
----
+```
 
 
 ## 작업 화면 
