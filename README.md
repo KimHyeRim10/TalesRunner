@@ -42,6 +42,6 @@ npm run dev
 |------------|------------|
 | <img src="public/images/board-detail.png" style="max-width: 200px; height: auto; display: block; margin: auto;"> | <img src="public/images/write.png" style="max-width: 200px; height: auto; display: block; margin: auto;"> |
 
-런너채팅방
-<img src="public/images/chat.gif" style="width: 250px; display: block; margin: auto;">
+#### 런너채팅방
+<img src="public/images/chat.gif" style="width: 300px; display: block; margin: auto;">
 
