@@ -35,4 +35,4 @@ npm start
 
 | 로그인 | 회원가입 | 프로필 변경 |
 |------------|------------|------------|
-| ![로그인](/images/login.png) | ![회원가입](/images/signup.png) | ![프로필 변경](/images/profile.png) |
+| ![로그인](images/login.png) | ![회원가입](images/signup.png) | ![프로필 변경](images/profile.png) |
