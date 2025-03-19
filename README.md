@@ -27,7 +27,7 @@ Next.js의 실무적인 활용법을 익히기 위해, 추억의 게임 홈페�
 
 ```sh
 npm install
-npm start
+npm run dev
 ```
 
 
@@ -36,3 +36,10 @@ npm start
 | 로그인 | 회원가입 | 프로필 변경 |
 |------------|------------|------------|
 | ![로그인](public/images/login.png) | ![회원가입](public/images/signup.png) | ![프로필 변경](public/images/profile.png) |
+
+| 게시판 상세 | 글쓰기 | 런너채팅방 |
+|------------|------------|------------|
+| ![게시판 상세](public/images/board-detail.png) | ![글쓰기](public/images/write.png) | ![런너채팅방](public/images/chat.gif) |
+
+
+
