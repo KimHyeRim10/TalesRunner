@@ -5,15 +5,15 @@
 </p>
 
 
-## 주제 선정
+## 💡주제 선정
 Next.js의 실무적인 활용법을 익히기 위해, 추억의 게임 홈페이지를 커스터마이징을 해보았습니다.
 
   
-## 주요 기능
+## 🔥주요 기능
 -  로그인, 회원가입, 커뮤니티(런너게시판, 런너채팅방)
 
 
-## 사용 기술 
+## 🚀사용 기술 
 
   ![Next.js](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white&style=flat-square)
   ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=flat-square)
@@ -23,7 +23,7 @@ Next.js의 실무적인 활용법을 익히기 위해, 추억의 게임 홈페�
 
 
 
-## Setup
+## ⚙️Setup
 
 ```sh
 npm install
@@ -31,15 +31,16 @@ npm run dev
 ```
 
 
-## 작업 화면 
+## 🖥️작업 화면 
+
+# 화면 미리보기
 
 | 로그인 | 회원가입 | 프로필 변경 |
 |------------|------------|------------|
-| ![로그인](public/images/login.png) | ![회원가입](public/images/signup.png) | ![프로필 변경](public/images/profile.png) |
-
+| <img src="public/images/login.png" width="200" height="250"> | <img src="public/images/signup.png" width="200" height="250"> | <img src="public/images/profile.png" width="200" height="250"> |
 | 게시판 상세 | 글쓰기 | 런너채팅방 |
 |------------|------------|------------|
-| ![게시판 상세](public/images/board-detail.png) | ![글쓰기](public/images/write.png) | ![런너채팅방](public/images/chat.gif) |
+| <img src="public/images/board-detail.png" width="200" height="300"> | <img src="public/images/write.png" width="200" height="390"> | <img src="public/images/chat.gif" width="300" height="200"> |
 
 
 
