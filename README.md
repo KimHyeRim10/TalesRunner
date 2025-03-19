@@ -6,7 +6,7 @@
 
 
 ## 💡주제 선정
-Next.js의 실무적인 활용법을 익히기 위해, 추억의 게임 홈페이지를 커스터마이징을 해보았습니다.
+- Next.js의 실무적인 활용법을 익히기 위해, 추억의 게임 홈페이지를 커스터마이징을 해보았습니다.
 
   
 ## 🔥주요 기능
@@ -35,16 +35,14 @@ npm run dev
 
 # 화면 미리보기
 
-# 화면 미리보기
-
 | 로그인 | 회원가입 | 프로필 변경 |
 |------------|------------|------------|
 | <img src="public/images/login.png" style="max-width: 300px; height: auto; display: block; margin: auto;"> | <img src="public/images/signup.png" style="max-width: 300px; height: auto; display: block; margin: auto;"> | <img src="public/images/profile.png" style="max-width: 300px; height: auto; display: block; margin: auto;"> |
 
-| 게시판 상세 | 글쓰기 | 런너채팅방 |
-|------------|------------|------------|
-| <img src="public/images/board-detail.png" style="max-width: 300px; height: auto; display: block; margin: auto;"> | <img src="public/images/write.png" style="max-width: 300px; height: auto; display: block; margin: auto;"> | <img src="public/images/chat.gif" style="max-width: 300px; height: auto; display: block; margin: auto;"> |
+| 게시판 상세 | 글쓰기 |
+|------------|------------|
+| <img src="public/images/board-detail.png" style="max-width: 300px; height: auto; display: block; margin: auto;"> | <img src="public/images/write.png" style="max-width: 300px; height: auto; display: block; margin: auto;"> |
 
-
-
+# 런너채팅방
+<img src="public/images/chat.gif" style="display: block; margin: auto;">
 
