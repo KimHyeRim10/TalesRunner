@@ -36,11 +36,11 @@ npm run dev
 
 | 로그인 | 회원가입 | 프로필 변경 |
 |------------|------------|------------|
-| <img src="public/images/login.png" style="max-width:200px; height: auto; display: block; margin: auto;"> | <img src="public/images/signup.png" style="max-width: 200px; height: auto; display: block; margin: auto;"> | <img src="public/images/profile.png" style="max-width: 200px; height: auto; display: block; margin: auto;"> |
+| <img src="public/images/login.png" style="width: 300px; height: auto; display: block; margin: auto;"> | <img src="public/images/signup.png" style="width: 300px; height: auto; display: block; margin: auto;"> | <img src="public/images/profile.png" style="width: 300px; height: auto; display: block; margin: auto;"> |
 
 | 게시판 상세 | 글쓰기 |
 |------------|------------|
-| <img src="public/images/board-detail.png" style="max-width: 200px; height: auto; display: block; margin: auto;"> | <img src="public/images/write.png" style="max-width: 200px; height: auto; display: block; margin: auto;"> |
+| <img src="public/images/board-detail.png" style="width: 350px; height: auto; display: block; margin: auto;"> | <img src="public/images/write.png" style="width: 350px; height: auto; display: block; margin: auto;"> |
 
 #### 런너채팅방
 <img src="public/images/chat.gif" style="width: 300px; display: block; margin: auto;">
